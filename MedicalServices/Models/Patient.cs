@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
+using MedicalServices.Models.Identity;
 
 namespace MedicalServices.Models
 {
