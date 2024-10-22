@@ -1,9 +1,14 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using MedicalServices.Models;
+using MedicalServices.Models.Identity;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 
-namespace MedicalServices.Models
+namespace MedicalServices.DbContext
 {
-    public class ApplicationDbContext:DbContext
+    public class ApplicationDbContext : IdentityDbContext<User, Role, int, IdentityUserClaim<int>, IdentityUserRole<int>, IdentityUserLogin<int>, IdentityRoleClaim<int>, IdentityUserToken<int>>
     {
+
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
         {
 
@@ -24,6 +29,8 @@ namespace MedicalServices.Models
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            base.OnModelCreating(modelBuilder);
+
             modelBuilder.Entity<Booking>()
                 .HasOne(b => b.Patient)
                 .WithMany(p => p.Bookings)
@@ -41,6 +48,10 @@ namespace MedicalServices.Models
                .WithMany(p => p.Reviews)
                .HasForeignKey(b => b.PatientId)
                .OnDelete(DeleteBehavior.NoAction); // Change to NoAction or Restrict
+
+
+
+
         }
     }
 }

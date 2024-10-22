@@ -1,9 +1,9 @@
 ﻿namespace MedicalServices.Enums
 {
-   public enum BookingStatus : int
+    public enum BookingStatus : int
     {
-        New = 1, 
+        New = 1,
         Completed,
-        Cansel
+        Cancel
     }
 }
