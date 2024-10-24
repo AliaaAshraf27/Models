@@ -1,9 +1,6 @@
-﻿using MediatR;
-using MedicalServices.Genaric;
-
-namespace MedicalServices.Features.ApplicationUser.Command.Models
+﻿namespace MedicalServices.DTO
 {
-    public class AddUserCommandDTo : IRequest<Responses<string>>
+    public class RegisterDTO
     {
         public required string Name { get; set; }
         public required string UserName { get; set; }

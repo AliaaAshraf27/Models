@@ -5,11 +5,11 @@ using Microsoft.AspNetCore.Identity;
 
 namespace MedicalServices.ServicesImplementation
 {
-    public class ApplicationUserServies : IApplicationUserServies
+    public class RegisterServies : IRegisterServies
     {
         private readonly ApplicationDbContext _dbContext;
         private readonly UserManager<User> _userManager;
-        public ApplicationUserServies(ApplicationDbContext dbContext,
+        public RegisterServies(ApplicationDbContext dbContext,
                                       UserManager<User> userManager)
         {
 
