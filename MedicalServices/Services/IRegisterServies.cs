@@ -2,7 +2,7 @@
 
 namespace MedicalServices.Services
 {
-    public interface IApplicationUserServies
+    public interface IRegisterServies
     {
         public Task<string> AddUserAsync(User user, string password);
 
