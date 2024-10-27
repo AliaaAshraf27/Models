@@ -16,6 +16,7 @@ namespace MedicalServices
             services.AddAutoMapper(Assembly.GetExecutingAssembly());
 
             services.AddTransient<IRegisterServies, RegisterServies>();
+            services.AddScoped<ILoginService, LoginService>();
 
             return services;
         }

@@ -10,6 +10,7 @@
         {
             public const string Prefix = Rule + "Account/";
             public const string Register = Prefix + "Register";
+            public const string Login = Prefix + "Login";
         }
     }
 }
