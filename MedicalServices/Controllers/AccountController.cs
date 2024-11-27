@@ -3,10 +3,18 @@ using MedicalServices.AppMetaData;
 using MedicalServices.DTO;
 using MedicalServices.Models.Identity;
 using MedicalServices.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
+using Microsoft.IdentityModel.Tokens;
+using System.IdentityModel.Tokens.Jwt;
+using System.Net;
+using System.Security.Claims;
+using System.Text;
 
 namespace MedicalServices.Controllers
 {
+    //[Authorize(AuthenticationSchemes = "Bearer")]
     [ApiController]
     public class AccountController : ControllerBase
     {
@@ -14,16 +22,18 @@ namespace MedicalServices.Controllers
         private readonly IMapper _mapper;
         private readonly IRegisterServies _applicationUserServies;
         private readonly ILoginService _loginService;
+        private readonly IConfiguration _configuration;
         #endregion
 
         #region Constructors
         // Constructor for injecting dependencies
         public AccountController(IMapper mapper,
-                                  IRegisterServies applicationUserServices, ILoginService loginService )
+                                  IRegisterServies applicationUserServices, ILoginService loginService, IConfiguration configuration)
         {
             _mapper = mapper;
             _applicationUserServies = applicationUserServices;
             _loginService = loginService;
+            _configuration = configuration;
         }
         #endregion
 
@@ -68,10 +78,43 @@ namespace MedicalServices.Controllers
                 case "Failed":
                     return BadRequest("Failed To Login ");
                 case "Success":
-                    return Ok("Login has been completed successfully");
+                    var token = GenerateJwtToken(login.Email);
+                    return Ok(new { Message = "Login successful", Token = token });
+
+                    //return Ok("Login has been completed successfully");
                 default:
                     return BadRequest();
+
+
+                   
             }
+        }
+
+        private string GenerateJwtToken(string email)
+        {
+            var jwtSettings = _configuration.GetSection("Jwt");
+
+            // Define the token's claims
+            var claims = new[]
+            {
+        new Claim(JwtRegisteredClaimNames.Sub, email),
+        new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+        new Claim(ClaimTypes.Email, email)
+    };
+
+            // Generate the token
+            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSettings["Key"]));
+            var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
+
+            var token = new JwtSecurityToken(
+                issuer: jwtSettings["Issuer"],
+                audience: jwtSettings["Audience"],
+                claims: claims,
+                expires: DateTime.UtcNow.AddHours(1), // Token expiry time
+                signingCredentials: creds
+            );
+
+            return new JwtSecurityTokenHandler().WriteToken(token);
         }
 
         #endregion
