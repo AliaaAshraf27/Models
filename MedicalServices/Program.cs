@@ -24,6 +24,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 // Add JWT Authentication
+#region JWT Authentication
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
     {
@@ -39,6 +40,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSettings["Key"]))
         };
     });
+#endregion
 
 var app = builder.Build();
 
@@ -50,6 +52,17 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+//CORS Policy
+builder.Services.AddCors( options =>
+  {
+      options.AddPolicy("Policy", policy =>
+      {
+          policy.AllowAnyOrigin()
+          .AllowAnyMethod()
+          .AllowAnyHeader();
+      });
+   });
+app.UseCors("Policy");
 
 app.UseAuthentication();
 app.UseAuthorization();
