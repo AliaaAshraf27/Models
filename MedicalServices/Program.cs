@@ -41,6 +41,16 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
         };
     });
 #endregion
+//CORS Policy
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("Policy", policy =>
+    {
+        policy.AllowAnyOrigin()
+        .AllowAnyMethod()
+        .AllowAnyHeader();
+    });
+});
 
 var app = builder.Build();
 
@@ -52,16 +62,8 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-//CORS Policy
-builder.Services.AddCors( options =>
-  {
-      options.AddPolicy("Policy", policy =>
-      {
-          policy.AllowAnyOrigin()
-          .AllowAnyMethod()
-          .AllowAnyHeader();
-      });
-   });
+
+
 app.UseCors("Policy");
 
 app.UseAuthentication();
