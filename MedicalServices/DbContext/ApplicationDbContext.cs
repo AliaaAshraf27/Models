@@ -25,6 +25,7 @@ namespace MedicalServices.DbContext
         public DbSet<Review> Reviews { get; set; }
         public DbSet<Role> Roles { get; set; }
         public DbSet<Specialization> Specializations { get; set; }
+        public DbSet<PatientFavoriteDoctors> PatientFavoriteDoctors { get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -49,8 +50,20 @@ namespace MedicalServices.DbContext
                .HasForeignKey(b => b.PatientId)
                .OnDelete(DeleteBehavior.NoAction); // Change to NoAction or Restrict
 
+            modelBuilder.Entity<PatientFavoriteDoctors>()
+                .HasKey(pfd => new { pfd.PatientId, pfd.DoctorId });
 
+            modelBuilder.Entity<PatientFavoriteDoctors>()
+                .HasOne(p => p.patient)
+                .WithMany(d => d.PatientFavoriteDoctors)
+                .HasForeignKey(p => p.PatientId)
+                .OnDelete(DeleteBehavior.Restrict); // Avoid cascading delete for Patient
 
+            modelBuilder.Entity<PatientFavoriteDoctors>()
+                .HasOne(p => p.Doctor)
+                .WithMany(d => d.PatientFavoriteDoctors)
+                .HasForeignKey(p => p.DoctorId)
+                .OnDelete(DeleteBehavior.Restrict); // Avoid cascading delete for Doctor
 
         }
     }

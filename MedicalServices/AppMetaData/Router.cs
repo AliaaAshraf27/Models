@@ -12,5 +12,10 @@
             public const string Register = Prefix + "Register";
             public const string Login = Prefix + "Login";
         }
+        public static class DoctorsRouting
+        {
+            public const string Prefix = Rule + "Doctors/";
+            public const string GetList = Prefix + "GetAllDoctors";
+        }
     }
 }

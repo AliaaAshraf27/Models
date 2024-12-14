@@ -4,6 +4,7 @@ using MedicalServices.DbContext;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace MedicalServices.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241213142243_AddEnumGender")]
+    partial class AddEnumGender
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -198,9 +201,6 @@ namespace MedicalServices.Migrations
                     b.Property<bool>("PhoneNumberConfirmed")
                         .HasColumnType("bit");
 
-                    b.Property<byte[]>("Photo")
-                        .HasColumnType("varbinary(max)");
-
                     b.Property<int>("RoleId")
                         .HasColumnType("int");
 
@@ -293,24 +293,6 @@ namespace MedicalServices.Migrations
                     b.ToTable("Patients");
                 });
 
-            modelBuilder.Entity("MedicalServices.Models.PatientFavoriteDoctors", b =>
-                {
-                    b.Property<int>("PatientId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("DoctorId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Id")
-                        .HasColumnType("int");
-
-                    b.HasKey("PatientId", "DoctorId");
-
-                    b.HasIndex("DoctorId");
-
-                    b.ToTable("PatientFavoriteDoctors");
-                });
-
             modelBuilder.Entity("MedicalServices.Models.Payment", b =>
                 {
                     b.Property<int>("Id")
@@ -354,8 +336,9 @@ namespace MedicalServices.Migrations
                     b.Property<int>("PatientId")
                         .HasColumnType("int");
 
-                    b.Property<int>("Rating")
-                        .HasColumnType("int");
+                    b.Property<string>("Rating")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
@@ -569,25 +552,6 @@ namespace MedicalServices.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("MedicalServices.Models.PatientFavoriteDoctors", b =>
-                {
-                    b.HasOne("MedicalServices.Models.Doctor", "Doctor")
-                        .WithMany("PatientFavoriteDoctors")
-                        .HasForeignKey("DoctorId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("MedicalServices.Models.Patient", "patient")
-                        .WithMany("PatientFavoriteDoctors")
-                        .HasForeignKey("PatientId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("Doctor");
-
-                    b.Navigation("patient");
-                });
-
             modelBuilder.Entity("MedicalServices.Models.Payment", b =>
                 {
                     b.HasOne("MedicalServices.Models.Booking", "Booking")
@@ -682,8 +646,6 @@ namespace MedicalServices.Migrations
                 {
                     b.Navigation("Bookings");
 
-                    b.Navigation("PatientFavoriteDoctors");
-
                     b.Navigation("Reviews");
 
                     b.Navigation("Schedules");
@@ -703,8 +665,6 @@ namespace MedicalServices.Migrations
             modelBuilder.Entity("MedicalServices.Models.Patient", b =>
                 {
                     b.Navigation("Bookings");
-
-                    b.Navigation("PatientFavoriteDoctors");
 
                     b.Navigation("Reviews");
                 });

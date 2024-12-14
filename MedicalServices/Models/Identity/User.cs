@@ -9,6 +9,7 @@ namespace MedicalServices.Models.Identity
         [MaxLength(50)]
         public required string Name { get; set; }
         public required string Password { get; set; }
+        public byte[]? Photo { get; set; }
         public int RoleId { get; set; }
         public virtual Doctor Doctor { get; set; }
         public virtual Patient Patient { get; set; }

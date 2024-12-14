@@ -12,6 +12,7 @@ namespace MedicalServices.Models
         public virtual User User { get; set; }
        public List<Review> Reviews { get; set; }
        public List<Booking> Bookings { get; set; }
+       public ICollection<PatientFavoriteDoctors> PatientFavoriteDoctors { get; set; }
 
 
     }
