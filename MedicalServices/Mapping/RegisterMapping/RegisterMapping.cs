@@ -1,4 +1,5 @@
 ﻿using MedicalServices.DTO;
+using MedicalServices.Models;
 using MedicalServices.Models.Identity;
 
 namespace MedicalServices.Mapping.RegisterMapping

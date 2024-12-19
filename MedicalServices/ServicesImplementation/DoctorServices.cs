@@ -51,9 +51,10 @@ namespace MedicalServices.ServicesImplementation
 
             var doctorDTO = await doctors.Select(d => new DoctorDTO
             {
+                Id = d.Id,
                 DoctorName = d.User.Name,
                 SpecializationName = d.Specialization.Name,
-                Photo = d.User.Photo 
+                Photo = d.User.Photo
                 
             }).ToListAsync();
 
