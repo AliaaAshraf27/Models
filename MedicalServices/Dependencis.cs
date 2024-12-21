@@ -18,6 +18,7 @@ namespace MedicalServices
             services.AddTransient<IRegisterServies, RegisterServies>();
             services.AddScoped<ILoginService, LoginService>();
             services.AddScoped<IDoctorServices, DoctorServices>();
+            services.AddScoped<IBookingService, BookingService>();
 
 
             return services;

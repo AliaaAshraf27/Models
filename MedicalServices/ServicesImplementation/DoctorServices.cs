@@ -1,15 +1,10 @@
-﻿using MedicalServices.DbContext;
+﻿using AutoMapper;
+using MedicalServices.DbContext;
 using MedicalServices.DTO;
-using MedicalServices.Enums;
-using MedicalServices.Models;
 using MedicalServices.Models.Identity;
 using MedicalServices.Services;
-using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.IdentityModel.Tokens;
-using Microsoft.Win32.SafeHandles;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace MedicalServices.ServicesImplementation
 {
@@ -17,9 +12,11 @@ namespace MedicalServices.ServicesImplementation
     {
         private readonly ApplicationDbContext _dbContext;
         private readonly UserManager<User> _userManager;
-        public DoctorServices(ApplicationDbContext dbContext)
+        private readonly IMapper _mapper;
+        public DoctorServices(ApplicationDbContext dbContext, IMapper mapper)
         {
             _dbContext = dbContext;
+            _mapper = mapper;
         }
 
         public async Task<List<DoctorDTO>> GetAllDoctorsAsync(Filter filter)
@@ -55,13 +52,24 @@ namespace MedicalServices.ServicesImplementation
                 DoctorName = d.User.Name,
                 SpecializationName = d.Specialization.Name,
                 Photo = d.User.Photo
-                
+
             }).ToListAsync();
 
             return doctorDTO;
         }
 
-       
+        public async Task<DoctorDetailsDto> GetDoctorDetailsAsync(int doctorId)
+        {
+            var doctor = await _dbContext.Doctors
+                       .Include(d => d.AvailableAppointments)
+                       .Include(d => d.Specialization)
+                       .Include(d => d.User)
+                       .FirstOrDefaultAsync(d => d.Id == doctorId);
 
+            if (doctor == null)
+                return null;
+            var doctorMapping = _mapper.Map<DoctorDetailsDto>(doctor);
+            return doctorMapping;
+        }
     }
 }

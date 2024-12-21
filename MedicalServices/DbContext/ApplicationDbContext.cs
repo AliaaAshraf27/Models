@@ -27,6 +27,7 @@ namespace MedicalServices.DbContext
         public DbSet<Role> Roles { get; set; }
         public DbSet<Specialization> Specializations { get; set; }
         public DbSet<PatientFavoriteDoctors> PatientFavoriteDoctors { get; set; }
+        public DbSet<AvailableAppointments> AvailableAppointments { get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -44,6 +45,22 @@ namespace MedicalServices.DbContext
                 .WithMany(d => d.Bookings)
                 .HasForeignKey(b => b.DoctorId)
                 .OnDelete(DeleteBehavior.NoAction); // Change to NoAction or Restrict
+
+            // Booking Relationships
+            modelBuilder.Entity<Booking>()
+                .HasOne(b => b.Doctor)
+                .WithMany(d => d.Bookings)
+                .HasForeignKey(b => b.DoctorId);
+
+            modelBuilder.Entity<Booking>()
+                .HasOne(b => b.Patient)
+                .WithMany(p => p.Bookings)
+                .HasForeignKey(b => b.PatientId);
+
+            modelBuilder.Entity<Booking>()
+                .HasOne(b => b.Appointment)
+                .WithMany()
+                .HasForeignKey(b => b.AppointmentId);
 
             modelBuilder.Entity<Review>()
                .HasOne(b => b.Patient)
@@ -65,6 +82,16 @@ namespace MedicalServices.DbContext
                 .WithMany(d => d.PatientFavoriteDoctors)
                 .HasForeignKey(p => p.DoctorId)
                 .OnDelete(DeleteBehavior.Restrict); // Avoid cascading delete for Doctor
+
+            modelBuilder.Entity<Doctor>()
+            .HasMany(d => d.AvailableAppointments)
+            .WithOne(a => a.Doctor)
+            .HasForeignKey(a => a.DoctorId);
+
+            modelBuilder.Entity<AvailableAppointments>()
+            .HasOne(a => a.Doctor)
+            .WithMany(d => d.AvailableAppointments)
+            .HasForeignKey(a => a.DoctorId);
 
 
             // Seed Users for Doctors
@@ -300,7 +327,7 @@ namespace MedicalServices.DbContext
                   new Specialization { Id = 8, Name = "Radiology" }
              );
 
-           // Seed Doctors (Linked to Users and Specializations)
+            // Seed Doctors (Linked to Users and Specializations)
             modelBuilder.Entity<Doctor>().HasData(
                  // Doctors for Specialization: Cardiology (1)
                  new Doctor { Id = 1, Address = "123 Heart St", Gender = Gender.Male, Experience = "10 years", SpecializationId = 1 },

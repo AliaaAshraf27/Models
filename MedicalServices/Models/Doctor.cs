@@ -1,7 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
-using MedicalServices.DTO;
-using MedicalServices.Enums;
+﻿using MedicalServices.Enums;
 using MedicalServices.Models.Identity;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace MedicalServices.Models
 {
@@ -13,6 +12,9 @@ namespace MedicalServices.Models
         public Gender Gender { get; set; }
         public string Experience { get; set; }
         public int SpecializationId { get; set; }
+        public string? Focus { get; set; }
+        public ICollection<AvailableAppointments> AvailableAppointments { get; set; } // Available appointments
+
         public virtual Specialization Specialization { get; set; }
         public virtual User User { get; set; }
         public List<DoctorSchedule> Schedules { get; set; }
@@ -20,7 +22,7 @@ namespace MedicalServices.Models
         public List<Booking> Bookings { get; set; }
         public ICollection<PatientFavoriteDoctors> PatientFavoriteDoctors { get; set; }
 
-       
+
     }
 
 }

@@ -17,5 +17,11 @@
             public const string Prefix = Rule + "Doctors/";
             public const string GetList = Prefix + "GetAllDoctors";
         }
+        public static class BookingRouting
+        {
+            public const string Prefix = Rule + "Booking/";
+            public const string GetAvailableSlots = Prefix + "GetAvailableSlots";
+            public const string BookAppointment = Prefix + "BookAppointment";
+        }
     }
 }

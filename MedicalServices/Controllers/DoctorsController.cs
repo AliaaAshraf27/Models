@@ -1,8 +1,6 @@
 ﻿using MedicalServices.AppMetaData;
 using MedicalServices.DTO;
-using MedicalServices.Models;
 using MedicalServices.Services;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace MedicalServices.Controllers
@@ -35,7 +33,16 @@ namespace MedicalServices.Controllers
             }
 
         }
-       
+        [HttpGet("{doctorId}")]
+        public async Task<IActionResult> GetDoctorDetails(int doctorId)
+        {
+            var doctor = await _drServices.GetDoctorDetailsAsync(doctorId);
+            if (doctor == null)
+                return NotFound("Doctor not found.");
+
+            return Ok(doctor);
+        }
+
         #endregion
     }
 }
