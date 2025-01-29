@@ -1,5 +1,4 @@
 ﻿using MedicalServices.Enums;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace MedicalServices.Models
 {
