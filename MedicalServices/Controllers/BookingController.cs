@@ -23,7 +23,6 @@ namespace MedicalServices.Controllers
             {
                 return NotFound(new { message = "No available slots for this date." });
             }
-
             return Ok(availableSlots);
         }
 

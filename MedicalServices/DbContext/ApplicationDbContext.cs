@@ -28,6 +28,7 @@ namespace MedicalServices.DbContext
         public DbSet<Specialization> Specializations { get; set; }
         public DbSet<PatientFavoriteDoctors> PatientFavoriteDoctors { get; set; }
         public DbSet<AvailableAppointments> AvailableAppointments { get; set; }
+        public DbSet<Chat> Chats { get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

@@ -1,5 +1,6 @@
 using MedicalServices;
 using MedicalServices.DbContext;
+using MedicalServices.Hubs;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -11,6 +12,7 @@ var builder = WebApplication.CreateBuilder(args);
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
 options.UseSqlServer(connectionString));
+builder.Services.AddSignalR();
 
 
 #region DependencyInjection
@@ -68,7 +70,7 @@ app.UseCors("Policy");
 
 app.UseAuthentication();
 app.UseAuthorization();
-
+app.MapHub<ChatHub>("/chat");
 app.MapControllers();
 
 app.Run();

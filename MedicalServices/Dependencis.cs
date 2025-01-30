@@ -19,6 +19,8 @@ namespace MedicalServices
             services.AddScoped<ILoginService, LoginService>();
             services.AddScoped<IDoctorServices, DoctorServices>();
             services.AddScoped<IBookingService, BookingService>();
+            services.AddScoped<IProfileService, ProfileService>();
+            services.AddScoped<IChatService, ChatService>();
 
 
             return services;

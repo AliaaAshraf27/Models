@@ -23,5 +23,11 @@
             public const string GetAvailableSlots = Prefix + "GetAvailableSlots";
             public const string BookAppointment = Prefix + "BookAppointment";
         }
+        public static class ProfileRouting
+        {
+            public const string Prefix = Rule + "Profile/";
+            public const string GetUser = Prefix + "GetUserProfile";
+            public const string UpdateUser = Prefix + "UpdateUserProfile";
+        }
     }
 }
