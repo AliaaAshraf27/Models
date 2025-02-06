@@ -30,27 +30,28 @@ namespace MedicalServices.ServicesImplementation
 
             return messages;
         }
-        public async Task<Chat> SaveMessageAsync(Chat chat) //Add dto and time from backend
+        public async Task<Chat> SaveMessageAsync(ChatDTO dto) 
         {
+            var chat = new Chat()
+            {
+                SenderId = dto.SenderId,
+                ReceiverId = dto.ReceiverId,
+                SendTime = DateTime.Now,
+                Message = dto.Message,
+                ReceiverType = dto.ReceiverType,
+                SenderType = dto.SenderType
+            };
             _dbContext.Chats.Add(chat);
             await _dbContext.SaveChangesAsync();
             return chat;
         }
+        public async Task<List<Chat>> GetAllChatsAsync(int userId)
+        {
+            var chats = await _dbContext.Chats
+                .Where(c=> c.SenderId == userId || c.ReceiverId == userId)
+                .OrderByDescending(c => c.SendTime).ToListAsync();
+            return chats;
+        }
         #endregion
-
-
-        //public async Task SendNotification(NotificationDTO dto)
-        //{
-        //    var notification = _mapper.Map<Notification>(dto);
-        //    notification.Date = DateTime.Now;
-        //var message = $"shjfgiufir {receiverId}";
-        //    notification.message = message;
-        //    await _dbContext.Notifications.AddAsync(notification);
-        //    await _dbContext.SaveChangesAsync();
-        //    await _hubContext.Clients.Users(dto.ReceiverId.ToString()).SendAsync("ReceiveNotification", dto.Message);
-
-        //}
-
-
     }
 }

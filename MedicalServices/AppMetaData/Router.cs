@@ -36,5 +36,13 @@
             public const string Prefix = Rule + "Notification/";
             public const string GetNotification = Prefix + "GetNotification";
         }
+        public static class ChatRouting
+        {
+            public const string Prefix = Rule + "Chat/";
+            public const string GetMessage = Prefix + "GetMessage";
+            public const string SaveMessage = Prefix + "SaveMessage";
+            public const string GetAllChats = Prefix + "GetAllChats";
+
+        }
     }
 }

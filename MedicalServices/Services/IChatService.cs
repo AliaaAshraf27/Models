@@ -7,7 +7,8 @@ namespace MedicalServices.Services
     public interface IChatService
     {
         Task<List<Chat>> GetMessagesAsync(int senderId, int receiverId);
-        Task<Chat> SaveMessageAsync(Chat chat);
+        Task<Chat> SaveMessageAsync(ChatDTO dto);
+        Task<List<Chat>> GetAllChatsAsync(int userId);
       
     }
 }

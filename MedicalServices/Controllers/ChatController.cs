@@ -1,4 +1,5 @@
-﻿using MedicalServices.DTO;
+﻿using MedicalServices.AppMetaData;
+using MedicalServices.DTO;
 using MedicalServices.Hubs;
 using MedicalServices.Models;
 using MedicalServices.Services;
@@ -23,42 +24,40 @@ namespace MedicalServices.Controllers
         #endregion
         #region chat
 
-        [HttpGet("{senderId}/{receiverId}")]
+        [HttpGet(Router.ChatRouting.GetMessage)]
         public async Task<IActionResult> GetMessages(int senderId, int receiverId)
         {
             var messages = await _chatService.GetMessagesAsync(senderId, receiverId);
             if (messages == null) return BadRequest("There is not chat between them");
             return Ok(messages);
         }
-
-        [HttpPost("send")]
-        public async Task<IActionResult> SaveMessage([FromBody] Chat chat)
+        [HttpGet(Router.ChatRouting.GetAllChats)]
+        public async Task<IActionResult> GetAllChats(int userId)
         {
-            var message = await _chatService.SaveMessageAsync(chat);
-            await _chatHub.Clients.User(chat.ReceiverId.ToString())
-            .SendAsync("ReceiveMessage", chat.SenderId, chat.SenderType, chat.Message, chat.SendTime);
-            return Ok(message);
+            var chats = await _chatService.GetAllChatsAsync(userId);
+            if (chats == null) return BadRequest("There are not chats for you ");
+            return Ok(chats);
         }
 
-        #endregion
-        // from form في فايل هيترفع
-        // from body مافيش فايل هيترفع
-        #region Notification
-        //[HttpGet("{userId}")]
-        //public async Task<IActionResult> GetNotifications(int userId)
-        //{
-        //    var notifications = await _chatService.GetNotificationsAsync(userId);
-        //    if (notifications == null) return BadRequest("No Notifications");
-        //    return Ok(notifications);
-        //}
-        //[HttpPost("sendNotification")]
-        //public async Task<IActionResult> SendNotification(SendNotificationDTO dto)
-        //{
-        //   var res = await _chatService.SendNotificationAsync(dto);
+        [HttpPost(Router.ChatRouting.SaveMessage)]
+        public async Task<IActionResult> SaveMessage([FromBody] ChatDTO dto)
+        {
+            try
+            {
+                var chat = await _chatService.SaveMessageAsync(dto);
+                await _chatHub.Clients.User(chat.ReceiverId.ToString())
+                .SendAsync("ReceiveMessage", chat.SenderId, chat.SenderType, chat.Message, chat.SendTime);
+                return Ok(chat);
+            }
+            catch(Exception ex)
+            {
+                return (IActionResult)ex;
+            }
 
-        //    return Ok(res);
+        }
 
-        //}
+
         #endregion
+       
     }
 }
