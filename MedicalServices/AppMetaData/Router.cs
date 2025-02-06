@@ -44,5 +44,11 @@
             public const string GetAllChats = Prefix + "GetAllChats";
 
         }
+        public static class ReviewRouting
+        {
+            public const string Prefix = Rule + "Review/";
+            public const string AddReview = Prefix + "AddReview";
+            public const string GetAllReviews = Prefix + "GetAllReviews";
+        }
     }
 }
