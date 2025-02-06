@@ -21,6 +21,9 @@ namespace MedicalServices
             services.AddScoped<IBookingService, BookingService>();
             services.AddScoped<IProfileService, ProfileService>();
             services.AddScoped<IChatService, ChatService>();
+            services.AddScoped<INotificationService, NotificationService>();
+            services.AddScoped<IReviewService, ReviewService>();
+
 
 
             return services;

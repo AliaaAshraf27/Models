@@ -1,4 +1,5 @@
-﻿using MedicalServices.Enums;
+﻿using MedicalServices.DTO;
+using MedicalServices.Enums;
 
 namespace MedicalServices.Models
 {
@@ -6,9 +7,7 @@ namespace MedicalServices.Models
     {
         public int Id { get; set; }
         public BookingStatus Status { get; set; }
-
         public DateTime Date { get; set; }
-
         public string ProblemDescription { get; set; }
         public int PatientId { get; set; }
         public int DoctorId { get; set; }
@@ -19,5 +18,6 @@ namespace MedicalServices.Models
         public virtual AvailableAppointments Appointment { get; set; }
         public virtual Payment Payment { get; set; }
         public virtual MedicalRecord MedicalRecord { get; set; }
+
     }
 }

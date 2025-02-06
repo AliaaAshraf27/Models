@@ -1,11 +1,13 @@
-﻿using MedicalServices.Models;
+﻿using MedicalServices.DTO;
+using MedicalServices.Models;
 using System.Collections.Generic;
 
 namespace MedicalServices.Services
 {
     public interface IChatService
     {
-        public Task<List<Chat>> GetMessages(int senderId, int receiverId);
-        public Task<Chat> SaveMessage(Chat chat);
+        Task<List<Chat>> GetMessagesAsync(int senderId, int receiverId);
+        Task<Chat> SaveMessageAsync(Chat chat);
+      
     }
 }

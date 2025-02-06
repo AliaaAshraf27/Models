@@ -3,6 +3,7 @@ using MedicalServices.DbContext;
 using MedicalServices.DTO;
 using MedicalServices.Models.Identity;
 using MedicalServices.Services;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -22,11 +23,11 @@ namespace MedicalServices.ServicesImplementation
             return new UserProfileDTO
             {
                 Name = user.Name,
-                Email = user.Email,
-                Phone = user.PhoneNumber
+               PhotoData = user.Photo != null ? $"data:image/png;base64,{Convert.ToBase64String(user.Photo)}": null
+
             };
         }
-      public async Task<UserProfileDTO> UpdateProfileAsync(UserProfileDTO updatedProfile ,int id)
+        public async Task<User> UpdateProfileAsync(UpdateUserProfileDTO updatedProfile ,int id)
         {
             var user = await _dbContext.Users.FindAsync(id);
             if (user == null) return null;
@@ -34,13 +35,14 @@ namespace MedicalServices.ServicesImplementation
             {
                 using var dataStream = new MemoryStream();
                 await updatedProfile.Photo.CopyToAsync(dataStream);
-                user.Photo = dataStream.ToArray();
+               user.Photo = dataStream.ToArray();
             }
             user.Name = updatedProfile.Name;
             user.Email = updatedProfile.Email;
             user.PhoneNumber = updatedProfile.Phone;
             await _dbContext.SaveChangesAsync();
-            return updatedProfile;
+            return user;
+
         }
         public async Task<bool> ChangePasswordAsync(int id, ChangePasswordDTO passDTO)
         {

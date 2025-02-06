@@ -1,5 +1,6 @@
 using MedicalServices;
 using MedicalServices.DbContext;
+using MedicalServices.Helper;
 using MedicalServices.Hubs;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
@@ -79,6 +80,7 @@ app.UseCors("Policy");
 app.UseAuthentication();
 app.UseAuthorization();
 app.MapHub<ChatHub>("/chat");
+app.MapHub<NotificationHub>("/notification");
 app.MapControllers();
 
 app.Run();

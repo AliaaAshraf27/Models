@@ -1,21 +1,26 @@
-﻿using MedicalServices.DbContext;
+﻿using AutoMapper;
+using MedicalServices.DbContext;
+using MedicalServices.DTO;
+using MedicalServices.Hubs;
 using MedicalServices.Models;
+using MedicalServices.Models.Identity;
 using MedicalServices.Services;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
 
 namespace MedicalServices.ServicesImplementation
 {
-    public class ChatService : IChatService
+    public class ChatService(ApplicationDbContext dbContext, IHubContext<NotificationHub> hubContext, IMapper mapper) : IChatService
     {
         #region Constractor
-        private readonly ApplicationDbContext _dbContext;
-        public ChatService(ApplicationDbContext dbContext)
-        {
-            _dbContext = dbContext;
-        }
+        private readonly ApplicationDbContext _dbContext = dbContext;
+        private readonly IHubContext<NotificationHub> _hubContext = hubContext;
+        private readonly IMapper _mapper = mapper;
         #endregion
-        #region Services
-        public async Task<List<Chat>> GetMessages(int senderId, int receiverId)
+
+        #region chat 
+        public async Task<List<Chat>> GetMessagesAsync(int senderId, int receiverId)
         {
             var messages = await _dbContext.Chats
                 .Where(c => (c.SenderId == senderId && c.ReceiverId == receiverId) ||
@@ -25,12 +30,27 @@ namespace MedicalServices.ServicesImplementation
 
             return messages;
         }
-        public async Task<Chat> SaveMessage(Chat chat)
+        public async Task<Chat> SaveMessageAsync(Chat chat) //Add dto and time from backend
         {
-             _dbContext.Chats.Add(chat);
-            await _dbContext.SaveChangesAsync();    
+            _dbContext.Chats.Add(chat);
+            await _dbContext.SaveChangesAsync();
             return chat;
         }
         #endregion
+
+
+        //public async Task SendNotification(NotificationDTO dto)
+        //{
+        //    var notification = _mapper.Map<Notification>(dto);
+        //    notification.Date = DateTime.Now;
+        //var message = $"shjfgiufir {receiverId}";
+        //    notification.message = message;
+        //    await _dbContext.Notifications.AddAsync(notification);
+        //    await _dbContext.SaveChangesAsync();
+        //    await _hubContext.Clients.Users(dto.ReceiverId.ToString()).SendAsync("ReceiveNotification", dto.Message);
+
+        //}
+
+
     }
 }

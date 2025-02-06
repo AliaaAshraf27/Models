@@ -22,12 +22,19 @@
             public const string Prefix = Rule + "Booking/";
             public const string GetAvailableSlots = Prefix + "GetAvailableSlots";
             public const string BookAppointment = Prefix + "BookAppointment";
+            public const string CancelAppointment = Prefix + "CancelAppointment";
+            public const string GetAllBooking = Prefix + "GetAllBooking";
         }
         public static class ProfileRouting
         {
             public const string Prefix = Rule + "Profile/";
             public const string GetUser = Prefix + "GetUserProfile";
             public const string UpdateUser = Prefix + "UpdateUserProfile";
+        }
+        public static class NotificationRouting
+        {
+            public const string Prefix = Rule + "Notification/";
+            public const string GetNotification = Prefix + "GetNotification";
         }
     }
 }

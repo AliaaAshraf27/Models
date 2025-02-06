@@ -1,5 +1,6 @@
 ﻿using MedicalServices.AppMetaData;
 using MedicalServices.DTO;
+using MedicalServices.Models;
 using MedicalServices.Services;
 using Microsoft.AspNetCore.Mvc;
 
@@ -30,13 +31,27 @@ namespace MedicalServices.Controllers
         public async Task<IActionResult> BookAppointment([FromBody] CreateBookingDTO bookingDto)
         {
             var booking = await _bookingService.BookAppointmentAsync(bookingDto);
-
             if (booking == null)
             {
                 return BadRequest(new { message = "The selected appointment is not available." });
             }
-
             return Ok(new { message = "Appointment booked successfully.", data = booking });
+        }
+
+        [HttpDelete(Router.BookingRouting.CancelAppointment)]
+        public async Task<IActionResult> CancelAppointment(int id)
+        {
+            var result = await _bookingService.CancelBookingAsync(id);
+            if (!result) return BadRequest(new { message = "The appointment not available " });
+            return Ok(new { message = "Appointment has been cancelled" });
+        }
+
+        [HttpGet(Router.BookingRouting.GetAllBooking)]
+        public async Task<IActionResult> GetAllBooking([FromQuery]FilterBookingDTO dto)
+        {
+            var bookings = await _bookingService.GetBookingAsync(dto);
+            if (bookings == null) return BadRequest("Not found any booking");
+            return Ok(bookings);
         }
     }
 }

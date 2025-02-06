@@ -7,6 +7,8 @@
     {
         Task<List<AvailableSlotDTO>> GetAvailableSlotsAsync(int doctorId);
         Task<Booking?> BookAppointmentAsync(CreateBookingDTO bookingDto);
+        Task<bool> CancelBookingAsync(int id);
+        Task<List<GetBookingDTO>> GetBookingAsync(FilterBookingDTO dto);
 
     }
 
