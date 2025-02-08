@@ -33,7 +33,7 @@ namespace MedicalServices.Controllers
             }
 
         }
-        [HttpGet("{doctorId}")]
+        [HttpGet("GetDoctorDetails/{doctorId}")]
         public async Task<IActionResult> GetDoctorDetails(int doctorId)
         {
             var doctor = await _drServices.GetDoctorDetailsAsync(doctorId);

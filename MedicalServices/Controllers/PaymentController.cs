@@ -37,16 +37,18 @@ namespace MedicalServices.Controllers
         [HttpPost("Pay")]
         public async Task<IActionResult> Pay([FromForm] int doctorId, [FromForm] int bookingId)
         {
+            var bookingExist = await _context.Bookings.FindAsync(bookingId);
+            if (bookingExist == null)
+                return NotFound("This Booking is not found");
             var doctor = await _context.Doctors
                 .Where(d => d.Id == doctorId)
                 .FirstOrDefaultAsync();
+            if (doctor == null)
+                return NotFound("Doctor not found");
             var doctorPrice = await _context.DoctorSchedules
                 .Where(d => d.DoctorId == doctorId)
                 .Select(p => p.Price)
                 .FirstOrDefaultAsync();
-
-            if (doctor == null)
-                return NotFound("Doctor not found");
 
             float price = doctorPrice;
 
