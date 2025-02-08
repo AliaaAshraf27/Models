@@ -6,7 +6,9 @@ namespace MedicalServices.Models
     public class Patient
     {
         [ForeignKey("User")]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
+        public string patientName { get; set; }
         public string MedicalHistory { get; set; }
         public string? Gender { get; set; }
         public virtual User User { get; set; }

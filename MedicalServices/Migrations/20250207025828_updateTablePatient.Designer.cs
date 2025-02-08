@@ -4,6 +4,7 @@ using MedicalServices.DbContext;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace MedicalServices.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250207025828_updateTablePatient")]
+    partial class updateTablePatient
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -30,17 +33,14 @@ namespace MedicalServices.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<DateOnly>("Day")
-                        .HasColumnType("date");
-
                     b.Property<int>("DoctorId")
                         .HasColumnType("int");
 
                     b.Property<bool>("IsAvailable")
                         .HasColumnType("bit");
 
-                    b.Property<TimeOnly>("Time")
-                        .HasColumnType("time");
+                    b.Property<DateTime>("Time")
+                        .HasColumnType("datetime2");
 
                     b.HasKey("Id");
 
@@ -57,23 +57,14 @@ namespace MedicalServices.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<decimal>("Age")
-                        .HasColumnType("decimal(18,2)");
-
                     b.Property<int>("AppointmentId")
                         .HasColumnType("int");
 
-                    b.Property<DateOnly>("Day")
-                        .HasColumnType("date");
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("datetime2");
 
                     b.Property<int>("DoctorId")
                         .HasColumnType("int");
-
-                    b.Property<bool>("ForHimSelf")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("Gender")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("PatientId")
                         .HasColumnType("int");
@@ -84,13 +75,6 @@ namespace MedicalServices.Migrations
 
                     b.Property<int>("Status")
                         .HasColumnType("int");
-
-                    b.Property<TimeOnly>("Time")
-                        .HasColumnType("time");
-
-                    b.Property<string>("patientName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
@@ -993,7 +977,7 @@ namespace MedicalServices.Migrations
                         {
                             Id = 1,
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "d8d7818e-c2c2-4277-a315-b0ba01d52035",
+                            ConcurrencyStamp = "0b78f908-eed2-4a23-92a6-2113a3bf2700",
                             Email = "john.smith@hospital.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
@@ -1008,7 +992,7 @@ namespace MedicalServices.Migrations
                         {
                             Id = 2,
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "113bfb2d-3b06-4aff-8707-1d0ff7b430fd",
+                            ConcurrencyStamp = "f92a0a20-4634-49f4-ad24-9f33fc3be90e",
                             Email = "sarah.johnson@hospital.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
@@ -1023,7 +1007,7 @@ namespace MedicalServices.Migrations
                         {
                             Id = 3,
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "75f7a20f-dc0b-4b00-9c23-4628a737855f",
+                            ConcurrencyStamp = "f64a6827-8bb8-44ff-83dd-acd96ca925b7",
                             Email = "ahmed.ali@hospital.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
@@ -1038,7 +1022,7 @@ namespace MedicalServices.Migrations
                         {
                             Id = 4,
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "be6c8a8f-0728-4e77-bfee-8bda3a872c75",
+                            ConcurrencyStamp = "08d7b037-83ca-455c-a480-c93de93995fc",
                             Email = "emily.brown@hospital.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
@@ -1053,7 +1037,7 @@ namespace MedicalServices.Migrations
                         {
                             Id = 5,
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "d5d57f2d-4fab-4800-9f5b-170bd890fac8",
+                            ConcurrencyStamp = "7ca3da12-16a6-4853-b2fa-cf81e79e33bd",
                             Email = "william.davis@hospital.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
@@ -1068,7 +1052,7 @@ namespace MedicalServices.Migrations
                         {
                             Id = 6,
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "fcf2ebfe-ab5f-459d-a56b-8c180487495e",
+                            ConcurrencyStamp = "9127add2-34e7-4d96-a923-ce5958fcb439",
                             Email = "fatima.hassan@hospital.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
@@ -1083,7 +1067,7 @@ namespace MedicalServices.Migrations
                         {
                             Id = 7,
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "152c9c4f-b98a-4206-82c7-652d60c6ae76",
+                            ConcurrencyStamp = "4e677c85-e6e8-4fe8-8c7d-a8d7d7d8d50c",
                             Email = "jacob.wilson@hospital.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
@@ -1098,7 +1082,7 @@ namespace MedicalServices.Migrations
                         {
                             Id = 8,
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "e59c74df-9483-4a2c-8332-7e52fce3f9c2",
+                            ConcurrencyStamp = "efc32885-3b07-4af1-af00-927420fe2938",
                             Email = "sophia.martinez@hospital.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
@@ -1113,7 +1097,7 @@ namespace MedicalServices.Migrations
                         {
                             Id = 9,
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "d4ad6b25-64f4-483b-935f-7da48a754397",
+                            ConcurrencyStamp = "6ab3eb91-3aac-411c-bf92-bf53c5f8408f",
                             Email = "ethan.thompson@hospital.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
@@ -1128,7 +1112,7 @@ namespace MedicalServices.Migrations
                         {
                             Id = 10,
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "9a707765-b5ad-40cb-9b60-4059ea99649b",
+                            ConcurrencyStamp = "ab34a42f-32fc-4609-bdd2-295fbca46a4b",
                             Email = "ava.garcia@hospital.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
@@ -1143,7 +1127,7 @@ namespace MedicalServices.Migrations
                         {
                             Id = 11,
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "5c4e15bc-228d-4cc7-9cbd-31226c160b95",
+                            ConcurrencyStamp = "1d1c9910-a16d-4709-90e5-93b4dffabf56",
                             Email = "michael.lee@hospital.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
@@ -1158,7 +1142,7 @@ namespace MedicalServices.Migrations
                         {
                             Id = 12,
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "57ab1b89-cfdd-478c-a9ae-d108b8c6388b",
+                            ConcurrencyStamp = "0e22f3b4-a959-4f30-88f9-c9b6040431aa",
                             Email = "olivia.rodriguez@hospital.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
@@ -1173,7 +1157,7 @@ namespace MedicalServices.Migrations
                         {
                             Id = 13,
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "45eee9d2-2aeb-4f13-83c9-80dd67d8ec70",
+                            ConcurrencyStamp = "a4ea8a73-e6f9-4566-8bc5-280671d769fd",
                             Email = "benjamin.white@hospital.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
@@ -1188,7 +1172,7 @@ namespace MedicalServices.Migrations
                         {
                             Id = 14,
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "7015873c-ddff-49f2-98a1-46f13d43b068",
+                            ConcurrencyStamp = "3f3cfc1c-604e-415b-9dfd-a399a95f48fa",
                             Email = "isabella.hall@hospital.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
@@ -1203,7 +1187,7 @@ namespace MedicalServices.Migrations
                         {
                             Id = 15,
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "d709d2ee-cbff-47ba-98e2-74bf3a6cfc21",
+                            ConcurrencyStamp = "004e9e57-719a-44fc-a394-819b4f7727ea",
                             Email = "daniel.young@hospital.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
@@ -1218,7 +1202,7 @@ namespace MedicalServices.Migrations
                         {
                             Id = 16,
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "ec86aa43-c12d-482f-9cfc-4946b4eb13b9",
+                            ConcurrencyStamp = "36b05fa3-2292-44d9-87d1-06243249ba56",
                             Email = "mia.king@hospital.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
@@ -1233,7 +1217,7 @@ namespace MedicalServices.Migrations
                         {
                             Id = 17,
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "9ca198b2-e888-4502-9ec5-9980b327e0f3",
+                            ConcurrencyStamp = "5152ff56-7dbc-4a9a-9ec6-907ae593cbc9",
                             Email = "james.wright@hospital.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
@@ -1248,7 +1232,7 @@ namespace MedicalServices.Migrations
                         {
                             Id = 18,
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "2053961b-abf1-4646-948f-273b0cc7bcb5",
+                            ConcurrencyStamp = "a1b5b49c-1f68-40dc-82bf-91583683dc08",
                             Email = "amelia.scott@hospital.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
@@ -1263,7 +1247,7 @@ namespace MedicalServices.Migrations
                         {
                             Id = 19,
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "71c7fa39-0217-4543-8e0f-864c438353cd",
+                            ConcurrencyStamp = "85597705-662c-4e8d-b067-2cff6103fb95",
                             Email = "lucas.green@hospital.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
@@ -1278,7 +1262,7 @@ namespace MedicalServices.Migrations
                         {
                             Id = 20,
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "82bba4bc-ba7b-4df4-a881-7a3e5fe54ce8",
+                            ConcurrencyStamp = "8a6a4160-82e7-49c0-ad81-eb8dd1bde740",
                             Email = "charlotte.adams@hospital.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
@@ -1293,7 +1277,7 @@ namespace MedicalServices.Migrations
                         {
                             Id = 21,
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "ab9b9568-0d83-44fe-abd7-a9f5db61165f",
+                            ConcurrencyStamp = "b7c9797c-0155-4472-9d60-3f797abd564b",
                             Email = "henry.baker@hospital.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
@@ -1308,7 +1292,7 @@ namespace MedicalServices.Migrations
                         {
                             Id = 22,
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "e7d55cd0-ddd6-4678-b21e-9ee088db55a8",
+                            ConcurrencyStamp = "7042a53a-7337-4364-b116-65cb1ac4c7e5",
                             Email = "grace.nelson@hospital.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
@@ -1323,7 +1307,7 @@ namespace MedicalServices.Migrations
                         {
                             Id = 23,
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "e138f506-ac2e-4e4d-a551-88ba9bad7fce",
+                            ConcurrencyStamp = "66ebb2f5-05a5-48d8-8723-b577d9593e99",
                             Email = "elijah.carter@hospital.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
@@ -1338,7 +1322,7 @@ namespace MedicalServices.Migrations
                         {
                             Id = 24,
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "57c0c91e-4ac3-4368-a3b7-c2eafc613256",
+                            ConcurrencyStamp = "363f9835-447a-495c-9d66-9e0e646c4e6c",
                             Email = "lily.mitchell@hospital.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
