@@ -48,20 +48,33 @@ namespace MedicalServices.Controllers
             });
         }
 
-        [HttpDelete(Router.BookingRouting.CancelAppointment)]
-        public async Task<IActionResult> CancelAppointment(int id)
+        [HttpPut(Router.BookingRouting.UpdateBooking)]
+        public async Task<IActionResult> UpdateBooking(int bookingId ,UpdateBookingDTO dto)
         {
-            var result = await _bookingService.CancelBookingAsync(id);
-            if (!result) return BadRequest(new { message = "The appointment not available " });
-            return Ok(new { message = "Appointment has been cancelled" });
+            var message = await _bookingService.UpdateBookingAsync(bookingId, dto);
+            if(message.Contains("not found") ||message.Contains( "already canceled")) 
+                return BadRequest(message);
+            if(message.Contains("exceeding allowed changes"))
+                return BadRequest(message);
+            return Ok(message);
+
         }
 
-        [HttpGet(Router.BookingRouting.GetAllBooking)]
-        public async Task<IActionResult> GetAllBooking([FromQuery] FilterBookingDTO dto)
-        {
-            var bookings = await _bookingService.GetBookingAsync(dto);
-            if (bookings == null) return BadRequest("Not found any booking");
-            return Ok(bookings);
-        }
+
+        //[HttpDelete(Router.BookingRouting.CancelAppointment)]
+        //public async Task<IActionResult> CancelAppointment(int id)
+        //{
+        //    var result = await _bookingService.CancelBookingAsync(id);
+        //    if (!result) return BadRequest(new { message = "The appointment not available " });
+        //    return Ok(new { message = "Appointment has been cancelled" });
+        //}
+
+        //[HttpGet(Router.BookingRouting.GetAllBooking)]
+        //public async Task<IActionResult> GetAllBooking([FromQuery] FilterBookingDTO dto)
+        //{
+        //    var bookings = await _bookingService.GetBookingAsync(dto);
+        //    if (bookings == null) return BadRequest("Not found any booking");
+        //    return Ok(bookings);
+        //}
     }
 }
