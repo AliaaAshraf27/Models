@@ -2,6 +2,7 @@
 using MedicalServices.DTO;
 using MedicalServices.Services;
 using Microsoft.AspNetCore.Mvc;
+using Stripe;
 
 namespace MedicalServices.Controllers
 {

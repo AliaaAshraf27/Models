@@ -50,5 +50,11 @@
             public const string AddReview = Prefix + "AddReview";
             public const string GetAllReviews = Prefix + "GetAllReviews";
         }
+        public static class SpecializationRouting
+        {
+            public const string Prefix = Rule + "Specialization/";
+            public const string GetSpecializations = Prefix + "GetAllSpecializations";
+            public const string GetDoctorsBySpecializationID = Prefix + "GetDoctorsBySpecializationID";
+        }
     }
 }

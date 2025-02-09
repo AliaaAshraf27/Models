@@ -37,13 +37,13 @@ namespace MedicalServices.ServicesImplementation
                 }
 
                // Add User To Role
-                var addToRoleResult = await _userManager.AddToRoleAsync(user, "Patient");
-                if (!addToRoleResult.Succeeded)
-                {
-                    // Rollback and return error if adding to role failed
-                    await transact.RollbackAsync();
-                    return addToRoleResult.Errors.FirstOrDefault()?.Description;
-                }
+                //var addToRoleResult = await _userManager.AddToRoleAsync(user, "Patient");
+                //if (!addToRoleResult.Succeeded)
+                //{
+                //    // Rollback and return error if adding to role failed
+                //    await transact.RollbackAsync();
+                //    return addToRoleResult.Errors.FirstOrDefault()?.Description;
+                //}
 
                 // Commit transaction if everything is successful
                 await transact.CommitAsync();

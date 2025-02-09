@@ -84,8 +84,6 @@ namespace MedicalServices.Controllers
                     //return Ok("Login has been completed successfully");
                 default:
                     return BadRequest();
-
-
                    
             }
         }
@@ -105,7 +103,6 @@ namespace MedicalServices.Controllers
             // Generate the token
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSettings["Key"]));
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
-
             var token = new JwtSecurityToken(
                 issuer: jwtSettings["Issuer"],
                 audience: jwtSettings["Audience"],

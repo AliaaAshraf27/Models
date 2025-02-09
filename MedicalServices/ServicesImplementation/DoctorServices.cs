@@ -71,5 +71,7 @@ namespace MedicalServices.ServicesImplementation
             var doctorMapping = _mapper.Map<DoctorDetailsDto>(doctor);
             return doctorMapping;
         }
-    }
+
+      
+}
 }

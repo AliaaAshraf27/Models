@@ -6,6 +6,7 @@ namespace MedicalServices.Services
     {
         public Task<List<DoctorDTO>> GetAllDoctorsAsync(Filter filter);
         Task<DoctorDetailsDto> GetDoctorDetailsAsync(int doctorId);
+       
 
     }
 }

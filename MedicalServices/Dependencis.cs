@@ -23,6 +23,8 @@ namespace MedicalServices
             services.AddScoped<IChatService, ChatService>();
             services.AddScoped<INotificationService, NotificationService>();
             services.AddScoped<IReviewService, ReviewService>();
+            services.AddScoped<ISpecializationService, SpecializationService>();
+
 
 
 
