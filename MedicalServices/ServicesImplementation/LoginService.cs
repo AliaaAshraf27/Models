@@ -45,6 +45,15 @@ namespace MedicalServices.ServicesImplementation
             }
         }
 
+        public async Task StoreTokenAsync(string email, string token)
+        {
+            var emailUser = await _userManager.FindByEmailAsync(email);
+            if (emailUser != null)
+            {
+                await _userManager.SetAuthenticationTokenAsync(emailUser, "JWT", "AccessToken", token);
+            }
+        }
+
 
     }
 }

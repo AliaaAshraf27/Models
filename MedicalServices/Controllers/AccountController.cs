@@ -88,21 +88,22 @@ namespace MedicalServices.Controllers
             }
         }
 
-        private string GenerateJwtToken(string email)
+        private async Task<string> GenerateJwtToken(string email)
         {
             var jwtSettings = _configuration.GetSection("Jwt");
 
             // Define the token's claims
             var claims = new[]
             {
-        new Claim(JwtRegisteredClaimNames.Sub, email),
-        new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
-        new Claim(ClaimTypes.Email, email)
-    };
+                new Claim(JwtRegisteredClaimNames.Sub, email),
+                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+                new Claim(ClaimTypes.Email, email)
+            };
 
             // Generate the token
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSettings["Key"]));
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
+
             var token = new JwtSecurityToken(
                 issuer: jwtSettings["Issuer"],
                 audience: jwtSettings["Audience"],
@@ -111,7 +112,12 @@ namespace MedicalServices.Controllers
                 signingCredentials: creds
             );
 
-            return new JwtSecurityTokenHandler().WriteToken(token);
+            var tokenString = new JwtSecurityTokenHandler().WriteToken(token);
+
+            // Store the token
+            await _loginService.StoreTokenAsync(email, tokenString);
+
+            return tokenString;
         }
 
         #endregion

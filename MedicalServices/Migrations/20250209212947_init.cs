@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace MedicalServices.Migrations
 {
     /// <inheritdoc />
-    public partial class initialCreate : Migration
+    public partial class init : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -56,6 +56,24 @@ namespace MedicalServices.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_AspNetUsers", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Chats",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Message = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    SendTime = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    SenderId = table.Column<int>(type: "int", nullable: false),
+                    ReceiverId = table.Column<int>(type: "int", nullable: false),
+                    SenderType = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    ReceiverType = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Chats", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -185,7 +203,11 @@ namespace MedicalServices.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Date = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Message = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    UserId = table.Column<int>(type: "int", nullable: false)
+                    SenderId = table.Column<int>(type: "int", nullable: false),
+                    ReceiverId = table.Column<int>(type: "int", nullable: false),
+                    SenderType = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    ReceiverType = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    UserId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -194,8 +216,7 @@ namespace MedicalServices.Migrations
                         name: "FK_Notifications_AspNetUsers_UserId",
                         column: x => x.UserId,
                         principalTable: "AspNetUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -203,6 +224,7 @@ namespace MedicalServices.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false),
+                    patientName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     MedicalHistory = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Gender = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
@@ -251,7 +273,8 @@ namespace MedicalServices.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Time = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Day = table.Column<DateOnly>(type: "date", nullable: false),
+                    Time = table.Column<TimeOnly>(type: "time", nullable: false),
                     IsAvailable = table.Column<bool>(type: "bit", nullable: false),
                     DoctorId = table.Column<int>(type: "int", nullable: false)
                 },
@@ -349,9 +372,16 @@ namespace MedicalServices.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Status = table.Column<int>(type: "int", nullable: false),
-                    Date = table.Column<DateOnly>(type: "date", nullable: false),
-                    PatientId = table.Column<int>(type: "int", nullable: false),
+                    Day = table.Column<DateOnly>(type: "date", nullable: false),
+                    Time = table.Column<TimeOnly>(type: "time", nullable: false),
+                    ProblemDescription = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    ChangeCount = table.Column<int>(type: "int", nullable: false),
                     DoctorId = table.Column<int>(type: "int", nullable: false),
+                    Age = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    Gender = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    patientName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    ForHimSelf = table.Column<bool>(type: "bit", nullable: false),
+                    PatientId = table.Column<int>(type: "int", nullable: false),
                     AppointmentId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
@@ -422,30 +452,30 @@ namespace MedicalServices.Migrations
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "LockoutEnabled", "LockoutEnd", "Name", "NormalizedEmail", "NormalizedUserName", "Password", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "Photo", "RoleId", "SecurityStamp", "TwoFactorEnabled", "UserName" },
                 values: new object[,]
                 {
-                    { 1, 0, "30fc1db0-da55-460a-86bd-b31a0638f1b2", "john.smith@hospital.com", true, false, null, "Dr. John Smith", null, null, "hashed_password_123", null, null, false, null, 0, null, false, "dr.john.smith" },
-                    { 2, 0, "9f395456-85a9-42b6-a2d8-bd132d482d77", "sarah.johnson@hospital.com", true, false, null, "Dr. Sarah Johnson", null, null, "hashed_password_456", null, null, false, null, 0, null, false, "dr.sarah.johnson" },
-                    { 3, 0, "89133149-88b3-42ae-97ae-b7f52b9c070d", "ahmed.ali@hospital.com", true, false, null, "Dr. Ahmed Ali", null, null, "hashed_password_789", null, null, false, null, 0, null, false, "dr.ahmed.ali" },
-                    { 4, 0, "af1cb60e-b1c9-44fa-ae29-fe0f7f9f91e6", "emily.brown@hospital.com", true, false, null, "Dr. Emily Brown", null, null, "hashed_password_101", null, null, false, null, 0, null, false, "dr.emily.brown" },
-                    { 5, 0, "1ee15471-9e67-41bc-91c3-e962f54afc2b", "william.davis@hospital.com", true, false, null, "Dr. William Davis", null, null, "hashed_password_102", null, null, false, null, 0, null, false, "dr.william.davis" },
-                    { 6, 0, "d796a5e8-d72b-4f6c-89d9-5a3d8159668d", "fatima.hassan@hospital.com", true, false, null, "Dr. Fatima Hassan", null, null, "hashed_password_103", null, null, false, null, 0, null, false, "dr.fatima.hassan" },
-                    { 7, 0, "5f3ed950-c1b6-45ae-bde7-227fb3b828e5", "jacob.wilson@hospital.com", true, false, null, "Dr. Jacob Wilson", null, null, "hashed_password_104", null, null, false, null, 0, null, false, "dr.jacob.wilson" },
-                    { 8, 0, "355f4d75-2b04-4289-a4e8-c9cfbaf041ae", "sophia.martinez@hospital.com", true, false, null, "Dr. Sophia Martinez", null, null, "hashed_password_105", null, null, false, null, 0, null, false, "dr.sophia.martinez" },
-                    { 9, 0, "60f2d044-3b37-4e4b-ad77-c158ab2e99e9", "ethan.thompson@hospital.com", true, false, null, "Dr. Ethan Thompson", null, null, "hashed_password_106", null, null, false, null, 0, null, false, "dr.ethan.thompson" },
-                    { 10, 0, "69db0949-fdd4-4dd2-9070-5e3a29d5a7f3", "ava.garcia@hospital.com", true, false, null, "Dr. Ava Garcia", null, null, "hashed_password_107", null, null, false, null, 0, null, false, "dr.ava.garcia" },
-                    { 11, 0, "0d027996-fa46-4fe9-a069-6999cf3715c4", "michael.lee@hospital.com", true, false, null, "Dr. Michael Lee", null, null, "hashed_password_108", null, null, false, null, 0, null, false, "dr.michael.lee" },
-                    { 12, 0, "8f5f8652-3219-4b05-b0eb-4a132dc987ab", "olivia.rodriguez@hospital.com", true, false, null, "Dr. Olivia Rodriguez", null, null, "hashed_password_109", null, null, false, null, 0, null, false, "dr.olivia.rodriguez" },
-                    { 13, 0, "e49a0129-9132-4c36-9e5d-fc7c57df74f5", "benjamin.white@hospital.com", true, false, null, "Dr. Benjamin White", null, null, "hashed_password_110", null, null, false, null, 0, null, false, "dr.benjamin.white" },
-                    { 14, 0, "da1f2d6a-60b8-4dc8-beeb-3639f0df6b83", "isabella.hall@hospital.com", true, false, null, "Dr. Isabella Hall", null, null, "hashed_password_111", null, null, false, null, 0, null, false, "dr.isabella.hall" },
-                    { 15, 0, "56fda0fd-9ae8-4382-94df-a310016519b6", "daniel.young@hospital.com", true, false, null, "Dr. Daniel Young", null, null, "hashed_password_112", null, null, false, null, 0, null, false, "dr.daniel.young" },
-                    { 16, 0, "9f0716b3-7f32-4feb-b338-b0d3c18a13c9", "mia.king@hospital.com", true, false, null, "Dr. Mia King", null, null, "hashed_password_113", null, null, false, null, 0, null, false, "dr.mia.king" },
-                    { 17, 0, "f5b68bca-d195-449f-a1bd-eca358bc19e0", "james.wright@hospital.com", true, false, null, "Dr. James Wright", null, null, "hashed_password_114", null, null, false, null, 0, null, false, "dr.james.wright" },
-                    { 18, 0, "b5125f79-7ce5-4d02-8850-203f2320a65a", "amelia.scott@hospital.com", true, false, null, "Dr. Amelia Scott", null, null, "hashed_password_115", null, null, false, null, 0, null, false, "dr.amelia.scott" },
-                    { 19, 0, "8dc9922b-8db6-41bd-9093-447fecc02d88", "lucas.green@hospital.com", true, false, null, "Dr. Lucas Green", null, null, "hashed_password_116", null, null, false, null, 0, null, false, "dr.lucas.green" },
-                    { 20, 0, "299edfcf-1e5b-4ce9-b732-504fabfaf1e7", "charlotte.adams@hospital.com", true, false, null, "Dr. Charlotte Adams", null, null, "hashed_password_117", null, null, false, null, 0, null, false, "dr.charlotte.adams" },
-                    { 21, 0, "5c0eb1ff-06df-4bb3-87d9-76c53793856d", "henry.baker@hospital.com", true, false, null, "Dr. Henry Baker", null, null, "hashed_password_118", null, null, false, null, 0, null, false, "dr.henry.baker" },
-                    { 22, 0, "8ee1d9f6-ce2b-4453-8e5b-958acaa083ba", "grace.nelson@hospital.com", true, false, null, "Dr. Grace Nelson", null, null, "hashed_password_119", null, null, false, null, 0, null, false, "dr.grace.nelson" },
-                    { 23, 0, "16840444-8e3e-45c7-b638-061079605e60", "elijah.carter@hospital.com", true, false, null, "Dr. Elijah Carter", null, null, "hashed_password_120", null, null, false, null, 0, null, false, "dr.elijah.carter" },
-                    { 24, 0, "34178884-9f0f-40b8-961e-085856e7f83d", "lily.mitchell@hospital.com", true, false, null, "Dr. Lily Mitchell", null, null, "hashed_password_121", null, null, false, null, 0, null, false, "dr.lily.mitchell" }
+                    { 1, 0, "ec6f3f5a-510a-4326-82d0-d9cf170a1799", "john.smith@hospital.com", true, false, null, "Dr. John Smith", null, null, "hashed_password_123", null, null, false, null, 0, null, false, "dr.john.smith" },
+                    { 2, 0, "47969488-0575-4e82-a00e-b2dca5fa03cc", "sarah.johnson@hospital.com", true, false, null, "Dr. Sarah Johnson", null, null, "hashed_password_456", null, null, false, null, 0, null, false, "dr.sarah.johnson" },
+                    { 3, 0, "596e2ebe-e2fc-45b5-b04b-71d3ff59fba7", "ahmed.ali@hospital.com", true, false, null, "Dr. Ahmed Ali", null, null, "hashed_password_789", null, null, false, null, 0, null, false, "dr.ahmed.ali" },
+                    { 4, 0, "cd4101c5-28a0-490a-b6fb-6e6e3b2f4584", "emily.brown@hospital.com", true, false, null, "Dr. Emily Brown", null, null, "hashed_password_101", null, null, false, null, 0, null, false, "dr.emily.brown" },
+                    { 5, 0, "0a54ca81-5bc3-4fc5-ae0b-c0b23c0026cb", "william.davis@hospital.com", true, false, null, "Dr. William Davis", null, null, "hashed_password_102", null, null, false, null, 0, null, false, "dr.william.davis" },
+                    { 6, 0, "5047de63-7bdf-47a4-aa38-116967c7162e", "fatima.hassan@hospital.com", true, false, null, "Dr. Fatima Hassan", null, null, "hashed_password_103", null, null, false, null, 0, null, false, "dr.fatima.hassan" },
+                    { 7, 0, "93450417-78e3-4baa-8bce-dc032ed61202", "jacob.wilson@hospital.com", true, false, null, "Dr. Jacob Wilson", null, null, "hashed_password_104", null, null, false, null, 0, null, false, "dr.jacob.wilson" },
+                    { 8, 0, "c3f5d314-ad01-4ee5-ba81-f2bea6ad3935", "sophia.martinez@hospital.com", true, false, null, "Dr. Sophia Martinez", null, null, "hashed_password_105", null, null, false, null, 0, null, false, "dr.sophia.martinez" },
+                    { 9, 0, "43e7ae07-d096-4184-9213-238480f2c1e5", "ethan.thompson@hospital.com", true, false, null, "Dr. Ethan Thompson", null, null, "hashed_password_106", null, null, false, null, 0, null, false, "dr.ethan.thompson" },
+                    { 10, 0, "56f48600-58e6-4724-9bda-cb6635a79575", "ava.garcia@hospital.com", true, false, null, "Dr. Ava Garcia", null, null, "hashed_password_107", null, null, false, null, 0, null, false, "dr.ava.garcia" },
+                    { 11, 0, "dbf15198-136c-400d-b3ae-ebb464bb5cd3", "michael.lee@hospital.com", true, false, null, "Dr. Michael Lee", null, null, "hashed_password_108", null, null, false, null, 0, null, false, "dr.michael.lee" },
+                    { 12, 0, "d063398e-160e-4915-aada-2cc26036bfd1", "olivia.rodriguez@hospital.com", true, false, null, "Dr. Olivia Rodriguez", null, null, "hashed_password_109", null, null, false, null, 0, null, false, "dr.olivia.rodriguez" },
+                    { 13, 0, "a71798c7-016a-46ef-b18d-14f498219994", "benjamin.white@hospital.com", true, false, null, "Dr. Benjamin White", null, null, "hashed_password_110", null, null, false, null, 0, null, false, "dr.benjamin.white" },
+                    { 14, 0, "8d006d3c-f35a-4205-b017-f169c12b1b18", "isabella.hall@hospital.com", true, false, null, "Dr. Isabella Hall", null, null, "hashed_password_111", null, null, false, null, 0, null, false, "dr.isabella.hall" },
+                    { 15, 0, "2d2c518d-19e9-437a-88e4-baa905b77623", "daniel.young@hospital.com", true, false, null, "Dr. Daniel Young", null, null, "hashed_password_112", null, null, false, null, 0, null, false, "dr.daniel.young" },
+                    { 16, 0, "dca9fc4c-79b3-4a49-bc8e-d44dee9a2338", "mia.king@hospital.com", true, false, null, "Dr. Mia King", null, null, "hashed_password_113", null, null, false, null, 0, null, false, "dr.mia.king" },
+                    { 17, 0, "9a46eafc-79a4-4e67-8c6b-b8fd8307b466", "james.wright@hospital.com", true, false, null, "Dr. James Wright", null, null, "hashed_password_114", null, null, false, null, 0, null, false, "dr.james.wright" },
+                    { 18, 0, "dd15a9fd-c3e7-47b4-b798-21924b740229", "amelia.scott@hospital.com", true, false, null, "Dr. Amelia Scott", null, null, "hashed_password_115", null, null, false, null, 0, null, false, "dr.amelia.scott" },
+                    { 19, 0, "e0ab554f-bd04-477e-8ead-768799299959", "lucas.green@hospital.com", true, false, null, "Dr. Lucas Green", null, null, "hashed_password_116", null, null, false, null, 0, null, false, "dr.lucas.green" },
+                    { 20, 0, "d48cd7e4-02f7-428e-ab1f-65de6b05208b", "charlotte.adams@hospital.com", true, false, null, "Dr. Charlotte Adams", null, null, "hashed_password_117", null, null, false, null, 0, null, false, "dr.charlotte.adams" },
+                    { 21, 0, "8e606643-c838-422d-a2dc-b54eb7a9cb6e", "henry.baker@hospital.com", true, false, null, "Dr. Henry Baker", null, null, "hashed_password_118", null, null, false, null, 0, null, false, "dr.henry.baker" },
+                    { 22, 0, "adc8e3dd-5d53-4581-9ca8-42d5f2e474ad", "grace.nelson@hospital.com", true, false, null, "Dr. Grace Nelson", null, null, "hashed_password_119", null, null, false, null, 0, null, false, "dr.grace.nelson" },
+                    { 23, 0, "1b592545-108b-49d1-9f5d-51ea85547a49", "elijah.carter@hospital.com", true, false, null, "Dr. Elijah Carter", null, null, "hashed_password_120", null, null, false, null, 0, null, false, "dr.elijah.carter" },
+                    { 24, 0, "b790d860-feed-4683-baf3-6690390ea127", "lily.mitchell@hospital.com", true, false, null, "Dr. Lily Mitchell", null, null, "hashed_password_121", null, null, false, null, 0, null, false, "dr.lily.mitchell" }
                 });
 
             migrationBuilder.InsertData(
@@ -668,6 +698,9 @@ namespace MedicalServices.Migrations
 
             migrationBuilder.DropTable(
                 name: "AspNetUserTokens");
+
+            migrationBuilder.DropTable(
+                name: "Chats");
 
             migrationBuilder.DropTable(
                 name: "DoctorSchedules");
