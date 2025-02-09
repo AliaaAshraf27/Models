@@ -1,4 +1,5 @@
 ﻿using MedicalServices.DbContext;
+using MedicalServices.Models;
 using MedicalServices.Models.Identity;
 using MedicalServices.Services;
 using Microsoft.AspNetCore.Identity;
@@ -35,6 +36,16 @@ namespace MedicalServices.ServicesImplementation
                     await transact.RollbackAsync();
                     return createUserResult.Errors.FirstOrDefault()?.Description;
                 }
+                var newPatient = new Patient()
+                {
+
+                    Id = user.Id,
+                    patientName = user.Name,
+                    MedicalHistory = "",
+                    Gender = "",
+                };
+                await _dbContext.Patients.AddAsync(newPatient);
+                await _dbContext.SaveChangesAsync();
 
                // Add User To Role
                 //var addToRoleResult = await _userManager.AddToRoleAsync(user, "Patient");

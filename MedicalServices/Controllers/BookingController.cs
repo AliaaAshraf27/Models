@@ -1,8 +1,8 @@
 ﻿using MedicalServices.AppMetaData;
 using MedicalServices.DTO;
-using MedicalServices.Models;
 using MedicalServices.Services;
 using Microsoft.AspNetCore.Mvc;
+using Swashbuckle.AspNetCore.Annotations;
 
 namespace MedicalServices.Controllers
 {
@@ -28,6 +28,11 @@ namespace MedicalServices.Controllers
         }
 
         [HttpPost(Router.BookingRouting.BookAppointment)]
+        [SwaggerOperation(
+            Description = "Allows a patient to book an appointment with a doctor based on availability !(Note : if the appointment for the patient themselves delete PatientName From Request )."
+        )]
+        [SwaggerResponse(200, "Appointment booked successfully", typeof(BookingResponseDTO))]
+        [SwaggerResponse(400, "The selected appointment is not available")]
         public async Task<IActionResult> BookAppointment([FromBody] CreateBookingDTO bookingDto)
         {
             var booking = await _bookingService.BookAppointmentAsync(bookingDto);
@@ -35,7 +40,12 @@ namespace MedicalServices.Controllers
             {
                 return BadRequest(new { message = "The selected appointment is not available." });
             }
-            return Ok(new { message = "Appointment booked successfully.", data = booking });
+            return Ok(new BookingResponseDTO
+            {
+                Message = "Appointment booked successfully.",
+                BookingId = booking.Id,
+                Data = bookingDto
+            });
         }
 
         [HttpDelete(Router.BookingRouting.CancelAppointment)]
@@ -47,7 +57,7 @@ namespace MedicalServices.Controllers
         }
 
         [HttpGet(Router.BookingRouting.GetAllBooking)]
-        public async Task<IActionResult> GetAllBooking([FromQuery]FilterBookingDTO dto)
+        public async Task<IActionResult> GetAllBooking([FromQuery] FilterBookingDTO dto)
         {
             var bookings = await _bookingService.GetBookingAsync(dto);
             if (bookings == null) return BadRequest("Not found any booking");
