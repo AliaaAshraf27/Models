@@ -59,7 +59,6 @@ namespace MedicalServices.Controllers
         }
 
         [HttpPost(Router.AccountRouting.Login)]
-
         public async Task<IActionResult> Login(LoginDTO login)
         {
             // Calling the service to log the user in and await the result
@@ -79,12 +78,20 @@ namespace MedicalServices.Controllers
                     return BadRequest("Failed To Login ");
                 case "Success":
                     var token = GenerateJwtToken(login.Email);
-                    return Ok(new { Message = "Login successful", Id = getPatient.Value, Token = token });
+                    // Create a new object that only includes the fields you want to return
+                    var response = new
+                    {
+                        Message = "Login successful",
+                        Id = getPatient.Value,
+                        Token = new
+                        {
+                            Result = token.Result
+                        }
+                    };
+                    return Ok(response);
 
-                //return Ok("Login has been completed successfully");
                 default:
                     return BadRequest();
-
             }
         }
 
