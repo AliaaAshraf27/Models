@@ -2,6 +2,7 @@
 using MedicalServices.Models.Identity;
 using MedicalServices.Services;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 
 
 namespace MedicalServices.ServicesImplementation
@@ -16,6 +17,14 @@ namespace MedicalServices.ServicesImplementation
 
             _dbContext = dbContext;
             _userManager = userManager;
+        }
+
+        public async Task<int?> GetId(string email)
+        {
+            var userId = await _dbContext.Patients.FirstOrDefaultAsync(n => n.User.Email == email);
+            if (userId == null)
+                return null;
+            return userId.Id;
         }
 
         public async Task<string> LogUserAsync(string email, string password)

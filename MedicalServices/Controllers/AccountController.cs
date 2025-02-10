@@ -3,12 +3,9 @@ using MedicalServices.AppMetaData;
 using MedicalServices.DTO;
 using MedicalServices.Models.Identity;
 using MedicalServices.Services;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
-using System.Net;
 using System.Security.Claims;
 using System.Text;
 
@@ -67,6 +64,9 @@ namespace MedicalServices.Controllers
         {
             // Calling the service to log the user in and await the result
             var loginResult = await _loginService.LogUserAsync(login.Email, login.Password);
+            var getPatient = await _loginService.GetId(login.Email);
+            if (getPatient == null)
+                return NotFound("Not found");
 
             // Handling the result of the user login
             switch (loginResult)
@@ -79,12 +79,12 @@ namespace MedicalServices.Controllers
                     return BadRequest("Failed To Login ");
                 case "Success":
                     var token = GenerateJwtToken(login.Email);
-                    return Ok(new { Message = "Login successful", Token = token });
+                    return Ok(new { Message = "Login successful", Id = getPatient.Value, Token = token });
 
-                    //return Ok("Login has been completed successfully");
+                //return Ok("Login has been completed successfully");
                 default:
                     return BadRequest();
-                   
+
             }
         }
 
