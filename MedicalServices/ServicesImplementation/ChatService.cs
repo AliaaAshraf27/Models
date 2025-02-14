@@ -95,7 +95,8 @@ namespace MedicalServices.ServicesImplementation
                     Id = chat.Id,
                     Message = chat.Message,
                     SendTime = chat.SendTime,
-                    OtherUserName = otherUserName
+                    OtherUserName = otherUserName, 
+                    Image =chat.Image != null ? $"data:image/png;base64,{Convert.ToBase64String(chat.Image)}" : null
                 });
             }
 
