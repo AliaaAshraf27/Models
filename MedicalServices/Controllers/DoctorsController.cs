@@ -43,7 +43,15 @@ namespace MedicalServices.Controllers
 
             return Ok(doctor);
         }
+        [HttpPost(Router.DoctorsRouting.AddFavoriteDR)]
+        public async Task<IActionResult> AddFavoriteDR ([FromBody]FavoriteDrDTO dto)
+        {
+           var success = await _drServices.AddToFavoriteAsync(dto);
+            if (!success)
+                return BadRequest("Doctor is already in favorites.");
 
+            return Ok("Doctor added to favorites.");
+        }
         #endregion
     }
 }

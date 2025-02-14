@@ -40,11 +40,13 @@ namespace MedicalServices.DTO
         public string DoctorName { get; set; }
         public string SpecializationName { get; set; }
         public string? Photo { get; set; }
+        public DateOnly Day { get; set; }
+        public TimeOnly Time { get; set; }
+        public string Address { get; set; }
     }
     public class FilterBookingDTO
     {
         public int PatientId { get; set; }
-        public BookingStatus Status { get; set; }
     }
 
 }

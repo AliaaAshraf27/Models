@@ -16,6 +16,8 @@
         {
             public const string Prefix = Rule + "Doctors/";
             public const string GetList = Prefix + "GetAllDoctors";
+            public const string AddFavoriteDR = Prefix + "AddFavoriteDR";
+
         }
         public static class BookingRouting
         {
@@ -23,7 +25,7 @@
             public const string GetAvailableSlots = Prefix + "GetAvailableSlots";
             public const string BookAppointment = Prefix + "BookAppointment";
             //public const string CancelAppointment = Prefix + "CancelAppointment";
-            //public const string GetAllBooking = Prefix + "GetAllBooking";
+            public const string GetAllBooking = Prefix + "GetAllBooking";
             public const string UpdateBooking = Prefix + "UpdateBooking"; 
         }
         public static class ProfileRouting

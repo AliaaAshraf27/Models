@@ -32,15 +32,15 @@ namespace MedicalServices.Controllers
             return Ok(messages);
         }
         [HttpGet(Router.ChatRouting.GetAllChats)]
-        public async Task<IActionResult> GetAllChats(int userId)
+        public async Task<IActionResult> GetAllChats(int userId, string userType)
         {
-            var chats = await _chatService.GetAllChatsAsync(userId);
+            var chats = await _chatService.GetAllChatsAsync(userId, userType);
             if (chats == null) return BadRequest("There are not chats for you ");
             return Ok(chats);
         }
 
         [HttpPost(Router.ChatRouting.SaveMessage)]
-        public async Task<IActionResult> SaveMessage([FromBody] ChatDTO dto)
+        public async Task<IActionResult> SaveMessage([FromForm] ChatDTO dto)
         {
             try
             {
@@ -55,8 +55,6 @@ namespace MedicalServices.Controllers
             }
 
         }
-
-
         #endregion
        
     }

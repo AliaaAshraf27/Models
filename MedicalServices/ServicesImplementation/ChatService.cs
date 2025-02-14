@@ -8,6 +8,8 @@ using MedicalServices.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
+using System;
+
 
 namespace MedicalServices.ServicesImplementation
 {
@@ -30,8 +32,10 @@ namespace MedicalServices.ServicesImplementation
 
             return messages;
         }
-        public async Task<Chat> SaveMessageAsync(ChatDTO dto) 
+        public async Task<Chat> SaveMessageAsync(ChatDTO dto)
         {
+            using var dataStream = new MemoryStream();
+            await dto.Image.CopyToAsync(dataStream);
             var chat = new Chat()
             {
                 SenderId = dto.SenderId,
@@ -39,19 +43,67 @@ namespace MedicalServices.ServicesImplementation
                 SendTime = DateTime.Now,
                 Message = dto.Message,
                 ReceiverType = dto.ReceiverType,
-                SenderType = dto.SenderType
+                SenderType = dto.SenderType,
+                Image = dataStream.ToArray()
             };
             _dbContext.Chats.Add(chat);
             await _dbContext.SaveChangesAsync();
             return chat;
         }
-        public async Task<List<Chat>> GetAllChatsAsync(int userId)
+        public async Task<string> GetUserName(int userId, string userType)
         {
-            var chats = await _dbContext.Chats
-                .Where(c=> c.SenderId == userId || c.ReceiverId == userId)
-                .OrderByDescending(c => c.SendTime).ToListAsync();
-            return chats;
+            if (userType == "Doctor")
+            {
+                return await _dbContext.Doctors.Where(d => d.Id == userId)
+                    .Select(d => d.User.Name).FirstAsync();
+            }
+            else if (userType == "Patient")
+            {
+                return await _dbContext.Patients.Where(p => p.Id == userId)
+                    .Select(p => p.User.Name).FirstAsync();
+            }
+            return "Unknown";
         }
+
+
+        public async Task<List<GetChatDTO>> GetAllChatsAsync(int userId, string userType)
+        {
+            var allChats = await _dbContext.Chats
+                .Where(c => c.SenderId == userId || c.ReceiverId == userId)
+                .OrderByDescending(c => c.SendTime) // Ensure latest messages come first
+                .ToListAsync(); 
+
+            var groupedChats = allChats
+                .GroupBy(c => new
+                {
+                    User1 = Math.Min(c.SenderId, c.ReceiverId),
+                    User2 = Math.Max(c.SenderId, c.ReceiverId)
+                })
+                .Select(g => g.First()) // Select the latest message per group
+                .OrderByDescending(c => c.SendTime) // Keep latest messages first
+                .ToList();
+
+            var dto = new List<GetChatDTO>();
+            foreach (var chat in groupedChats)
+            {
+                var otherUserId = chat.SenderId == userId ? chat.ReceiverId : chat.SenderId;
+                var otherUserType = chat.SenderType == userType ? chat.ReceiverType : chat.SenderType;
+                string otherUserName = await GetUserName(otherUserId, otherUserType);
+
+                dto.Add(new GetChatDTO
+                {
+                    Id = chat.Id,
+                    Message = chat.Message,
+                    SendTime = chat.SendTime,
+                    OtherUserName = otherUserName
+                });
+            }
+
+            return dto;
+        }
+
+
+
         #endregion
     }
 }

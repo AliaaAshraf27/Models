@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using MedicalServices.DbContext;
 using MedicalServices.DTO;
+using MedicalServices.Models;
 using MedicalServices.Models.Identity;
 using MedicalServices.Services;
 using Microsoft.AspNetCore.Identity;
@@ -51,7 +52,8 @@ namespace MedicalServices.ServicesImplementation
                 Id = d.Id,
                 DoctorName = d.User.Name,
                 SpecializationName = d.Specialization.Name,
-                Photo = d.User.Photo
+                Photo = d.User.Photo, 
+                Address = d.Address
 
             }).ToListAsync();
 
@@ -72,6 +74,21 @@ namespace MedicalServices.ServicesImplementation
             return doctorMapping;
         }
 
-      
+       public async Task<bool> AddToFavoriteAsync(FavoriteDrDTO dto)
+        {
+            var exist = await _dbContext.PatientFavoriteDoctors
+                .AnyAsync(e => e.PatientId == dto.PatientId && e.DoctorId ==dto.DoctorId);
+            if (exist)
+                return false;
+            var favorite = new PatientFavoriteDoctors
+            {
+                PatientId = dto.PatientId,  
+                DoctorId = dto.DoctorId
+            };
+            _dbContext.PatientFavoriteDoctors.Add(favorite);
+            await _dbContext.SaveChangesAsync();
+            return true;
+        }
+
 }
 }

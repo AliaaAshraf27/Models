@@ -8,6 +8,7 @@
         public string Experience { get; set; }
         public string ProfileImage { get; set; }
         public string Focus { get; set; }
+        public string Address { get; set; }
         public IEnumerable<AvailableAppointmentDto> AvailableAppointments { get; set; }
     }
 

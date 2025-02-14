@@ -11,7 +11,9 @@ namespace MedicalServices.Models
         public int ReceiverId { get; set; }
         public string SenderType { get; set; }
         public string ReceiverType { get; set; }
-        
+        public byte[]? Image { get; set; }
+
+
 
     }
 }

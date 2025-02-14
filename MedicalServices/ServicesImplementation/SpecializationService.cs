@@ -26,6 +26,7 @@ namespace MedicalServices.ServicesImplementation
             var doctors = await _dbContext.Doctors.Where(d => d.Specialization.Id == specializationId)
                  .Select(d => new DrDTO
                  {
+                     Id = d.Id,
                      DoctorName = d.User.Name,
                      Address = d.Address,
                      Photo = d.User.Photo != null ?  $"data:image/png;base64,{Convert.ToBase64String(d.User.Photo)} ": null 

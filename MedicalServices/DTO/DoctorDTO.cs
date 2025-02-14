@@ -8,6 +8,7 @@ namespace MedicalServices.DTO
         public string DoctorName { get; set; }
         public string SpecializationName { get; set; }
         public byte[]? Photo { get; set; }
+        public string Address { get; set; }
 
     }
 
@@ -22,6 +23,7 @@ namespace MedicalServices.DTO
     }
     public class DrDTO
     {
+        public int Id { get; set; }
         public string DoctorName { get; set; }
         public string? Photo { get; set; }
         public string Address { get; set; }
