@@ -4,6 +4,7 @@ using MedicalServices.Enums;
 using MedicalServices.Hubs;
 using MedicalServices.Models;
 using MedicalServices.Services;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
 
@@ -138,22 +139,25 @@ namespace MedicalServices.ServicesImplementation
         //}
         public async Task<List<GetBookingDTO>> GetBookingAsync(int patientId)
         {
-            var bookings = await _dbContext.Bookings.Where(b => b.PatientId == patientId && b.Status == BookingStatus.Completed).ToListAsync();
+            var bookings = await _dbContext.Bookings.Where(b => b.PatientId == patientId && b.Status == BookingStatus.Completed)
+                .Include(b => b.Doctor).ThenInclude(d => d.User).Include(b => b.Doctor).ThenInclude(d => d.Specialization)
+                .ToListAsync();
 
             if (bookings == null) return [];
+           
             return bookings.Select(b => new GetBookingDTO()
-            {
-                DoctorName = b.Doctor.User.Name,
-                SpecializationName = b.Doctor.Specialization.Name,
-                Photo = b.Doctor.User.Photo != null ? $"data:image/png;base64,{Convert.ToBase64String(b.Doctor.User.Photo)}" : null ,
-                Day = b.Day,
-                Time = b.Time, 
-                Address = b.Doctor.Address
-            }).ToList();
-
+              {
+                    DoctorName = b.Doctor.User.Name,
+                    SpecializationName = b.Doctor.Specialization.Name,
+                    Photo = b.Doctor.User.Photo != null ? $"data:image/png;base64,{Convert.ToBase64String(b.Doctor.User.Photo)}" : null,
+                    Day = b.Day,
+                    Time = b.Time,
+                    Address = b.Doctor.Address
+              }).ToList();
 
             }
 
-        }
-}
+    }
+ }
+
 

@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
 using System;
+using static System.Net.Mime.MediaTypeNames;
 
 
 namespace MedicalServices.ServicesImplementation
@@ -34,18 +35,19 @@ namespace MedicalServices.ServicesImplementation
         }
         public async Task<Chat> SaveMessageAsync(ChatDTO dto)
         {
-            using var dataStream = new MemoryStream();
-            await dto.Image.CopyToAsync(dataStream);
-            var chat = new Chat()
+            var chat = new Chat();
+            if (dto.Image != null)
             {
-                SenderId = dto.SenderId,
-                ReceiverId = dto.ReceiverId,
-                SendTime = DateTime.Now,
-                Message = dto.Message,
-                ReceiverType = dto.ReceiverType,
-                SenderType = dto.SenderType,
-                Image = dataStream.ToArray()
-            };
+                using var dataStream = new MemoryStream();
+                await dto.Image.CopyToAsync(dataStream);
+                chat.Image = dataStream.ToArray();
+            }
+            chat.SenderId = dto.SenderId;
+            chat.ReceiverId = dto.ReceiverId;
+            chat.SendTime = DateTime.Now;
+            chat.Message = dto.Message;
+            chat.ReceiverType = dto.ReceiverType;
+            chat.SenderType = dto.SenderType;
             _dbContext.Chats.Add(chat);
             await _dbContext.SaveChangesAsync();
             return chat;

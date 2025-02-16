@@ -35,7 +35,8 @@ namespace MedicalServices.ServicesImplementation
             {
                 var favoriteDoctorIds = _dbContext.PatientFavoriteDoctors
                     .Where(x => x.PatientId == filter.PatientId)
-                    .Select(x => x.DoctorId);
+                   .Select(x => x.DoctorId).ToList();
+                doctors = doctors.Where(d => favoriteDoctorIds.Contains(d.Id));
             }
             // Filter by Rating
             else if (filter.Rate != null)
