@@ -90,6 +90,15 @@ namespace MedicalServices.ServicesImplementation
             await _dbContext.SaveChangesAsync();
             return true;
         }
+       public async Task<bool> RemoveFromFavoriteAsync(FavoriteDrDTO dto)
+        { 
+            var favorite = await _dbContext.PatientFavoriteDoctors
+                .Where(f => f.PatientId == dto.PatientId && f.DoctorId == dto.DoctorId).FirstOrDefaultAsync();
+            if (favorite == null) return false;
 
-}
+            return true;
+        }
+
+
+    }
 }

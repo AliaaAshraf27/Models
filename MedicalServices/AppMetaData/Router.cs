@@ -17,6 +17,7 @@
             public const string Prefix = Rule + "Doctors/";
             public const string GetList = Prefix + "GetAllDoctors";
             public const string AddFavoriteDR = Prefix + "AddFavoriteDR";
+            public const string RemoveFavoriteDR = Prefix + "RemoveFavoriteDR";
 
         }
         public static class BookingRouting

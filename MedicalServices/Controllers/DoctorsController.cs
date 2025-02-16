@@ -52,6 +52,13 @@ namespace MedicalServices.Controllers
 
             return Ok("Doctor added to favorites.");
         }
+        [HttpDelete(Router.DoctorsRouting.RemoveFavoriteDR)]
+        public async Task<IActionResult> RemoveFavoriteDR([FromBody] FavoriteDrDTO dto)
+        {
+            var success = await _drServices.RemoveFromFavoriteAsync(dto);
+            return Ok(success);
+        }
+
         #endregion
     }
 }
