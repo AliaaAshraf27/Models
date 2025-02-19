@@ -27,23 +27,25 @@ namespace MedicalServices.ServicesImplementation
 
             };
         }
-        public async Task<User> UpdateProfileAsync(UpdateUserProfileDTO updatedProfile ,int id)
+        public async Task<bool> UpdateProfileAsync(UpdateUserProfileDTO updatedProfile, int id)
         {
             var user = await _dbContext.Users.FindAsync(id);
-            if (user == null) return null;
+            if (user == null) return false;
             if (updatedProfile.Photo != null)
             {
                 using var dataStream = new MemoryStream();
                 await updatedProfile.Photo.CopyToAsync(dataStream);
-               user.Photo = dataStream.ToArray();
+                user.Photo = dataStream.ToArray();
             }
-            user.Name = updatedProfile.Name;
-            user.Email = updatedProfile.Email;
-            user.PhoneNumber = updatedProfile.Phone;
+            user.Name = updatedProfile.Name != null ? updatedProfile.Name : user.Name;
+            user.Email = updatedProfile.Email != null ? updatedProfile.Email : user.Email;
+            user.PhoneNumber = updatedProfile.Phone != null ? updatedProfile.Phone : user.PhoneNumber;
             await _dbContext.SaveChangesAsync();
-            return user;
+            return true;
 
         }
+
+        
         public async Task<bool> ChangePasswordAsync(int id, ChangePasswordDTO passDTO)
         {
             var user = await _dbContext.Users.FindAsync(id);

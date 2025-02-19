@@ -34,7 +34,7 @@ namespace MedicalServices.Controllers
         public async Task<IActionResult> UpdateUserProfile([FromForm]UpdateUserProfileDTO updatedProfile , int id)
         {
             var user = await _profileService.UpdateProfileAsync(updatedProfile ,id);
-            if (user == null) return NotFound();
+            if (user == false) return NotFound();
             if (updatedProfile.Photo != null)
             {
                 if (!_allowedExtenstions.Contains(Path.GetExtension(updatedProfile.Photo.FileName).ToLower()))

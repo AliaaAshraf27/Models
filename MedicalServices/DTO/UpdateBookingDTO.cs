@@ -6,5 +6,6 @@ namespace MedicalServices.DTO
     {
         public DateOnly Day { get; set; }
         public TimeOnly Time { get; set; }
+
     }
 }

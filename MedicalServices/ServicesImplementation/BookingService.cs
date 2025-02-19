@@ -35,7 +35,6 @@ namespace MedicalServices.ServicesImplementation
         }
         public async Task<Booking?> BookAppointmentAsync(CreateBookingDTO bookingDto)
         {
-
             var appointment = await _dbContext.AvailableAppointments
                  .AsNoTracking()
                 .FirstOrDefaultAsync(a => a.Day == bookingDto.day && a.Time == bookingDto.time && a.IsAvailable);
@@ -152,7 +151,9 @@ namespace MedicalServices.ServicesImplementation
                     Photo = b.Doctor.User.Photo != null ? $"data:image/png;base64,{Convert.ToBase64String(b.Doctor.User.Photo)}" : null,
                     Day = b.Day,
                     Time = b.Time,
-                    Address = b.Doctor.Address
+                    Address = b.Doctor.Address,
+                    DoctorId = b.DoctorId,
+                    BookingId = b.Id
               }).ToList();
 
             }

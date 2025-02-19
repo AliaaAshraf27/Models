@@ -2,7 +2,7 @@
 {
     public class ChatDTO
     {
-        public string Message { get; set; }
+        public string? Message { get; set; }
         public int SenderId { get; set; }
         public int ReceiverId { get; set; }
         public string SenderType { get; set; }
@@ -14,6 +14,7 @@
         public int Id { get; set; }
         public string Message { get; set; }
         public string OtherUserName { get; set; }
+        public int OtherUserId { get; set; }
         public DateTime SendTime { get; set; }
         public string? Image { get; set; }
         //public int SenderId { get; set; }

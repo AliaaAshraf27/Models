@@ -7,7 +7,7 @@ namespace MedicalServices.Services
     {
       
             Task<UserProfileDTO> GetProfileAsync(int id);
-            Task<User> UpdateProfileAsync(UpdateUserProfileDTO updatedProfile, int id);
+            Task<bool> UpdateProfileAsync(UpdateUserProfileDTO updatedProfile, int id);
             Task<bool> ChangePasswordAsync(int id , ChangePasswordDTO passDTO);
     }
 }

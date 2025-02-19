@@ -42,10 +42,12 @@ namespace MedicalServices.ServicesImplementation
                 await dto.Image.CopyToAsync(dataStream);
                 chat.Image = dataStream.ToArray();
             }
+            if (dto.Message != null)
+                chat.Message = dto.Message;
+            
             chat.SenderId = dto.SenderId;
             chat.ReceiverId = dto.ReceiverId;
             chat.SendTime = DateTime.Now;
-            chat.Message = dto.Message;
             chat.ReceiverType = dto.ReceiverType;
             chat.SenderType = dto.SenderType;
             _dbContext.Chats.Add(chat);
@@ -98,6 +100,7 @@ namespace MedicalServices.ServicesImplementation
                     Message = chat.Message,
                     SendTime = chat.SendTime,
                     OtherUserName = otherUserName, 
+                    OtherUserId = otherUserId,
                     Image =chat.Image != null ? $"data:image/png;base64,{Convert.ToBase64String(chat.Image)}" : null
                 });
             }

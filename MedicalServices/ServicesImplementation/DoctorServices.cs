@@ -94,8 +94,10 @@ namespace MedicalServices.ServicesImplementation
         { 
             var favorite = await _dbContext.PatientFavoriteDoctors
                 .Where(f => f.PatientId == dto.PatientId && f.DoctorId == dto.DoctorId).FirstOrDefaultAsync();
-            if (favorite == null) return false;
-
+            if (favorite == null) 
+                return false;
+            _dbContext.Remove(favorite);
+            await _dbContext.SaveChangesAsync();
             return true;
         }
 

@@ -7,6 +7,7 @@ using MedicalServices.ServicesImplementation;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
+using Microsoft.EntityFrameworkCore;
 
 namespace MedicalServices.Controllers
 {
@@ -49,7 +50,7 @@ namespace MedicalServices.Controllers
                 .SendAsync("ReceiveMessage", chat.SenderId, chat.SenderType, chat.Message, chat.SendTime);
                 return Ok(chat);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 return (IActionResult)ex;
             }
