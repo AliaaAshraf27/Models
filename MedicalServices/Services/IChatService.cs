@@ -9,7 +9,7 @@ namespace MedicalServices.Services
         Task<List<Chat>> GetMessagesAsync(int senderId, int receiverId);
         Task<Chat> SaveMessageAsync(ChatDTO dto);
         Task<List<GetChatDTO>> GetAllChatsAsync(int userId , string userType);
-        Task<string> GetUserName(int userId, string UserType);
+        Task<(string UserName, byte[]? UserPhoto)> GetUserDetails(int userId, string userType);
 
 
     }

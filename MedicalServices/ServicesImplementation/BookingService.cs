@@ -26,7 +26,7 @@ namespace MedicalServices.ServicesImplementation
                 .Select(a => new AvailableSlotDTO
                 {
                     Day = a.Day,
-                    Time = a.Time,
+                    Time = a.Time.ToString("HH:mm"),
                     AppointmentId = a.Id
                 })
                 .ToListAsync();
@@ -48,7 +48,7 @@ namespace MedicalServices.ServicesImplementation
                 AppointmentId = appointment.Id,
                 Status = BookingStatus.New,
                 Day = appointment.Day,
-                Time = appointment.Time,
+                Time = appointment.Time.ToString("HH:mm"),
                 PatientId = bookingDto.PatientId,
                 DoctorId = appointment.DoctorId,
                 ProblemDescription = bookingDto.ProblemDescription,

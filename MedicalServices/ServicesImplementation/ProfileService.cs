@@ -37,9 +37,9 @@ namespace MedicalServices.ServicesImplementation
                 await updatedProfile.Photo.CopyToAsync(dataStream);
                 user.Photo = dataStream.ToArray();
             }
-            user.Name = updatedProfile.Name != null ? updatedProfile.Name : user.Name;
-            user.Email = updatedProfile.Email != null ? updatedProfile.Email : user.Email;
-            user.PhoneNumber = updatedProfile.Phone != null ? updatedProfile.Phone : user.PhoneNumber;
+            user.Name = updatedProfile.Name;
+            user.Email = updatedProfile.Email;
+            user.PhoneNumber = updatedProfile.Phone;
             await _dbContext.SaveChangesAsync();
             return true;
 

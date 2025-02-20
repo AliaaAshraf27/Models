@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
 using System;
+using System.Numerics;
 using static System.Net.Mime.MediaTypeNames;
 
 
@@ -54,19 +55,21 @@ namespace MedicalServices.ServicesImplementation
             await _dbContext.SaveChangesAsync();
             return chat;
         }
-        public async Task<string> GetUserName(int userId, string userType)
+        public async Task<(string UserName, byte[]? UserPhoto)> GetUserDetails(int userId, string userType)
         {
             if (userType == "Doctor")
             {
-                return await _dbContext.Doctors.Where(d => d.Id == userId)
-                    .Select(d => d.User.Name).FirstAsync();
+                var doctor = await _dbContext.Doctors.Where(d => d.Id == userId)
+                    .Select(d => new { d.User.Name, d.User.Photo } ).FirstAsync();
+                return(doctor.Name, doctor.Photo);  
             }
             else if (userType == "Patient")
             {
-                return await _dbContext.Patients.Where(p => p.Id == userId)
-                    .Select(p => p.User.Name).FirstAsync();
+                var patient = await _dbContext.Patients.Where(p => p.Id == userId)
+                    .Select(p => new { p.User.Name, p.User.Photo }).FirstAsync();
+                return (patient.Name, patient.Photo);
             }
-            return "Unknown";
+            return("Unknown" ,null);
         }
 
 
@@ -92,14 +95,16 @@ namespace MedicalServices.ServicesImplementation
             {
                 var otherUserId = chat.SenderId == userId ? chat.ReceiverId : chat.SenderId;
                 var otherUserType = chat.SenderType == userType ? chat.ReceiverType : chat.SenderType;
-                string otherUserName = await GetUserName(otherUserId, otherUserType);
+                var (otherUserName, otherUserImage) = await GetUserDetails(otherUserId, otherUserType);
+
 
                 dto.Add(new GetChatDTO
                 {
                     Id = chat.Id,
                     Message = chat.Message,
                     SendTime = chat.SendTime,
-                    OtherUserName = otherUserName, 
+                    OtherUserName = otherUserName,
+                    OtherUserImage = otherUserImage != null ? $"data:image/png;base64,{Convert.ToBase64String(otherUserImage)}" : null,
                     OtherUserId = otherUserId,
                     Image =chat.Image != null ? $"data:image/png;base64,{Convert.ToBase64String(chat.Image)}" : null
                 });

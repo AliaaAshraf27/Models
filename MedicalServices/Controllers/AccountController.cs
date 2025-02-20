@@ -5,6 +5,7 @@ using MedicalServices.Models.Identity;
 using MedicalServices.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
+using NHibernate.Mapping;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
@@ -52,7 +53,17 @@ namespace MedicalServices.Controllers
                 case "Failed":
                     return BadRequest("Failed To Register ");
                 case "Success":
-                    return Ok("Register has been completed successfully");
+                    var token = GenerateJwtToken(register.Email);
+                    // Create a new object that only includes the fields you want to return
+                    var response = new
+                    {
+                        Message = "Register successful",
+                        Token = new
+                        {
+                            Result = token.Result
+                        }
+                    };
+                    return Ok(response);
                 default:
                     return BadRequest();
             }

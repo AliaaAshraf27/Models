@@ -43,7 +43,7 @@ namespace MedicalServices.DTO
         public string SpecializationName { get; set; }
         public string? Photo { get; set; }
         public DateOnly Day { get; set; }
-        public TimeOnly Time { get; set; }
+        public string Time { get; set; }
         public string Address { get; set; }
     }
     public class FilterBookingDTO
