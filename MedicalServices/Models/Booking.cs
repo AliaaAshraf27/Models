@@ -7,7 +7,7 @@ namespace MedicalServices.Models
         public int Id { get; set; }
         public BookingStatus Status { get; set; }
         public DateOnly Day { get; set; }
-        public string Time { get; set; }
+        public TimeOnly Time { get; set; }
         public string ProblemDescription { get; set; }
         public int ChangeCount { get; set; }
         public int DoctorId { get; set; }

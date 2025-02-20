@@ -1,4 +1,5 @@
-﻿using MedicalServices.DbContext;
+﻿using Antlr.Runtime.Tree;
+using MedicalServices.DbContext;
 using MedicalServices.DTO;
 using MedicalServices.Enums;
 using MedicalServices.Hubs;
@@ -26,7 +27,7 @@ namespace MedicalServices.ServicesImplementation
                 .Select(a => new AvailableSlotDTO
                 {
                     Day = a.Day,
-                    Time = a.Time.ToString("HH:mm"),
+                    Time = a.Time,
                     AppointmentId = a.Id
                 })
                 .ToListAsync();
@@ -38,6 +39,7 @@ namespace MedicalServices.ServicesImplementation
             var appointment = await _dbContext.AvailableAppointments
                  .AsNoTracking()
                 .FirstOrDefaultAsync(a => a.Day == bookingDto.day && a.Time == bookingDto.time && a.IsAvailable);
+
             if (appointment == null)
                 return null;
 
@@ -48,7 +50,7 @@ namespace MedicalServices.ServicesImplementation
                 AppointmentId = appointment.Id,
                 Status = BookingStatus.New,
                 Day = appointment.Day,
-                Time = appointment.Time.ToString("HH:mm"),
+                Time = appointment.Time,
                 PatientId = bookingDto.PatientId,
                 DoctorId = appointment.DoctorId,
                 ProblemDescription = bookingDto.ProblemDescription,
@@ -150,7 +152,7 @@ namespace MedicalServices.ServicesImplementation
                     SpecializationName = b.Doctor.Specialization.Name,
                     Photo = b.Doctor.User.Photo != null ? $"data:image/png;base64,{Convert.ToBase64String(b.Doctor.User.Photo)}" : null,
                     Day = b.Day,
-                    Time = b.Time,
+                    Time = b.Time.ToString("HH:mm"),
                     Address = b.Doctor.Address,
                     DoctorId = b.DoctorId,
                     BookingId = b.Id
