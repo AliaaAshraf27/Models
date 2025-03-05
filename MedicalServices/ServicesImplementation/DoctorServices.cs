@@ -53,7 +53,7 @@ namespace MedicalServices.ServicesImplementation
                 Id = d.Id,
                 DoctorName = d.User.Name,
                 SpecializationName = d.Specialization.Name,
-                Photo = d.User.Photo, 
+                Photo = d.User.Photo,
                 Address = d.Address
 
             }).ToListAsync();
@@ -75,32 +75,70 @@ namespace MedicalServices.ServicesImplementation
             return doctorMapping;
         }
 
-       public async Task<bool> AddToFavoriteAsync(FavoriteDrDTO dto)
+        public async Task<bool> AddToFavoriteAsync(FavoriteDrDTO dto)
         {
             var exist = await _dbContext.PatientFavoriteDoctors
-                .AnyAsync(e => e.PatientId == dto.PatientId && e.DoctorId ==dto.DoctorId);
+                .AnyAsync(e => e.PatientId == dto.PatientId && e.DoctorId == dto.DoctorId);
             if (exist)
                 return false;
             var favorite = new PatientFavoriteDoctors
             {
-                PatientId = dto.PatientId,  
+                PatientId = dto.PatientId,
                 DoctorId = dto.DoctorId
             };
             _dbContext.PatientFavoriteDoctors.Add(favorite);
             await _dbContext.SaveChangesAsync();
             return true;
         }
-       public async Task<bool> RemoveFromFavoriteAsync(FavoriteDrDTO dto)
-        { 
+        public async Task<bool> RemoveFromFavoriteAsync(FavoriteDrDTO dto)
+        {
             var favorite = await _dbContext.PatientFavoriteDoctors
                 .Where(f => f.PatientId == dto.PatientId && f.DoctorId == dto.DoctorId).FirstOrDefaultAsync();
-            if (favorite == null) 
+            if (favorite == null)
                 return false;
             _dbContext.Remove(favorite);
             await _dbContext.SaveChangesAsync();
             return true;
         }
 
+        public async Task<string> CreateDoctorAsync(CreateDoctoDTO doctorDTO)
+        {
+            var defaultPassword = "1234";
+            var specialization = await _dbContext.Specializations.FirstOrDefaultAsync(s => s.Name == doctorDTO.SpecializationName);
+            if (specialization == null)
+                return "this specialization not found";
+            var user = new User
+            {
+                Email = doctorDTO.Email,
+                Name = doctorDTO.DoctorName,
+                RoleId = 2,
+                Password = defaultPassword
+            };
+            if (doctorDTO.Image != null)
+            {
+                using var dataStream = new MemoryStream();
+                await doctorDTO.Image.CopyToAsync(dataStream);
+                user.Photo = dataStream.ToArray();
+            }
 
+            if(user == null)
+                return "Failed to create doctor";
+            _dbContext.Users.Add(user);
+            await _dbContext.SaveChangesAsync();
+
+            var doctor = new Doctor
+            {
+                Id = user.Id,
+                User = user,
+                Address = doctorDTO.Address,
+                Experience = doctorDTO.Experience,
+                Specialization = specialization
+            };
+
+            _dbContext.Doctors.Add(doctor);
+            await _dbContext.SaveChangesAsync();
+            return $"Doctor created successfully. Default password: {defaultPassword}";
+
+        }
     }
 }

@@ -44,9 +44,9 @@ namespace MedicalServices.Controllers
             return Ok(doctor);
         }
         [HttpPost(Router.DoctorsRouting.AddFavoriteDR)]
-        public async Task<IActionResult> AddFavoriteDR ([FromBody]FavoriteDrDTO dto)
+        public async Task<IActionResult> AddFavoriteDR([FromBody] FavoriteDrDTO dto)
         {
-           var success = await _drServices.AddToFavoriteAsync(dto);
+            var success = await _drServices.AddToFavoriteAsync(dto);
             if (!success)
                 return BadRequest("Doctor is already in favorites.");
 
@@ -58,7 +58,24 @@ namespace MedicalServices.Controllers
             var success = await _drServices.RemoveFromFavoriteAsync(dto);
             return Ok(success);
         }
+        [HttpPost(Router.DoctorsRouting.AddDoctor)]
+        public async Task<IActionResult> AddDoctor([FromForm] CreateDoctoDTO dto)
+        {
+            {
+                try
+                {
+                    var doctors = await _drServices.CreateDoctorAsync(dto);
+                    if (doctors == null || !doctors.Any())
+                        return NotFound("Failed to create doctor");
+                    return Ok(doctors);
+                }
+                catch (Exception ex)
+                {
+                    return BadRequest("Failed: " + ex.Message);
+                }
 
+            }
+        }
         #endregion
     }
 }

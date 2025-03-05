@@ -9,5 +9,6 @@ namespace MedicalServices.Services
         Task<DoctorDetailsDto> GetDoctorDetailsAsync(int doctorId);
         Task<bool> AddToFavoriteAsync(FavoriteDrDTO dto);
         Task<bool> RemoveFromFavoriteAsync(FavoriteDrDTO dto);
+        Task<string> CreateDoctorAsync(CreateDoctoDTO doctorDTO);
     }
 }
