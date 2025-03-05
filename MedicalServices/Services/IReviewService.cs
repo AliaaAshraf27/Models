@@ -6,6 +6,7 @@ namespace MedicalServices.Services
     public interface IReviewService
     {
        Task<bool> AddReviewAsync(ReviewDTO dto);
-       Task<List<GetReviewsDTO>> GetAllReviewsAsync(int doctorId);
+        Task<List<GetReviewsByDrDTO>> GetReviewsByDrAsync(int doctorId);
+       Task<List<ReviewsDetialDTO>> GetAllReviewsAsync();
     }
 }

@@ -27,7 +27,7 @@
             public const string GetAvailableSlots = Prefix + "GetAvailableSlots";
             public const string BookAppointment = Prefix + "BookAppointment";
             //public const string CancelAppointment = Prefix + "CancelAppointment";
-            public const string GetAllBooking = Prefix + "GetAllBooking";
+            public const string AllBooking = Prefix + "AllBookingByPatientId";
             public const string UpdateBooking = Prefix + "UpdateBooking"; 
         }
         public static class ProfileRouting
@@ -53,6 +53,7 @@
         {
             public const string Prefix = Rule + "Review/";
             public const string AddReview = Prefix + "AddReview";
+            public const string GetAllReviewsById = Prefix + "GetAllReviewsByDrId";
             public const string GetAllReviews = Prefix + "GetAllReviews";
         }
         public static class SpecializationRouting

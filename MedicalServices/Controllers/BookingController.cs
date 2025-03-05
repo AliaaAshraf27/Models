@@ -69,10 +69,10 @@ namespace MedicalServices.Controllers
         //    return Ok(new { message = "Appointment has been cancelled" });
         //}
 
-        [HttpGet(Router.BookingRouting.GetAllBooking)]
-        public async Task<IActionResult> GetAllBooking(int patientId)
+        [HttpGet(Router.BookingRouting.AllBooking)]
+        public async Task<IActionResult> GetAllBookingByPatientId(int patientId)
         {
-            var bookings = await _bookingService.GetBookingAsync(patientId);
+            var bookings = await _bookingService.GetBookingByPatientIdAsync(patientId);
             if (bookings == null) return BadRequest("Not found any booking");
             return Ok(bookings);
         }

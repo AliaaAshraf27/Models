@@ -30,15 +30,30 @@ namespace MedicalServices.ServicesImplementation
             return true;
         }
         // all reviews about this doctor 
-        public async Task <List<GetReviewsDTO>> GetAllReviewsAsync(int doctorId)
+        public async Task <List<GetReviewsByDrDTO>> GetReviewsByDrAsync(int doctorId)
         {
             var reviews = await _dbContext.Reviews.Where(x => x.DoctorId == doctorId)
-            .Select(x => new GetReviewsDTO
+            .Select(x => new GetReviewsByDrDTO
             {
                 Comment = x.Comment,
-                SenderName = x.Patient.User.Name
+                SenderName = x.Patient.User.Name,
+
             }).ToListAsync();
             return reviews;
+        }
+
+        // all reviews 
+        public async Task<List<ReviewsDetialDTO>> GetAllReviewsAsync()
+        {
+            return await _dbContext.Reviews
+            .Select(x => new ReviewsDetialDTO
+            {
+                Comment = x.Comment,
+                PatientName = x.Patient.User.Name,
+                DoctorName = x.Doctor.User.Name,
+                Rating = x.Rating
+
+            }).ToListAsync();
         }
     }
 }

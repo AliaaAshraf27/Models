@@ -9,13 +9,15 @@ namespace MedicalServices.DTO
         public string SpecializationName { get; set; }
         public byte[]? Photo { get; set; }
         public string Address { get; set; }
+        public string Experience { get; set; }
+        public string Email { get; set; }
+        public string Phone { get; set; }
+
 
     }
 
     public class DrDataDTO : DoctorDTO
     {
-        public string Address { get; set; }
-        public string Experience { get; set; }
         public DateOnly Date { get; set; }
         public DateTime TimeStart { get; set; }
         public DateTime TimeEnd { get; set; }

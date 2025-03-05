@@ -138,7 +138,7 @@ namespace MedicalServices.ServicesImplementation
 
         //    return true;
         //}
-        public async Task<List<GetBookingDTO>> GetBookingAsync(int patientId)
+        public async Task<List<GetBookingDTO>> GetBookingByPatientIdAsync(int patientId)
         {
             var bookings = await _dbContext.Bookings.Where(b => b.PatientId == patientId && b.Status == BookingStatus.Completed)
                 .Include(b => b.Doctor).ThenInclude(d => d.User).Include(b => b.Doctor).ThenInclude(d => d.Specialization)
@@ -157,7 +157,6 @@ namespace MedicalServices.ServicesImplementation
                     DoctorId = b.DoctorId,
                     BookingId = b.Id
               }).ToList();
-
             }
 
     }

@@ -52,10 +52,12 @@ namespace MedicalServices.ServicesImplementation
             {
                 Id = d.Id,
                 DoctorName = d.User.Name,
+                Email = d.User.Email,
                 SpecializationName = d.Specialization.Name,
                 Photo = d.User.Photo,
-                Address = d.Address
-
+                Address = d.Address,
+                Experience = d.Experience,
+                Phone = d.User.PhoneNumber
             }).ToListAsync();
 
             return doctorDTO;

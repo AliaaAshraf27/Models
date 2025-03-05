@@ -21,11 +21,18 @@ namespace MedicalServices.Controllers
             if(review == false) return BadRequest("Invalid review data");
             return Ok("Review has been added successfully"); ;
         }
-        [HttpGet(Router.ReviewRouting.GetAllReviews)]
-        public async Task<IActionResult> GetAllReviews(int doctorId)
+        [HttpGet(Router.ReviewRouting.GetAllReviewsById)]
+        public async Task<IActionResult> GetAllReviewsByDrId(int doctorId)
         {
-            var reviews = await _reviewService.GetAllReviewsAsync(doctorId);
+            var reviews = await _reviewService.GetReviewsByDrAsync(doctorId);
             if(reviews == null) return BadRequest(string.Empty);
+            return Ok(reviews);
+        }
+        [HttpGet(Router.ReviewRouting.GetAllReviews)]
+        public async Task<IActionResult> GetAllReviews()
+        {
+            var reviews = await _reviewService.GetAllReviewsAsync();
+            if (reviews == null) return BadRequest(string.Empty);
             return Ok(reviews);
         }
     }
