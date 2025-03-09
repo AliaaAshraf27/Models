@@ -49,6 +49,21 @@ namespace MedicalServices.DTO
         public string Address { get; set; }
 
     }
+    public class AllBookingDTO
+    {
+       // public int Id { get; set; }
+        public string DoctorName { get; set; }
+        public string patientName { get; set; }
+        //public int DoctorId { get; set; }
+        //public int BookingId { get; set; }
+        public String Status { get; set; }
+        //public string SpecializationName { get; set; }
+        //public string? Photo { get; set; }
+        public DateOnly Day { get; set; }
+        public string Time { get; set; }
+        //public string Address { get; set; }
+
+    }
     public class FilterBookingDTO
     {
         public int PatientId { get; set; }

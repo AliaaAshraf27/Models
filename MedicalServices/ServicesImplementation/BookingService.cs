@@ -159,7 +159,7 @@ namespace MedicalServices.ServicesImplementation
                 BookingId = b.Id
             }).ToList();
         }
-        public async Task<List<GetBookingDTO>> GetAllBookingsAsync()
+        public async Task<List<AllBookingDTO>> GetAllBookingsAsync()
         {
             var bookings = await _dbContext.Bookings
                 .Include(b => b.Doctor).ThenInclude(d => d.User)
@@ -167,19 +167,18 @@ namespace MedicalServices.ServicesImplementation
                 .Include(b => b.Patient)
                 .ToListAsync();
 
-            return bookings.Select(b => new GetBookingDTO()
+            return bookings.Select(b => new AllBookingDTO()
             {
                 DoctorName = b.Doctor.User.Name,
-                SpecializationName = b.Doctor.Specialization.Name,
-                Photo = b.Doctor.User.Photo != null ? $"data:image/png;base64,{Convert.ToBase64String(b.Doctor.User.Photo)}" : null,
+                //SpecializationName = b.Doctor.Specialization.Name,
+                //Photo = b.Doctor.User.Photo != null ? $"data:image/png;base64,{Convert.ToBase64String(b.Doctor.User.Photo)}" : null,
                 Day = b.Day,
                 Time = b.Time.ToString("HH:mm"),
-                Address = b.Doctor.Address,
-                DoctorId = b.DoctorId,
-                BookingId = b.Id,
+                //Address = b.Doctor.Address,
+                //DoctorId = b.DoctorId,
+                //BookingId = b.Id,
                 patientName = b.Patient.patientName,
-                Status = b.Status
-
+                Status = b.Status.ToString()
             }).ToList();
         }
     }
