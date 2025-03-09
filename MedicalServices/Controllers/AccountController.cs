@@ -3,6 +3,7 @@ using MedicalServices.AppMetaData;
 using MedicalServices.DTO;
 using MedicalServices.Models.Identity;
 using MedicalServices.Services;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using NHibernate.Mapping;
@@ -21,17 +22,19 @@ namespace MedicalServices.Controllers
         private readonly IRegisterServies _applicationUserServies;
         private readonly ILoginService _loginService;
         private readonly IConfiguration _configuration;
+        private readonly UserManager<User> _userManager;
         #endregion
 
         #region Constructors
         // Constructor for injecting dependencies
         public AccountController(IMapper mapper,
-                                  IRegisterServies applicationUserServices, ILoginService loginService, IConfiguration configuration)
+                                  IRegisterServies applicationUserServices, ILoginService loginService, IConfiguration configuration, UserManager<User> userManager)
         {
             _mapper = mapper;
             _applicationUserServies = applicationUserServices;
             _loginService = loginService;
             _configuration = configuration;
+            _userManager = userManager;
         }
         #endregion
 
@@ -74,8 +77,8 @@ namespace MedicalServices.Controllers
         {
             // Calling the service to log the user in and await the result
             var loginResult = await _loginService.LogUserAsync(login.Email, login.Password);
-            var getPatient = await _loginService.GetId(login.Email);
-            if (getPatient == null)
+            var userId = await _loginService.GetId(login.Email);
+            if (userId == null)
                 return NotFound("Not found");
 
             // Handling the result of the user login
@@ -93,7 +96,7 @@ namespace MedicalServices.Controllers
                     var response = new
                     {
                         Message = "Login successful",
-                        Id = getPatient.Value,
+                        Id = userId,
                         Token = new
                         {
                             Result = token.Result
@@ -106,17 +109,59 @@ namespace MedicalServices.Controllers
             }
         }
 
+        //private async Task<string> GenerateJwtToken(string email)
+        //{
+        //    var jwtSettings = _configuration.GetSection("Jwt");
+
+        //    // Define the token's claims
+        //    var claims = new[]
+        //    {
+        //        new Claim(JwtRegisteredClaimNames.Sub, email),
+        //        new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+        //        new Claim(ClaimTypes.Email, email)
+        //    };
+
+        //    // Generate the token
+        //    var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSettings["Key"]));
+        //    var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
+
+        //    var token = new JwtSecurityToken(
+        //        issuer: jwtSettings["Issuer"],
+        //        audience: jwtSettings["Audience"],
+        //        claims: claims,
+        //        expires: DateTime.UtcNow.AddHours(1), // Token expiry time
+        //        signingCredentials: creds
+        //    );
+
+        //    var tokenString = new JwtSecurityTokenHandler().WriteToken(token);
+
+        //    // Store the token
+        //    await _loginService.StoreTokenAsync(email, tokenString);
+
+        //    return tokenString;
+        //}
+
         private async Task<string> GenerateJwtToken(string email)
         {
             var jwtSettings = _configuration.GetSection("Jwt");
+            var user = await _loginService.getUserByEmail(email);
+            // Fetch user roles
+            var roles = await _userManager.GetRolesAsync(user);
+
+
 
             // Define the token's claims
-            var claims = new[]
+            var claims = new List<Claim>
             {
-                new Claim(JwtRegisteredClaimNames.Sub, email),
-                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
-                new Claim(ClaimTypes.Email, email)
+            new Claim(JwtRegisteredClaimNames.Sub, email),
+            new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+            new Claim(ClaimTypes.Email, email),
             };
+
+
+
+            // Add roles to claims
+            claims.AddRange(roles.Select(role => new Claim("role", role)));
 
             // Generate the token
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSettings["Key"]));
@@ -137,7 +182,6 @@ namespace MedicalServices.Controllers
 
             return tokenString;
         }
-
         #endregion
     }
 }

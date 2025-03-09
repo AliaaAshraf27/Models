@@ -34,6 +34,29 @@ namespace MedicalServices.ServicesImplementation
             return doctors;
 
         }
+        public async Task<bool> AddSpecializationAsync(string name)
+        {
+            var specialization = new Specialization
+            {
+                Name = name
+            };
+
+            _dbContext.Specializations.Add(specialization);
+            return await _dbContext.SaveChangesAsync() > 0;
+        }
+
+        public async Task<bool> RemoveSpecializationAsync(int specializationId)
+        {
+            var specialization = await _dbContext.Specializations.FindAsync(specializationId);
+            if (specialization == null)
+            {
+                return false;
+            }
+
+            _dbContext.Specializations.Remove(specialization);
+            return await _dbContext.SaveChangesAsync() > 0;
+        }
+
 
     }
 }

@@ -76,5 +76,11 @@ namespace MedicalServices.Controllers
             if (bookings == null) return BadRequest("Not found any booking");
             return Ok(bookings);
         }
+        [HttpGet(Router.BookingRouting.GetAllBookings)]
+        public async Task<IActionResult> GetAllBookings()
+        {
+            var bookings = await _bookingService.GetAllBookingsAsync();
+            return Ok(bookings);
+        }
     }
 }

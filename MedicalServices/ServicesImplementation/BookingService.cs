@@ -8,6 +8,7 @@ using MedicalServices.Services;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
+using NHibernate.Engine;
 
 namespace MedicalServices.ServicesImplementation
 {
@@ -89,18 +90,18 @@ namespace MedicalServices.ServicesImplementation
             return booking;
         }
 
-        public async Task<string> UpdateBookingAsync(int bookingId ,UpdateBookingDTO updateDTO)
+        public async Task<string> UpdateBookingAsync(int bookingId, UpdateBookingDTO updateDTO)
         {
             var booking = await _dbContext.Bookings.FindAsync(bookingId);
-            if(booking == null) return "Booking not found";
+            if (booking == null) return "Booking not found";
             if (booking.Status == BookingStatus.Cancel)
                 return "Booking is already canceled";
             else
             {
-                if(booking.ChangeCount > 2)
+                if (booking.ChangeCount > 2)
                 {
-                   booking.Status = BookingStatus.Cancel;
-                   await _dbContext.SaveChangesAsync();
+                    booking.Status = BookingStatus.Cancel;
+                    await _dbContext.SaveChangesAsync();
                     return "Booking canceled due to exceeding allowed changes";
                 }
                 booking.Day = updateDTO.Day;
@@ -145,21 +146,43 @@ namespace MedicalServices.ServicesImplementation
                 .ToListAsync();
 
             if (bookings == null) return [];
-           
-            return bookings.Select(b => new GetBookingDTO()
-              {
-                    DoctorName = b.Doctor.User.Name,
-                    SpecializationName = b.Doctor.Specialization.Name,
-                    Photo = b.Doctor.User.Photo != null ? $"data:image/png;base64,{Convert.ToBase64String(b.Doctor.User.Photo)}" : null,
-                    Day = b.Day,
-                    Time = b.Time.ToString("HH:mm"),
-                    Address = b.Doctor.Address,
-                    DoctorId = b.DoctorId,
-                    BookingId = b.Id
-              }).ToList();
-            }
 
+            return bookings.Select(b => new GetBookingDTO()
+            {
+                DoctorName = b.Doctor.User.Name,
+                SpecializationName = b.Doctor.Specialization.Name,
+                Photo = b.Doctor.User.Photo != null ? $"data:image/png;base64,{Convert.ToBase64String(b.Doctor.User.Photo)}" : null,
+                Day = b.Day,
+                Time = b.Time.ToString("HH:mm"),
+                Address = b.Doctor.Address,
+                DoctorId = b.DoctorId,
+                BookingId = b.Id
+            }).ToList();
+        }
+        public async Task<List<GetBookingDTO>> GetAllBookingsAsync()
+        {
+            var bookings = await _dbContext.Bookings
+                .Include(b => b.Doctor).ThenInclude(d => d.User)
+                .Include(b => b.Doctor).ThenInclude(d => d.Specialization)
+                .Include(b => b.Patient)
+                .ToListAsync();
+
+            return bookings.Select(b => new GetBookingDTO()
+            {
+                DoctorName = b.Doctor.User.Name,
+                SpecializationName = b.Doctor.Specialization.Name,
+                Photo = b.Doctor.User.Photo != null ? $"data:image/png;base64,{Convert.ToBase64String(b.Doctor.User.Photo)}" : null,
+                Day = b.Day,
+                Time = b.Time.ToString("HH:mm"),
+                Address = b.Doctor.Address,
+                DoctorId = b.DoctorId,
+                BookingId = b.Id,
+                patientName = b.Patient.patientName,
+                Status = b.Status
+
+            }).ToList();
+        }
     }
- }
+}
 
 

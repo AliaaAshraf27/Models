@@ -7,5 +7,7 @@ namespace MedicalServices.Services
     {
         Task<List<Specialization>> GetAllSpecializationsAsync();
         Task<List<DrDTO>> GetDoctorsBySpecializationIDAsync(int specializationId);
+        Task<bool> AddSpecializationAsync(string name);
+        Task<bool> RemoveSpecializationAsync(int specializationId);
     }
 }

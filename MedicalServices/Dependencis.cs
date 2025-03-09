@@ -24,6 +24,7 @@ namespace MedicalServices
             services.AddScoped<INotificationService, NotificationService>();
             services.AddScoped<IReviewService, ReviewService>();
             services.AddScoped<ISpecializationService, SpecializationService>();
+            services.AddScoped<IPatientService, PatientService>();
 
 
 

@@ -1,6 +1,7 @@
 ﻿using MedicalServices.AppMetaData;
 using MedicalServices.Models;
 using MedicalServices.Services;
+using MedicalServices.ServicesImplementation;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -17,6 +18,30 @@ namespace MedicalServices.Controllers
         }
         #endregion
         #region End point
+        [HttpPost(Router.SpecializationRouting.AddSpecialization)]
+        public async Task<IActionResult> AddSpecialization([FromQuery] string name)
+        {
+            var result = await _service.AddSpecializationAsync(name);
+            if (result)
+                return Ok("Specialization added successfully.");
+            return BadRequest("Failed to add specialization.");
+        }
+        [HttpDelete(Router.SpecializationRouting.RemoveSpecialization)]
+        public async Task<IActionResult> RemoveSpecialization(int specializationId)
+        {
+            try
+            {
+                var result = await _service.RemoveSpecializationAsync(specializationId);
+                if (result)
+                    return Ok("Specialization removed successfully.");
+                return NotFound("Specialization not found.");
+            }
+            catch (Exception ex)
+            {
+                return BadRequest("Failed: " + ex.Message);
+            }
+        }
+
         [HttpGet(Router.SpecializationRouting.GetSpecializations)]
         public async Task<IActionResult> GetAllSpecializations ()
         {

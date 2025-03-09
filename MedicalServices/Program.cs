@@ -2,6 +2,8 @@ using MedicalServices;
 using MedicalServices.DbContext;
 using MedicalServices.Helper;
 using MedicalServices.Hubs;
+using MedicalServices.Services;
+using MedicalServices.ServicesImplementation;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -35,6 +37,7 @@ builder.Services.Configure<StripeModel>(builder.Configuration.GetSection("Stripe
 builder.Services.AddScoped<TokenService>();
 builder.Services.AddScoped<CustomerService>();
 builder.Services.AddScoped<ChargeService>();
+
 #endregion
 // Add JWT Authentication
 #region JWT Authentication

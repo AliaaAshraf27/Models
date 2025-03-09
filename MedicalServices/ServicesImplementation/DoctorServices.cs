@@ -142,5 +142,23 @@ namespace MedicalServices.ServicesImplementation
             return $"Doctor created successfully. Default password: {defaultPassword}";
 
         }
+        public async Task<bool> RemoveDoctorAsync(int doctorId)
+        {
+            var doctor = await _dbContext.Doctors.FindAsync(doctorId);
+            if (doctor == null)
+                return false;
+
+            var user = await _dbContext.Users
+                .Include(u => u.Doctor)
+                .FirstOrDefaultAsync(u => u.Doctor.Id == doctorId);
+            if (user != null)
+            {
+                _dbContext.Users.Remove(user);
+            }
+
+            _dbContext.Doctors.Remove(doctor);
+            await _dbContext.SaveChangesAsync();
+            return true;
+        }
     }
 }

@@ -76,6 +76,19 @@ namespace MedicalServices.Controllers
 
             }
         }
+        [HttpDelete("RemoveDoctor/{doctorId}")]
+        public async Task<IActionResult> RemoveDoctor(int doctorId)
+        {
+            var success = await _drServices.RemoveDoctorAsync(doctorId);
+            if (success)
+            {
+                return Ok("Doctor removed successfully");
+            }
+            else
+            {
+                return NotFound("Doctor not found");
+            }
+        }
         #endregion
     }
 }

@@ -19,7 +19,13 @@
             public const string AddFavoriteDR = Prefix + "AddFavoriteDR";
             public const string RemoveFavoriteDR = Prefix + "RemoveFavoriteDR";
             public const string AddDoctor = Prefix + "AddDoctor";
+            public const string RemoveDoctor = Prefix + "RemoveDoctor";
 
+        }
+        public static class PatientRouting
+        {
+            public const string Prefix = Rule + "Patient/";
+            public const string GetAllPatients = Prefix + "GetAllPatients";
         }
         public static class BookingRouting
         {
@@ -28,13 +34,15 @@
             public const string BookAppointment = Prefix + "BookAppointment";
             //public const string CancelAppointment = Prefix + "CancelAppointment";
             public const string AllBooking = Prefix + "AllBookingByPatientId";
-            public const string UpdateBooking = Prefix + "UpdateBooking"; 
+            public const string UpdateBooking = Prefix + "UpdateBooking";
+            public const string GetAllBookings = Prefix + "GetAllBookings";
         }
         public static class ProfileRouting
         {
             public const string Prefix = Rule + "Profile/";
             public const string GetUser = Prefix + "GetUserProfile";
             public const string UpdateUser = Prefix + "UpdateUserProfile";
+
         }
         public static class NotificationRouting
         {
@@ -61,6 +69,8 @@
             public const string Prefix = Rule + "Specialization/";
             public const string GetSpecializations = Prefix + "GetAllSpecializations";
             public const string GetDoctorsBySpecializationID = Prefix + "GetDoctorsBySpecializationID";
+            public const string AddSpecialization = Prefix + "AddSpecialization";
+            public const string RemoveSpecialization = Prefix + "RemoveSpecialization";
         }
     }
 }
