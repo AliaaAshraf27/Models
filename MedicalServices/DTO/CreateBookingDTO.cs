@@ -41,7 +41,7 @@ namespace MedicalServices.DTO
         public string patientName { get; set; }
         public int DoctorId { get; set; }
         public int BookingId { get; set; }
-        public BookingStatus Status { get; set; }
+        public string Status { get; set; }
         public string SpecializationName { get; set; }
         public string? Photo { get; set; }
         public DateOnly Day { get; set; }

@@ -178,7 +178,7 @@ namespace MedicalServices.ServicesImplementation
                 DoctorId = b.DoctorId,
                 BookingId = b.Id,
                 patientName = b.Patient.patientName,
-                Status = b.Status
+                Status = b.Status.ToString()
 
             }).ToList();
         }
