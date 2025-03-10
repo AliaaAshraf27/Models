@@ -123,7 +123,7 @@ namespace MedicalServices.ServicesImplementation
                 user.Photo = dataStream.ToArray();
             }
 
-            if(user == null)
+            if (user == null)
                 return "Failed to create doctor";
             _dbContext.Users.Add(user);
             await _dbContext.SaveChangesAsync();
@@ -138,6 +138,13 @@ namespace MedicalServices.ServicesImplementation
             };
 
             _dbContext.Doctors.Add(doctor);
+            await _dbContext.SaveChangesAsync();
+            var userRole = new IdentityUserRole<int>
+            {
+                UserId = user.Id,
+                RoleId = 2 
+            };
+            _dbContext.UserRoles.Add(userRole);
             await _dbContext.SaveChangesAsync();
             return $"Doctor created successfully. Default password: {defaultPassword}";
 
