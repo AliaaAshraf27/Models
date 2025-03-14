@@ -6,7 +6,6 @@ using MedicalServices.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
-using NHibernate.Mapping;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
@@ -61,6 +60,7 @@ namespace MedicalServices.Controllers
                     var response = new
                     {
                         Message = "Register successful",
+                        id = UserMapping.Id,
                         Token = new
                         {
                             Result = token.Result
