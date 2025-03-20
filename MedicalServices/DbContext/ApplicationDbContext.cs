@@ -31,6 +31,11 @@ namespace MedicalServices.DbContext
         public DbSet<Chat> Chats { get; set; }
 
 
+        public static class AdminSeeder
+        {
+        }
+
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
