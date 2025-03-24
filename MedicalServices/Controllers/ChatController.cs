@@ -40,12 +40,12 @@ namespace MedicalServices.Controllers
             return Ok(chats);
         }
 
-        [HttpPost(Router.ChatRouting.SaveMessage)]
-        public async Task<IActionResult> SaveMessage([FromForm] ChatDTO dto)
+        [HttpPost(Router.ChatRouting.SendMessage)]
+        public async Task<IActionResult> SendMessage([FromForm] ChatDTO dto)
         {
             try
             {
-                var chat = await _chatService.SaveMessageAsync(dto);
+                var chat = await _chatService.SendMessageAsync(dto);
                 await _chatHub.Clients.User(chat.ReceiverId.ToString())
                 .SendAsync("ReceiveMessage", chat.SenderId, chat.SenderType, chat.Message, chat.SendTime);
                 return Ok(chat);

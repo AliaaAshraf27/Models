@@ -53,7 +53,7 @@
         {
             public const string Prefix = Rule + "Chat/";
             public const string GetMessage = Prefix + "GetMessage";
-            public const string SaveMessage = Prefix + "SaveMessage";
+            public const string SendMessage = Prefix + "SendMessage";
             public const string GetAllChats = Prefix + "GetAllChats";
 
         }

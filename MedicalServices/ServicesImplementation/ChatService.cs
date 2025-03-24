@@ -34,7 +34,7 @@ namespace MedicalServices.ServicesImplementation
 
             return messages;
         }
-        public async Task<Chat> SaveMessageAsync(ChatDTO dto)
+        public async Task<Chat> SendMessageAsync(ChatDTO dto)
         {
             var chat = new Chat();
             if (dto.Image != null)
@@ -53,7 +53,17 @@ namespace MedicalServices.ServicesImplementation
             chat.SenderType = dto.SenderType;
             _dbContext.Chats.Add(chat);
             await _dbContext.SaveChangesAsync();
+
+            var sender = await _dbContext.Users.FindAsync(chat.SenderId);
+            await _hubContext.Clients.User(chat.ReceiverId.ToString())
+                .SendAsync("ReceiveMessage", new
+                {
+                    Notification = $"New message from {sender?.Name ?? "Unknown User"}",
+                    SendTime = chat.SendTime
+                });
+
             return chat;
+
         }
         public async Task<(string UserName, byte[]? UserPhoto)> GetUserDetails(int userId, string userType)
         {
