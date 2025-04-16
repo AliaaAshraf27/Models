@@ -159,6 +159,53 @@ namespace MedicalServices.ServicesImplementation
                 BookingId = b.Id
             }).ToList();
         }
+        public async Task<List<DoctorBookingDTO>> GetCompletedBookingsByDoctorAsync(int doctorId)
+        {
+            var bookings = await _dbContext.Bookings
+                .Where(b => b.DoctorId == doctorId && b.Status == BookingStatus.Completed)
+                .Include(b => b.Patient)
+                .ThenInclude(p => p.User)
+                .ToListAsync();
+
+            return bookings.Select(b => new DoctorBookingDTO
+            {
+                BookingId = b.Id,
+                PatientId = b.Patient.Id,
+                PatientName = b.Patient.User.Name,
+                PatientPhoto = b.Patient.User.Photo != null
+                    ? $"data:image/png;base64,{Convert.ToBase64String(b.Patient.User.Photo)}"
+                    : null,
+                Age = (int)b.Age
+            }).ToList();
+        }
+        public async Task<BookingDetailsDTO> GetBookingDetailsAsync(int bookingId)
+        {
+            var booking = await _dbContext.Bookings
+                .Include(b => b.Doctor)
+                    .ThenInclude(d => d.User)
+                .Include(b => b.Patient)
+                    .ThenInclude(p => p.User)
+                .FirstOrDefaultAsync(b => b.Id == bookingId);
+
+            if (booking == null)
+                return null;
+
+            return new BookingDetailsDTO
+            {
+                PatientId = booking.PatientId,
+                PatientName = booking.Patient.User.Name,
+                PatientPhoto = booking.Patient.User.Photo != null
+                    ? $"data:image/png;base64,{Convert.ToBase64String(booking.Patient.User.Photo)}"
+                    : null,
+                Age = (int)booking.Age,
+                Day = booking.Day,
+                Time = booking.Time,
+                Phone = booking.Patient.User.PhoneNumber,
+                Gender = booking.Gender,
+                ProblemDescription = booking.ProblemDescription
+            };
+        }
+
         public async Task<List<AllBookingDTO>> GetAllBookingsAsync()
         {
             var bookings = await _dbContext.Bookings

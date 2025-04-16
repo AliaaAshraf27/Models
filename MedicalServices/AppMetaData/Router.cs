@@ -34,6 +34,8 @@
             public const string BookAppointment = Prefix + "BookAppointment";
             //public const string CancelAppointment = Prefix + "CancelAppointment";
             public const string AllBooking = Prefix + "AllBookingByPatientId";
+            public const string GetCompletedBookingsByDoctor = Prefix + "GetCompletedBookingsByDoctor";
+            public const string GetBookingDetails = Prefix + "GetBookingDetails";
             public const string UpdateBooking = Prefix + "UpdateBooking";
             public const string GetAllBookings = Prefix + "GetAllBookings";
         }

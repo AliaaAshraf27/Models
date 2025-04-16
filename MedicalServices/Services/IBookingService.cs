@@ -10,6 +10,8 @@
         Task<string> UpdateBookingAsync(int bookingId ,UpdateBookingDTO updateDTO);
         //Task<bool> CancelBookingAsync(int id);
         Task<List<GetBookingDTO>> GetBookingByPatientIdAsync(int patientId);
+        Task<List<DoctorBookingDTO>> GetCompletedBookingsByDoctorAsync(int doctorId);
+        Task<BookingDetailsDTO> GetBookingDetailsAsync(int bookingId);
         Task<List<AllBookingDTO>> GetAllBookingsAsync();
 
     }

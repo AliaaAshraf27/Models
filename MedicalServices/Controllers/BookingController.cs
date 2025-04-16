@@ -76,6 +76,23 @@ namespace MedicalServices.Controllers
             if (bookings == null) return BadRequest("Not found any booking");
             return Ok(bookings);
         }
+        [HttpGet(Router.BookingRouting.GetBookingDetails)]
+        public async Task<IActionResult> GetBookingDetails(int bookingId)
+        {
+            var bookingDetails = await _bookingService.GetBookingDetailsAsync(bookingId);
+            if (bookingDetails == null) return BadRequest("Not found any booking");
+            return Ok(bookingDetails);
+        }
+        [HttpGet("doctor/{doctorId}/completed-bookings")]
+        public async Task<IActionResult> GetCompletedBookingsByDoctor(int doctorId)
+        {
+            var bookings = await _bookingService.GetCompletedBookingsByDoctorAsync(doctorId);
+
+            if (bookings == null || !bookings.Any())
+                return NotFound("No completed bookings found for this doctor.");
+
+            return Ok(bookings);
+        }
         [HttpGet(Router.BookingRouting.GetAllBookings)]
         public async Task<IActionResult> GetAllBookings()
         {
