@@ -49,12 +49,12 @@ namespace MedicalServices.Controllers
         }
 
         [HttpPut(Router.BookingRouting.UpdateBooking)]
-        public async Task<IActionResult> UpdateBooking(int bookingId ,UpdateBookingDTO dto)
+        public async Task<IActionResult> UpdateBooking(int bookingId, UpdateBookingDTO dto)
         {
             var message = await _bookingService.UpdateBookingAsync(bookingId, dto);
-            if(message.Contains("not found") ||message.Contains( "already canceled")) 
+            if (message.Contains("not found") || message.Contains("already canceled"))
                 return BadRequest(message);
-            if(message.Contains("exceeding allowed changes"))
+            if (message.Contains("exceeding allowed changes"))
                 return BadRequest(message);
             return Ok(message);
 

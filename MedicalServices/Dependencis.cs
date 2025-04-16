@@ -11,7 +11,6 @@ namespace MedicalServices
     {
         public static IServiceCollection AddDependencis(this IServiceCollection services)
         {
-
             //Configuration of AutoMapper
             services.AddAutoMapper(Assembly.GetExecutingAssembly());
 
@@ -25,10 +24,7 @@ namespace MedicalServices
             services.AddScoped<IReviewService, ReviewService>();
             services.AddScoped<ISpecializationService, SpecializationService>();
             services.AddScoped<IPatientService, PatientService>();
-
-
-
-
+            services.AddScoped<ILocationService, LocationService>();
             return services;
         }
 

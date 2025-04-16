@@ -73,5 +73,12 @@
             public const string AddSpecialization = Prefix + "AddSpecialization";
             public const string RemoveSpecialization = Prefix + "RemoveSpecialization";
         }
+        public static class LocationRouting
+        {
+            public const string Prefix = Rule + "Location/";
+            public const string AddOrUpdateLocation = Prefix + "AddOrUpdateLocation";
+            public const string NearbyDoctors = Prefix + "NearbyDoctors";
+
+        }
     }
 }
