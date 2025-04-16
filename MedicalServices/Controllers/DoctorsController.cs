@@ -2,7 +2,7 @@
 using MedicalServices.DTO;
 using MedicalServices.Services;
 using Microsoft.AspNetCore.Mvc;
-using Stripe;
+using Swashbuckle.AspNetCore.Annotations;
 
 namespace MedicalServices.Controllers
 {
@@ -17,7 +17,7 @@ namespace MedicalServices.Controllers
         }
         #endregion
         #region End point
-
+        [SwaggerOperation(Description = "If no rating available rating return 0 !!")]
         [HttpGet(Router.DoctorsRouting.GetList)]
         public async Task<IActionResult> GetAllDoctors([FromQuery] Filter filter)
         {

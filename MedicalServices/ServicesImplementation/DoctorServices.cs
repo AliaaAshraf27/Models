@@ -23,7 +23,7 @@ namespace MedicalServices.ServicesImplementation
         public async Task<List<DoctorDTO>> GetAllDoctorsAsync(Filter filter)
         {
             // Start with IQueryable<Doctor>
-            var doctors = _dbContext.Doctors.AsQueryable();
+            var doctors = _dbContext.Doctors.Include(d => d.Reviews).AsQueryable();
 
             // Filter by Gender
             if (filter.Gender != null)
@@ -57,7 +57,14 @@ namespace MedicalServices.ServicesImplementation
                 Photo = d.User.Photo,
                 Address = d.Address,
                 Experience = d.Experience,
-                Phone = d.User.PhoneNumber
+                Phone = d.User.PhoneNumber,
+                Rating = d.Reviews.Any() ? (int)Math.Round(d.Reviews.Average(r => r.Rating)) : 0,
+                Prices = d.Schedules.Select(s => new DoctorPricesDto
+                {
+                    Name = s.Name,
+                    Price = s.Price
+                }).ToList()
+
             }).ToListAsync();
 
             return doctorDTO;
@@ -69,6 +76,7 @@ namespace MedicalServices.ServicesImplementation
                        .Include(d => d.AvailableAppointments)
                        .Include(d => d.Specialization)
                        .Include(d => d.User)
+                       .Include(d => d.Schedules)
                        .FirstOrDefaultAsync(d => d.Id == doctorId);
 
             if (doctor == null)
@@ -142,7 +150,7 @@ namespace MedicalServices.ServicesImplementation
             var userRole = new IdentityUserRole<int>
             {
                 UserId = user.Id,
-                RoleId = 2 
+                RoleId = 2
             };
             _dbContext.UserRoles.Add(userRole);
             await _dbContext.SaveChangesAsync();

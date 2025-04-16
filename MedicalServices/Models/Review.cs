@@ -1,6 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
-
-namespace MedicalServices.Models
+﻿namespace MedicalServices.Models
 {
     public class Review
     {

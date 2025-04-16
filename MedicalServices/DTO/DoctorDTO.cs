@@ -1,6 +1,4 @@
-﻿using MedicalServices.Enums;
-
-namespace MedicalServices.DTO
+﻿namespace MedicalServices.DTO
 {
     public class DoctorDTO
     {
@@ -12,8 +10,8 @@ namespace MedicalServices.DTO
         public string Experience { get; set; }
         public string Email { get; set; }
         public string Phone { get; set; }
-
-
+        public List<DoctorPricesDto> Prices { get; set; }
+        public int Rating { get; set; }
     }
 
     public class DrDataDTO : DoctorDTO
