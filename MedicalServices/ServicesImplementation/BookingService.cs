@@ -117,8 +117,8 @@ namespace MedicalServices.ServicesImplementation
             //cansel booking
             var booking = await _dbContext.Bookings.FindAsync(id);
             if (booking == null) return false;
-            var patient = await _dbContext.Patients.Where(x => x.Id == booking.PatientId).FirstOrDefaultAsync();
-            _dbContext.Bookings.Remove(booking);
+            var patient = await _dbContext.Patients.Include(p => p.User).FirstOrDefaultAsync(p => p.Id == booking.PatientId);
+            booking.Status = BookingStatus.Cancel ;
             await _dbContext.SaveChangesAsync();
             // send notification to the doctor about cancellation of booking 
             if (patient != null)
@@ -235,15 +235,16 @@ namespace MedicalServices.ServicesImplementation
         {
             var bookings = await _dbContext.Bookings
                 .Where(b => b.PatientId == patientId && b.Status == BookingStatus.Cancel)
-                .Include(b => b.Patient)
+                .Include(b => b.Doctor)
                 .ThenInclude(p => p.User)
                 .ToListAsync();
+            if (bookings == null) return [];
 
             return bookings.Select(b => new CanceledBookingDto
             {
-                DoctorName = b.Patient.User.Name,
-                DoctorImage = b.Patient.User.Photo != null
-                    ? $"data:image/png;base64,{Convert.ToBase64String(b.Patient.User.Photo)}"
+                DoctorName = b.Doctor.User.Name,
+                DoctorImage = b.Doctor.User.Photo != null
+                    ? $"data:image/png;base64,{Convert.ToBase64String(b.Doctor.User.Photo)}"
                     : null,
                 BookingDate = b.Day
             }).ToList();

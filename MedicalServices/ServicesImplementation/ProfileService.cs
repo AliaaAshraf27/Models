@@ -103,7 +103,6 @@ namespace MedicalServices.ServicesImplementation
 
         }
 
-
         public async Task<bool> ChangePasswordAsync(int id, ChangePasswordDTO passDTO)
         {
             var user = await _dbContext.Users.FindAsync(id);
