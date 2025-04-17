@@ -13,7 +13,6 @@ namespace MedicalServices.DTO
         public string Email { get; set; }
         public string Phone { get; set; }
 
-
     }
 
     public class DrDataDTO : DoctorDTO

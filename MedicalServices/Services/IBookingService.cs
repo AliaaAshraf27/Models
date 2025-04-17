@@ -1,4 +1,6 @@
-﻿namespace MedicalServices.Services
+﻿using MedicalServices.Models;
+
+namespace MedicalServices.Services
 {
     using MedicalServices.DTO;
     using MedicalServices.Models;
@@ -8,9 +10,10 @@
         Task<List<AvailableSlotDTO>> GetAvailableSlotsAsync(int doctorId);
         Task<Booking?> BookAppointmentAsync(CreateBookingDTO bookingDto);
         Task<string> UpdateBookingAsync(int bookingId ,UpdateBookingDTO updateDTO);
-        //Task<bool> CancelBookingAsync(int id);
+        Task<bool> CancelBookingAsync(int id);
+        Task<List<CanceledBookingDto>> GetCanceledBookingsAsync(int patientId);
         Task<List<GetBookingDTO>> GetBookingByPatientIdAsync(int patientId);
-        Task<List<GetBookingDTO>> GetAllBookingsAsync();
+        Task<List<AllBookingDTO>> GetAllBookingsAsync();
 
     }
 

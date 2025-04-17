@@ -2,9 +2,10 @@ using MedicalServices;
 using MedicalServices.DbContext;
 using MedicalServices.Helper;
 using MedicalServices.Hubs;
-using MedicalServices.Services;
-using MedicalServices.ServicesImplementation;
+using MedicalServices.Models.Identity;
+using MedicalServices.Seeders;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Stripe;
@@ -16,6 +17,8 @@ var builder = WebApplication.CreateBuilder(args);
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
 options.UseSqlServer(connectionString));
+
+
 builder.Services.AddSignalR();
 
 
@@ -76,6 +79,15 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+#region Seeder
+using (var scope = app.Services.CreateScope())
+{
+    var userManager = scope.ServiceProvider.GetRequiredService<UserManager<User>>();
+    var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<Role>>();
+    await RoleSeeder.SeedAsync(roleManager);
+    await UserSeeder.SeedAsync(userManager);
+}
+#endregion
 
 app.UseHttpsRedirection();
 

@@ -48,6 +48,12 @@ namespace MedicalServices.ServicesImplementation
             if (specialization == null)
                 return false;
 
+            bool hasDoctors = await _dbContext.Doctors.AnyAsync(d => d.SpecializationId == specializationId);
+            if (hasDoctors)
+            {
+                throw new InvalidOperationException("You cannot remove the specialization because it is associated with existing doctors.");
+            }
+
             _dbContext.Specializations.Remove(specialization);
             return await _dbContext.SaveChangesAsync() > 0;
         }

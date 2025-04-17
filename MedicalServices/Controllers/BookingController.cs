@@ -61,13 +61,20 @@ namespace MedicalServices.Controllers
         }
 
 
-        //[HttpDelete(Router.BookingRouting.CancelAppointment)]
-        //public async Task<IActionResult> CancelAppointment(int id)
-        //{
-        //    var result = await _bookingService.CancelBookingAsync(id);
-        //    if (!result) return BadRequest(new { message = "The appointment not available " });
-        //    return Ok(new { message = "Appointment has been cancelled" });
-        //}
+        [HttpDelete(Router.BookingRouting.CancelAppointment)]
+        public async Task<IActionResult> CancelAppointment(int id)
+        {
+            var result = await _bookingService.CancelBookingAsync(id);
+            if (!result) return BadRequest(new { message = "The appointment not available " });
+            return Ok(new { message = "Appointment has been cancelled" });
+        }
+        [HttpGet(Router.BookingRouting.GetCanceledBookings)]
+        public async Task<IActionResult> AllCanceledBookings(int patientId)
+        {
+            var result = await _bookingService.GetCanceledBookingsAsync(patientId);
+            if (!result.Any()) return BadRequest(new { message = "No any cancelled booking" });
+            return Ok(result);
+        }
 
         [HttpGet(Router.BookingRouting.AllBooking)]
         public async Task<IActionResult> GetAllBookingByPatientId(int patientId)

@@ -32,7 +32,8 @@
             public const string Prefix = Rule + "Booking/";
             public const string GetAvailableSlots = Prefix + "GetAvailableSlots";
             public const string BookAppointment = Prefix + "BookAppointment";
-            //public const string CancelAppointment = Prefix + "CancelAppointment";
+            public const string CancelAppointment = Prefix + "CancelAppointment";
+            public const string GetCanceledBookings = Prefix + "GetCanceledBookings";
             public const string AllBooking = Prefix + "AllBookingByPatientId";
             public const string UpdateBooking = Prefix + "UpdateBooking";
             public const string GetAllBookings = Prefix + "GetAllBookings";
@@ -41,7 +42,10 @@
         {
             public const string Prefix = Rule + "Profile/";
             public const string GetUser = Prefix + "GetUserProfile";
+            public const string GetAdmin = Prefix + "GetAdminProfile";
             public const string UpdateUser = Prefix + "UpdateUserProfile";
+            public const string UpdateDr = Prefix + "UpdateDoctorProfile";
+            public const string UpdateAdmin = Prefix + "UpdateAdminProfile";
 
         }
         public static class NotificationRouting
@@ -63,6 +67,7 @@
             public const string AddReview = Prefix + "AddReview";
             public const string GetAllReviewsById = Prefix + "GetAllReviewsByDrId";
             public const string GetAllReviews = Prefix + "GetAllReviews";
+            public const string DeleteReview = Prefix + "DeleteReview";
         }
         public static class SpecializationRouting
         {

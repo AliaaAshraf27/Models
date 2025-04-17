@@ -48,12 +48,24 @@ namespace MedicalServices.ServicesImplementation
             return await _dbContext.Reviews
             .Select(x => new ReviewsDetialDTO
             {
+                Id = x.Id,
                 Comment = x.Comment,
                 PatientName = x.Patient.User.Name,
                 DoctorName = x.Doctor.User.Name,
                 Rating = x.Rating
 
             }).ToListAsync();
+        }
+        public async Task<bool> DeleteReviewAsync(int reviewId)
+        {
+            var review = await _dbContext.Reviews.FindAsync(reviewId);
+            if (review == null)
+            {
+                return false;
+            }
+            _dbContext.Reviews.Remove(review);
+            await _dbContext.SaveChangesAsync();
+            return true;
         }
     }
 }

@@ -8,5 +8,6 @@ namespace MedicalServices.Services
        Task<bool> AddReviewAsync(ReviewDTO dto);
         Task<List<GetReviewsByDrDTO>> GetReviewsByDrAsync(int doctorId);
        Task<List<ReviewsDetialDTO>> GetAllReviewsAsync();
+        Task<bool> DeleteReviewAsync(int reviewId);
     }
 }
