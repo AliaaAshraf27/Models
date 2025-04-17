@@ -1,6 +1,4 @@
-﻿using MedicalServices.Enums;
-
-namespace MedicalServices.DTO
+﻿namespace MedicalServices.DTO
 {
     public class DoctorDTO
     {

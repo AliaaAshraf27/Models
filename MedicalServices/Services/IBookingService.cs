@@ -13,6 +13,8 @@ namespace MedicalServices.Services
         Task<bool> CancelBookingAsync(int id);
         Task<List<CanceledBookingDto>> GetCanceledBookingsAsync(int patientId);
         Task<List<GetBookingDTO>> GetBookingByPatientIdAsync(int patientId);
+        Task<List<DoctorBookingDTO>> GetCompletedBookingsByDoctorAsync(int doctorId);
+        Task<BookingDetailsDTO> GetBookingDetailsAsync(int bookingId);
         Task<List<AllBookingDTO>> GetAllBookingsAsync();
 
     }

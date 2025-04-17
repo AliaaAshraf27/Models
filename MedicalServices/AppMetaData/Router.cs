@@ -35,6 +35,8 @@
             public const string CancelAppointment = Prefix + "CancelAppointment";
             public const string GetCanceledBookings = Prefix + "GetCanceledBookings";
             public const string AllBooking = Prefix + "AllBookingByPatientId";
+            public const string GetCompletedBookingsByDoctor = Prefix + "GetCompletedBookingsByDoctor";
+            public const string GetBookingDetails = Prefix + "GetBookingDetails";
             public const string UpdateBooking = Prefix + "UpdateBooking";
             public const string GetAllBookings = Prefix + "GetAllBookings";
         }
@@ -76,6 +78,13 @@
             public const string GetDoctorsBySpecializationID = Prefix + "GetDoctorsBySpecializationID";
             public const string AddSpecialization = Prefix + "AddSpecialization";
             public const string RemoveSpecialization = Prefix + "RemoveSpecialization";
+        }
+        public static class LocationRouting
+        {
+            public const string Prefix = Rule + "Location/";
+            public const string AddOrUpdateLocation = Prefix + "AddOrUpdateLocation";
+            public const string NearbyDoctors = Prefix + "NearbyDoctors";
+
         }
     }
 }

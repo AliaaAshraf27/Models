@@ -23,6 +23,7 @@ namespace MedicalServices.DbContext
         public DbSet<Notification> Notifications { get; set; }
         public DbSet<Patient> Patients { get; set; }
         public DbSet<Payment> Payments { get; set; }
+        public DbSet<Location> Locations { get; set; }
         public DbSet<Review> Reviews { get; set; }
         public DbSet<Role> Roles { get; set; }
         public DbSet<Specialization> Specializations { get; set; }

@@ -49,12 +49,12 @@ namespace MedicalServices.Controllers
         }
 
         [HttpPut(Router.BookingRouting.UpdateBooking)]
-        public async Task<IActionResult> UpdateBooking(int bookingId ,UpdateBookingDTO dto)
+        public async Task<IActionResult> UpdateBooking(int bookingId, UpdateBookingDTO dto)
         {
             var message = await _bookingService.UpdateBookingAsync(bookingId, dto);
-            if(message.Contains("not found") ||message.Contains( "already canceled")) 
+            if (message.Contains("not found") || message.Contains("already canceled"))
                 return BadRequest(message);
-            if(message.Contains("exceeding allowed changes"))
+            if (message.Contains("exceeding allowed changes"))
                 return BadRequest(message);
             return Ok(message);
 
@@ -81,6 +81,23 @@ namespace MedicalServices.Controllers
         {
             var bookings = await _bookingService.GetBookingByPatientIdAsync(patientId);
             if (bookings == null) return BadRequest("Not found any booking");
+            return Ok(bookings);
+        }
+        [HttpGet(Router.BookingRouting.GetBookingDetails)]
+        public async Task<IActionResult> GetBookingDetails(int bookingId)
+        {
+            var bookingDetails = await _bookingService.GetBookingDetailsAsync(bookingId);
+            if (bookingDetails == null) return BadRequest("Not found any booking");
+            return Ok(bookingDetails);
+        }
+        [HttpGet("doctor/{doctorId}/completed-bookings")]
+        public async Task<IActionResult> GetCompletedBookingsByDoctor(int doctorId)
+        {
+            var bookings = await _bookingService.GetCompletedBookingsByDoctorAsync(doctorId);
+
+            if (bookings == null || !bookings.Any())
+                return NotFound("No completed bookings found for this doctor.");
+
             return Ok(bookings);
         }
         [HttpGet(Router.BookingRouting.GetAllBookings)]
