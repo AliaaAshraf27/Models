@@ -64,7 +64,6 @@ namespace MedicalServices.ServicesImplementation
                     Name = s.Name,
                     Price = s.Price
                 }).ToList()
-
             }).ToListAsync();
 
             return doctorDTO;

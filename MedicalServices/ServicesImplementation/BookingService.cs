@@ -112,33 +112,34 @@ namespace MedicalServices.ServicesImplementation
                 return "Booking updated successfully";
             }
         }
-        //public async Task<bool> CancelBookingAsync(int id)
-        //{
-        //    //cansel booking
-        //    var booking = await _dbContext.Bookings.FindAsync(id);
-        //    if (booking == null) return false;
-        //    var patient = await _dbContext.Patients.Where(x => x.Id == booking.PatientId).FirstOrDefaultAsync();
-        //    _dbContext.Bookings.Remove(booking);
-        //    await _dbContext.SaveChangesAsync();
-        //    // send notification to the doctor about cancellation of booking 
-        //    if (patient != null)
-        //    {
-        //        Notification notification = new()
-        //        {
-        //            Date = DateTime.Now,
-        //            Message = $"{patient.User.Name} has canceled the appointment scheduled for {booking.Day} Time {booking.Time}",
-        //            ReceiverId = booking.DoctorId,
-        //            SenderId = booking.PatientId,
-        //            ReceiverType = "Doctor",
-        //            SenderType = "Patient"
-        //        };
-        //        await _dbContext.Notifications.AddAsync(notification);
-        //        await _dbContext.SaveChangesAsync();
-        //        await _hubContext.Clients.Users(notification.ReceiverId.ToString()).SendAsync("ReceiveNotification", notification.Message);
-        //    }
+        public async Task<bool> CancelBookingAsync(int id)
+        {
+            //cansel booking
+            var booking = await _dbContext.Bookings.FindAsync(id);
+            if (booking == null) return false;
+            var patient = await _dbContext.Patients.Where(x => x.Id == booking.PatientId).FirstOrDefaultAsync();
+            _dbContext.Bookings.Remove(booking);
+            await _dbContext.SaveChangesAsync();
+            // send notification to the doctor about cancellation of booking 
+            if (patient != null)
+            {
+                Notification notification = new()
+                {
+                    Date = DateTime.Now,
+                    Message = $"{patient.User.Name} has canceled the appointment scheduled for {booking.Day} Time {booking.Time}",
+                    ReceiverId = booking.DoctorId,
+                    SenderId = booking.PatientId,
+                    ReceiverType = "Doctor",
+                    SenderType = "Patient"
+                };
+                await _dbContext.Notifications.AddAsync(notification);
+                await _dbContext.SaveChangesAsync();
+                await _hubContext.Clients.Users(notification.ReceiverId.ToString()).SendAsync("ReceiveNotification", notification.Message);
+            }
 
-        //    return true;
-        //}
+            return true;
+        }
+
         public async Task<List<GetBookingDTO>> GetBookingByPatientIdAsync(int patientId)
         {
             var bookings = await _dbContext.Bookings.Where(b => b.PatientId == patientId && b.Status == BookingStatus.Completed)
@@ -227,6 +228,24 @@ namespace MedicalServices.ServicesImplementation
                 patientName = b.Patient.patientName,
                 Status = b.Status.ToString()
 
+            }).ToList();
+        }
+
+        public async Task<List<CanceledBookingDto>> GetCanceledBookingsAsync(int patientId)
+        {
+            var bookings = await _dbContext.Bookings
+                .Where(b => b.PatientId == patientId && b.Status == BookingStatus.Cancel)
+                .Include(b => b.Patient)
+                .ThenInclude(p => p.User)
+                .ToListAsync();
+
+            return bookings.Select(b => new CanceledBookingDto
+            {
+                DoctorName = b.Patient.User.Name,
+                DoctorImage = b.Patient.User.Photo != null
+                    ? $"data:image/png;base64,{Convert.ToBase64String(b.Patient.User.Photo)}"
+                    : null,
+                BookingDate = b.Day
             }).ToList();
         }
     }
