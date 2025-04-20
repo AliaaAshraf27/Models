@@ -1,7 +1,9 @@
 ﻿using MedicalServices.DbContext;
 using MedicalServices.DTO;
 using MedicalServices.Models;
+using MedicalServices.Models.Identity;
 using MedicalServices.Services;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 namespace MedicalServices.ServicesImplementation
@@ -9,17 +11,22 @@ namespace MedicalServices.ServicesImplementation
     public class LocationService : ILocationService
     {
         private readonly ApplicationDbContext _dbContext;
-        public LocationService(ApplicationDbContext dbContext)
+        private readonly RoleManager<Role> _roleManager;
+        private readonly UserManager<User> _userManager;
+        public LocationService(ApplicationDbContext dbContext, UserManager<User> userManager, RoleManager<Role> roleManager)
         {
             _dbContext = dbContext;
+            _roleManager = roleManager;
+            _userManager = userManager;
         }
         public async Task<string> AddOrUpdateLocation(LocationDTO request)
         {
             var user = await _dbContext.Users.FindAsync(request.UserId);
             if (user == null)
                 return "User Is not found";
-            var userRole = await _dbContext.Roles.FindAsync(user.RoleId);
-            if (user == null)
+            var userRole = await _userManager.GetRolesAsync(user);
+
+            if (userRole == null)
                 return "UserRole Is not exist";
 
             var existingLocation = await _dbContext.Locations
@@ -34,7 +41,7 @@ namespace MedicalServices.ServicesImplementation
                 var newLocation = new Location
                 {
                     UserId = request.UserId,
-                    UserRole = userRole.Name,
+                    UserRole = userRole.FirstOrDefault().ToString(),
                     Latitude = request.Latitude,
                     Longitude = request.Longitude
                 };

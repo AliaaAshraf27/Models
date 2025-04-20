@@ -18,7 +18,7 @@ namespace MedicalServices.Controllers
         {
             var location = await _locationService.AddOrUpdateLocation(request);
             if (location == "Location updated successfully")
-                return Ok($"Location updated successfully\n{request}");
+                return Ok($"Location updated successfully");
             return BadRequest("error when add or update location");
         }
 
