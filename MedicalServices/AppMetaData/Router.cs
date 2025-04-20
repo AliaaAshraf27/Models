@@ -12,6 +12,11 @@
             public const string Register = Prefix + "Register";
             public const string Login = Prefix + "Login";
         }
+        public static class AppointmentRouting
+        {
+            public const string Prefix = Rule + "Appointment/";
+            public const string AddAppointment = Prefix + "AddAppointment";
+        }
         public static class DoctorsRouting
         {
             public const string Prefix = Rule + "Doctors/";
