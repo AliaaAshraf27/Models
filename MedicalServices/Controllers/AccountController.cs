@@ -22,18 +22,20 @@ namespace MedicalServices.Controllers
         private readonly ILoginService _loginService;
         private readonly IConfiguration _configuration;
         private readonly UserManager<User> _userManager;
+        private readonly IDeleteAccountService _deleteAccountService;
         #endregion
 
         #region Constructors
         // Constructor for injecting dependencies
         public AccountController(IMapper mapper,
-                                  IRegisterServies applicationUserServices, ILoginService loginService, IConfiguration configuration, UserManager<User> userManager)
+                                  IRegisterServies applicationUserServices, ILoginService loginService, IDeleteAccountService deleteAccountService, IConfiguration configuration, UserManager<User> userManager)
         {
             _mapper = mapper;
             _applicationUserServies = applicationUserServices;
             _loginService = loginService;
             _configuration = configuration;
             _userManager = userManager;
+            _deleteAccountService = deleteAccountService;
         }
         #endregion
 
@@ -107,6 +109,14 @@ namespace MedicalServices.Controllers
                 default:
                     return BadRequest();
             }
+        }
+
+        [HttpDelete(Router.AccountRouting.DeleteAccount)]
+        public async Task<IActionResult> DeleteAccount(int accountId)
+        {
+            var result = await _deleteAccountService.DeleteAccountAsync(accountId);
+            if (!result) return BadRequest("Failed to delete account.");
+            return Ok("Account deleted successfully.");
         }
 
         //private async Task<string> GenerateJwtToken(string email)
