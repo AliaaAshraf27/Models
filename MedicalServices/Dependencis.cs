@@ -26,6 +26,7 @@ namespace MedicalServices
             services.AddScoped<IPatientService, PatientService>();
             services.AddScoped<ILocationService, LocationService>();
             services.AddScoped<IAppointmentService, AppointmentService>();
+            services.AddScoped<IDeleteAccountService, DeleteAccountService>();
             return services;
         }
 

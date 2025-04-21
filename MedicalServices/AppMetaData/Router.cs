@@ -11,6 +11,7 @@
             public const string Prefix = Rule + "Account/";
             public const string Register = Prefix + "Register";
             public const string Login = Prefix + "Login";
+            public const string DeleteAccount = Prefix + "DeleteAccount";
         }
         public static class AppointmentRouting
         {
