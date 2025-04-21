@@ -11,6 +11,9 @@
     {
         public string Comment { get; set; }
         public string SenderName { get; set; }
+        public string? SenderImage { get; set; }
+        public int Rating { get; set; }
+        public int? Age { get; set; }
 
     }
     public class ReviewsDetialDTO

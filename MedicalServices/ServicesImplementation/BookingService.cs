@@ -246,6 +246,7 @@ namespace MedicalServices.ServicesImplementation
                 DoctorImage = b.Doctor.User.Photo != null
                     ? $"data:image/png;base64,{Convert.ToBase64String(b.Doctor.User.Photo)}"
                     : null,
+                SpecializationName = b.Doctor.Specialization.Name,
                 BookingDate = b.Day
             }).ToList();
         }

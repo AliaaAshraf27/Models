@@ -42,7 +42,7 @@ namespace MedicalServices.ServicesImplementation
                     Id = user.Id,
                     patientName = user.Name,
                     MedicalHistory = "",
-                    Gender = "",
+                    Gender = ""
                 };
                 await _dbContext.Patients.AddAsync(newPatient);
                 await _dbContext.SaveChangesAsync();

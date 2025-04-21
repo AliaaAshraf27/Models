@@ -2,6 +2,7 @@
 using MedicalServices.DTO;
 using MedicalServices.Hubs;
 using MedicalServices.Models;
+using MedicalServices.Models.Identity;
 using MedicalServices.Services;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
@@ -37,7 +38,9 @@ namespace MedicalServices.ServicesImplementation
             {
                 Comment = x.Comment,
                 SenderName = x.Patient.User.Name,
-
+                SenderImage = x.Patient.User.Photo != null ? $"data:image/png;base64,{Convert.ToBase64String(x.Patient.User.Photo)}" : null,
+                Rating = x.Rating,
+                Age = x.Patient.Age
             }).ToListAsync();
             return reviews;
         }

@@ -10,6 +10,7 @@
         public string ProfileImage { get; set; }
         public string Focus { get; set; }
         public string Address { get; set; }
+        public int Rating { get; set; }
         public List<DoctorPricesDto> Prices { get; set; }
         public IEnumerable<AvailableAppointmentDto> AvailableAppointments { get; set; }
     }

@@ -57,6 +57,7 @@ namespace MedicalServices.ServicesImplementation
             user.Name = updatedProfile.Name != null? updatedProfile.Name : user.Name;
             user.Email = updatedProfile.Email != null ? updatedProfile.Email : user.Email;
             user.PhoneNumber = updatedProfile.Phone != null ? updatedProfile.Phone : user.PhoneNumber;
+            user.Patient.Age = user.Patient.Age = updatedProfile.Age ?? user.Patient.Age;
             await _dbContext.SaveChangesAsync();
             return true;
 

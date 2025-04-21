@@ -43,6 +43,18 @@ namespace MedicalServices.ServicesImplementation
 
             return "Appointment added successfully.";
         }
+        public async Task<bool> RemoveAppointmentAsync(int appointmentId)
+        {
+            var appointment = await _dbContext.AvailableAppointments
+                    .FirstOrDefaultAsync(a => a.Id == appointmentId);
+
+            if (appointment == null)
+                return false;
+            _dbContext.AvailableAppointments.Remove(appointment);
+            await _dbContext.SaveChangesAsync();
+
+            return true;
+        }
     }
 }
 

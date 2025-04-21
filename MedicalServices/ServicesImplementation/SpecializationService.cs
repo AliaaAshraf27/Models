@@ -4,6 +4,7 @@ using MedicalServices.DTO;
 using MedicalServices.Models;
 using MedicalServices.Services;
 using Microsoft.EntityFrameworkCore;
+using Stripe;
 
 namespace MedicalServices.ServicesImplementation
 {
@@ -15,21 +16,32 @@ namespace MedicalServices.ServicesImplementation
             _dbContext = dbContext;
         }
 
-      public async Task<List<Specialization>> GetAllSpecializationsAsync()
+      public async Task<List<GetAllSpecializaion>> GetAllSpecializationsAsync()
         {
-            var specializations = await _dbContext.Specializations.ToListAsync();
+            var specializations = await _dbContext.Specializations
+                .Select(s => new GetAllSpecializaion
+                {
+                    Id = s.Id,
+                    Name = s.Name,
+                    Image = s.Image.ToString() 
+                }).ToListAsync();
+            if (specializations == null) return [];
             return specializations;
+           
         }
 
         public async Task<List<DrDTO>> GetDoctorsBySpecializationIDAsync(int specializationId)
         {
             var doctors = await _dbContext.Doctors.Where(d => d.Specialization.Id == specializationId)
+                .Include(s => s.Schedules)
                  .Select(d => new DrDTO
                  {
                      Id = d.Id,
                      DoctorName = d.User.Name,
                      Address = d.Address,
-                     Photo = d.User.Photo != null ?  $"data:image/png;base64,{Convert.ToBase64String(d.User.Photo)} ": null 
+                     Photo = d.User.Photo != null ?  $"data:image/png;base64,{Convert.ToBase64String(d.User.Photo)} ": null ,
+                     Rating = d.Reviews.Any() ? (int)Math.Round(d.Reviews.Average(r => r.Rating)) : 0,
+                     Price = d.Schedules.Min(p => (float?)p.Price) ?? 0
                  }).ToListAsync();
             return doctors;
 

@@ -28,5 +28,7 @@
         public string DoctorName { get; set; }
         public string? Photo { get; set; }
         public string Address { get; set; }
+        public int? Rating { get; set; }
+        public float Price { get; set; }
     }
 }
