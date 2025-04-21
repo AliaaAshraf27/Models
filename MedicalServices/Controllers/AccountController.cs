@@ -95,6 +95,7 @@ namespace MedicalServices.Controllers
                 case "Success":
                     var token = GenerateJwtToken(login.Email);
                     // Create a new object that only includes the fields you want to return
+                    await _loginService.StoreTokenAsync(login.Email, token.Result);
                     var response = new
                     {
                         Message = "Login successful",

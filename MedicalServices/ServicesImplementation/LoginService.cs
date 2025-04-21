@@ -57,10 +57,37 @@ namespace MedicalServices.ServicesImplementation
 
         public async Task StoreTokenAsync(string email, string token)
         {
-            var emailUser = await _userManager.FindByEmailAsync(email);
+            // Find the user by email directly in the Users table
+            var emailUser = await _dbContext.Users.FirstOrDefaultAsync(n => n.Email == email);
+
             if (emailUser != null)
             {
-                await _userManager.SetAuthenticationTokenAsync(emailUser, "JWT", "AccessToken", token);
+                // Check if a token already exists for the user
+                var existingToken = await _dbContext.UserTokens
+                    .FirstOrDefaultAsync(t => t.UserId == emailUser.Id && t.LoginProvider == "JWT" && t.Name == "AccessToken");
+
+                if (existingToken != null)
+                {
+                    // Update the existing token
+                    existingToken.Value = token;
+                }
+                else
+                {
+                    // Create a new entry for AspNetUserTokens table
+                    var userToken = new IdentityUserToken<int>
+                    {
+                        UserId = emailUser.Id,        // The user's ID
+                        LoginProvider = "JWT",       // Define your login provider (e.g., "JWT")
+                        Name = "AccessToken",        // Define the token name (e.g., "AccessToken")
+                        Value = token                // The token value
+                    };
+
+                    // Insert the new token
+                    _dbContext.UserTokens.Add(userToken);
+                }
+
+                // Save changes to the database
+                await _dbContext.SaveChangesAsync();
             }
         }
 
