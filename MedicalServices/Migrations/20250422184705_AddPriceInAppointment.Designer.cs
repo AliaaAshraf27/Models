@@ -4,6 +4,7 @@ using MedicalServices.DbContext;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace MedicalServices.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250422184705_AddPriceInAppointment")]
+    partial class AddPriceInAppointment
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -38,10 +41,6 @@ namespace MedicalServices.Migrations
 
                     b.Property<bool>("IsAvailable")
                         .HasColumnType("bit");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<float>("Price")
                         .HasColumnType("real");
@@ -375,6 +374,522 @@ namespace MedicalServices.Migrations
                         });
                 });
 
+            modelBuilder.Entity("MedicalServices.Models.DoctorSchedule", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateOnly>("Date")
+                        .HasColumnType("date");
+
+                    b.Property<int>("DoctorId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<float>("Price")
+                        .HasColumnType("real");
+
+                    b.Property<DateTime>("TimeEnd")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("TimeStart")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("DoctorId");
+
+                    b.ToTable("DoctorSchedules");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Date = new DateOnly(2024, 12, 16),
+                            DoctorId = 1,
+                            Name = "Morning Shift",
+                            Price = 100f,
+                            TimeEnd = new DateTime(2024, 12, 16, 12, 0, 0, 0, DateTimeKind.Unspecified),
+                            TimeStart = new DateTime(2024, 12, 16, 9, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Date = new DateOnly(2024, 12, 16),
+                            DoctorId = 1,
+                            Name = "Evening Shift",
+                            Price = 120f,
+                            TimeEnd = new DateTime(2024, 12, 16, 19, 0, 0, 0, DateTimeKind.Unspecified),
+                            TimeStart = new DateTime(2024, 12, 16, 16, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Date = new DateOnly(2024, 12, 17),
+                            DoctorId = 2,
+                            Name = "Morning Shift",
+                            Price = 110f,
+                            TimeEnd = new DateTime(2024, 12, 17, 11, 0, 0, 0, DateTimeKind.Unspecified),
+                            TimeStart = new DateTime(2024, 12, 17, 8, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Date = new DateOnly(2024, 12, 17),
+                            DoctorId = 2,
+                            Name = "Evening Shift",
+                            Price = 130f,
+                            TimeEnd = new DateTime(2024, 12, 17, 18, 0, 0, 0, DateTimeKind.Unspecified),
+                            TimeStart = new DateTime(2024, 12, 17, 15, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            Id = 5,
+                            Date = new DateOnly(2024, 12, 18),
+                            DoctorId = 3,
+                            Name = "Morning Shift",
+                            Price = 90f,
+                            TimeEnd = new DateTime(2024, 12, 18, 13, 0, 0, 0, DateTimeKind.Unspecified),
+                            TimeStart = new DateTime(2024, 12, 18, 10, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            Id = 6,
+                            Date = new DateOnly(2024, 12, 18),
+                            DoctorId = 3,
+                            Name = "Evening Shift",
+                            Price = 150f,
+                            TimeEnd = new DateTime(2024, 12, 18, 20, 0, 0, 0, DateTimeKind.Unspecified),
+                            TimeStart = new DateTime(2024, 12, 18, 17, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            Id = 7,
+                            Date = new DateOnly(2024, 12, 19),
+                            DoctorId = 4,
+                            Name = "Morning Shift",
+                            Price = 95f,
+                            TimeEnd = new DateTime(2024, 12, 19, 11, 30, 0, 0, DateTimeKind.Unspecified),
+                            TimeStart = new DateTime(2024, 12, 19, 8, 30, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            Id = 8,
+                            Date = new DateOnly(2024, 12, 19),
+                            DoctorId = 4,
+                            Name = "Evening Shift",
+                            Price = 125f,
+                            TimeEnd = new DateTime(2024, 12, 19, 17, 30, 0, 0, DateTimeKind.Unspecified),
+                            TimeStart = new DateTime(2024, 12, 19, 14, 30, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            Id = 9,
+                            Date = new DateOnly(2024, 12, 20),
+                            DoctorId = 5,
+                            Name = "Morning Shift",
+                            Price = 110f,
+                            TimeEnd = new DateTime(2024, 12, 20, 12, 0, 0, 0, DateTimeKind.Unspecified),
+                            TimeStart = new DateTime(2024, 12, 20, 9, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            Id = 10,
+                            Date = new DateOnly(2024, 12, 20),
+                            DoctorId = 5,
+                            Name = "Evening Shift",
+                            Price = 140f,
+                            TimeEnd = new DateTime(2024, 12, 20, 19, 0, 0, 0, DateTimeKind.Unspecified),
+                            TimeStart = new DateTime(2024, 12, 20, 16, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            Id = 11,
+                            Date = new DateOnly(2024, 12, 21),
+                            DoctorId = 6,
+                            Name = "Morning Shift",
+                            Price = 115f,
+                            TimeEnd = new DateTime(2024, 12, 21, 11, 0, 0, 0, DateTimeKind.Unspecified),
+                            TimeStart = new DateTime(2024, 12, 21, 8, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            Id = 12,
+                            Date = new DateOnly(2024, 12, 21),
+                            DoctorId = 6,
+                            Name = "Evening Shift",
+                            Price = 125f,
+                            TimeEnd = new DateTime(2024, 12, 21, 17, 0, 0, 0, DateTimeKind.Unspecified),
+                            TimeStart = new DateTime(2024, 12, 21, 14, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            Id = 13,
+                            Date = new DateOnly(2024, 12, 22),
+                            DoctorId = 7,
+                            Name = "Morning Shift",
+                            Price = 105f,
+                            TimeEnd = new DateTime(2024, 12, 22, 12, 0, 0, 0, DateTimeKind.Unspecified),
+                            TimeStart = new DateTime(2024, 12, 22, 9, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            Id = 14,
+                            Date = new DateOnly(2024, 12, 22),
+                            DoctorId = 7,
+                            Name = "Evening Shift",
+                            Price = 135f,
+                            TimeEnd = new DateTime(2024, 12, 22, 19, 0, 0, 0, DateTimeKind.Unspecified),
+                            TimeStart = new DateTime(2024, 12, 22, 16, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            Id = 15,
+                            Date = new DateOnly(2024, 12, 23),
+                            DoctorId = 8,
+                            Name = "Morning Shift",
+                            Price = 100f,
+                            TimeEnd = new DateTime(2024, 12, 23, 12, 30, 0, 0, DateTimeKind.Unspecified),
+                            TimeStart = new DateTime(2024, 12, 23, 9, 30, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            Id = 16,
+                            Date = new DateOnly(2024, 12, 23),
+                            DoctorId = 8,
+                            Name = "Evening Shift",
+                            Price = 120f,
+                            TimeEnd = new DateTime(2024, 12, 23, 18, 30, 0, 0, DateTimeKind.Unspecified),
+                            TimeStart = new DateTime(2024, 12, 23, 15, 30, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            Id = 17,
+                            Date = new DateOnly(2024, 12, 24),
+                            DoctorId = 9,
+                            Name = "Morning Shift",
+                            Price = 125f,
+                            TimeEnd = new DateTime(2024, 12, 24, 11, 0, 0, 0, DateTimeKind.Unspecified),
+                            TimeStart = new DateTime(2024, 12, 24, 8, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            Id = 18,
+                            Date = new DateOnly(2024, 12, 24),
+                            DoctorId = 9,
+                            Name = "Evening Shift",
+                            Price = 135f,
+                            TimeEnd = new DateTime(2024, 12, 24, 17, 30, 0, 0, DateTimeKind.Unspecified),
+                            TimeStart = new DateTime(2024, 12, 24, 14, 30, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            Id = 19,
+                            Date = new DateOnly(2024, 12, 25),
+                            DoctorId = 10,
+                            Name = "Morning Shift",
+                            Price = 110f,
+                            TimeEnd = new DateTime(2024, 12, 25, 12, 0, 0, 0, DateTimeKind.Unspecified),
+                            TimeStart = new DateTime(2024, 12, 25, 9, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            Id = 20,
+                            Date = new DateOnly(2024, 12, 25),
+                            DoctorId = 10,
+                            Name = "Evening Shift",
+                            Price = 130f,
+                            TimeEnd = new DateTime(2024, 12, 25, 19, 0, 0, 0, DateTimeKind.Unspecified),
+                            TimeStart = new DateTime(2024, 12, 25, 16, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            Id = 21,
+                            Date = new DateOnly(2024, 12, 26),
+                            DoctorId = 11,
+                            Name = "Morning Shift",
+                            Price = 115f,
+                            TimeEnd = new DateTime(2024, 12, 26, 11, 30, 0, 0, DateTimeKind.Unspecified),
+                            TimeStart = new DateTime(2024, 12, 26, 8, 30, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            Id = 22,
+                            Date = new DateOnly(2024, 12, 26),
+                            DoctorId = 11,
+                            Name = "Evening Shift",
+                            Price = 125f,
+                            TimeEnd = new DateTime(2024, 12, 26, 17, 30, 0, 0, DateTimeKind.Unspecified),
+                            TimeStart = new DateTime(2024, 12, 26, 14, 30, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            Id = 23,
+                            Date = new DateOnly(2024, 12, 27),
+                            DoctorId = 12,
+                            Name = "Morning Shift",
+                            Price = 120f,
+                            TimeEnd = new DateTime(2024, 12, 27, 12, 0, 0, 0, DateTimeKind.Unspecified),
+                            TimeStart = new DateTime(2024, 12, 27, 9, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            Id = 24,
+                            Date = new DateOnly(2024, 12, 27),
+                            DoctorId = 12,
+                            Name = "Evening Shift",
+                            Price = 140f,
+                            TimeEnd = new DateTime(2024, 12, 27, 19, 0, 0, 0, DateTimeKind.Unspecified),
+                            TimeStart = new DateTime(2024, 12, 27, 16, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            Id = 25,
+                            Date = new DateOnly(2024, 12, 28),
+                            DoctorId = 13,
+                            Name = "Morning Shift",
+                            Price = 110f,
+                            TimeEnd = new DateTime(2024, 12, 28, 12, 0, 0, 0, DateTimeKind.Unspecified),
+                            TimeStart = new DateTime(2024, 12, 28, 9, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            Id = 26,
+                            Date = new DateOnly(2024, 12, 28),
+                            DoctorId = 13,
+                            Name = "Evening Shift",
+                            Price = 130f,
+                            TimeEnd = new DateTime(2024, 12, 28, 19, 0, 0, 0, DateTimeKind.Unspecified),
+                            TimeStart = new DateTime(2024, 12, 28, 16, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            Id = 27,
+                            Date = new DateOnly(2024, 12, 28),
+                            DoctorId = 14,
+                            Name = "Morning Shift",
+                            Price = 110f,
+                            TimeEnd = new DateTime(2024, 12, 28, 12, 0, 0, 0, DateTimeKind.Unspecified),
+                            TimeStart = new DateTime(2024, 12, 28, 9, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            Id = 28,
+                            Date = new DateOnly(2024, 12, 28),
+                            DoctorId = 14,
+                            Name = "Evening Shift",
+                            Price = 130f,
+                            TimeEnd = new DateTime(2024, 12, 28, 19, 0, 0, 0, DateTimeKind.Unspecified),
+                            TimeStart = new DateTime(2024, 12, 28, 16, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            Id = 29,
+                            Date = new DateOnly(2024, 12, 29),
+                            DoctorId = 15,
+                            Name = "Morning Shift",
+                            Price = 115f,
+                            TimeEnd = new DateTime(2024, 12, 29, 11, 30, 0, 0, DateTimeKind.Unspecified),
+                            TimeStart = new DateTime(2024, 12, 29, 8, 30, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            Id = 30,
+                            Date = new DateOnly(2024, 12, 29),
+                            DoctorId = 15,
+                            Name = "Evening Shift",
+                            Price = 135f,
+                            TimeEnd = new DateTime(2024, 12, 29, 17, 30, 0, 0, DateTimeKind.Unspecified),
+                            TimeStart = new DateTime(2024, 12, 29, 14, 30, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            Id = 31,
+                            Date = new DateOnly(2024, 12, 30),
+                            DoctorId = 16,
+                            Name = "Morning Shift",
+                            Price = 120f,
+                            TimeEnd = new DateTime(2024, 12, 30, 12, 0, 0, 0, DateTimeKind.Unspecified),
+                            TimeStart = new DateTime(2024, 12, 30, 9, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            Id = 32,
+                            Date = new DateOnly(2024, 12, 30),
+                            DoctorId = 16,
+                            Name = "Evening Shift",
+                            Price = 140f,
+                            TimeEnd = new DateTime(2024, 12, 30, 19, 0, 0, 0, DateTimeKind.Unspecified),
+                            TimeStart = new DateTime(2024, 12, 30, 16, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            Id = 33,
+                            Date = new DateOnly(2024, 12, 31),
+                            DoctorId = 17,
+                            Name = "Morning Shift",
+                            Price = 110f,
+                            TimeEnd = new DateTime(2024, 12, 31, 11, 0, 0, 0, DateTimeKind.Unspecified),
+                            TimeStart = new DateTime(2024, 12, 31, 8, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            Id = 34,
+                            Date = new DateOnly(2024, 12, 31),
+                            DoctorId = 17,
+                            Name = "Evening Shift",
+                            Price = 130f,
+                            TimeEnd = new DateTime(2024, 12, 31, 17, 30, 0, 0, DateTimeKind.Unspecified),
+                            TimeStart = new DateTime(2024, 12, 31, 14, 30, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            Id = 35,
+                            Date = new DateOnly(2025, 1, 1),
+                            DoctorId = 18,
+                            Name = "Morning Shift",
+                            Price = 125f,
+                            TimeEnd = new DateTime(2025, 1, 1, 12, 0, 0, 0, DateTimeKind.Unspecified),
+                            TimeStart = new DateTime(2025, 1, 1, 9, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            Id = 36,
+                            Date = new DateOnly(2025, 1, 1),
+                            DoctorId = 18,
+                            Name = "Evening Shift",
+                            Price = 145f,
+                            TimeEnd = new DateTime(2025, 1, 1, 19, 0, 0, 0, DateTimeKind.Unspecified),
+                            TimeStart = new DateTime(2025, 1, 1, 16, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            Id = 37,
+                            Date = new DateOnly(2025, 1, 2),
+                            DoctorId = 19,
+                            Name = "Morning Shift",
+                            Price = 115f,
+                            TimeEnd = new DateTime(2025, 1, 2, 12, 30, 0, 0, DateTimeKind.Unspecified),
+                            TimeStart = new DateTime(2025, 1, 2, 9, 30, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            Id = 38,
+                            Date = new DateOnly(2025, 1, 2),
+                            DoctorId = 19,
+                            Name = "Evening Shift",
+                            Price = 135f,
+                            TimeEnd = new DateTime(2025, 1, 2, 19, 30, 0, 0, DateTimeKind.Unspecified),
+                            TimeStart = new DateTime(2025, 1, 2, 16, 30, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            Id = 39,
+                            Date = new DateOnly(2025, 1, 3),
+                            DoctorId = 20,
+                            Name = "Morning Shift",
+                            Price = 120f,
+                            TimeEnd = new DateTime(2025, 1, 3, 11, 0, 0, 0, DateTimeKind.Unspecified),
+                            TimeStart = new DateTime(2025, 1, 3, 8, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            Id = 40,
+                            Date = new DateOnly(2025, 1, 3),
+                            DoctorId = 20,
+                            Name = "Evening Shift",
+                            Price = 140f,
+                            TimeEnd = new DateTime(2025, 1, 3, 17, 0, 0, 0, DateTimeKind.Unspecified),
+                            TimeStart = new DateTime(2025, 1, 3, 14, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            Id = 41,
+                            Date = new DateOnly(2025, 1, 4),
+                            DoctorId = 21,
+                            Name = "Morning Shift",
+                            Price = 125f,
+                            TimeEnd = new DateTime(2025, 1, 4, 12, 0, 0, 0, DateTimeKind.Unspecified),
+                            TimeStart = new DateTime(2025, 1, 4, 9, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            Id = 42,
+                            Date = new DateOnly(2025, 1, 4),
+                            DoctorId = 21,
+                            Name = "Evening Shift",
+                            Price = 145f,
+                            TimeEnd = new DateTime(2025, 1, 4, 19, 0, 0, 0, DateTimeKind.Unspecified),
+                            TimeStart = new DateTime(2025, 1, 4, 16, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            Id = 43,
+                            Date = new DateOnly(2025, 1, 5),
+                            DoctorId = 22,
+                            Name = "Morning Shift",
+                            Price = 110f,
+                            TimeEnd = new DateTime(2025, 1, 5, 11, 30, 0, 0, DateTimeKind.Unspecified),
+                            TimeStart = new DateTime(2025, 1, 5, 8, 30, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            Id = 44,
+                            Date = new DateOnly(2025, 1, 5),
+                            DoctorId = 22,
+                            Name = "Evening Shift",
+                            Price = 130f,
+                            TimeEnd = new DateTime(2025, 1, 5, 17, 30, 0, 0, DateTimeKind.Unspecified),
+                            TimeStart = new DateTime(2025, 1, 5, 14, 30, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            Id = 45,
+                            Date = new DateOnly(2025, 1, 6),
+                            DoctorId = 23,
+                            Name = "Morning Shift",
+                            Price = 115f,
+                            TimeEnd = new DateTime(2025, 1, 6, 12, 0, 0, 0, DateTimeKind.Unspecified),
+                            TimeStart = new DateTime(2025, 1, 6, 9, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            Id = 46,
+                            Date = new DateOnly(2025, 1, 6),
+                            DoctorId = 23,
+                            Name = "Evening Shift",
+                            Price = 135f,
+                            TimeEnd = new DateTime(2025, 1, 6, 19, 0, 0, 0, DateTimeKind.Unspecified),
+                            TimeStart = new DateTime(2025, 1, 6, 16, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            Id = 47,
+                            Date = new DateOnly(2024, 12, 30),
+                            DoctorId = 24,
+                            Name = "Morning Shift",
+                            Price = 120f,
+                            TimeEnd = new DateTime(2024, 12, 30, 12, 0, 0, 0, DateTimeKind.Unspecified),
+                            TimeStart = new DateTime(2024, 12, 30, 9, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            Id = 48,
+                            Date = new DateOnly(2024, 12, 30),
+                            DoctorId = 24,
+                            Name = "Evening Shift",
+                            Price = 140f,
+                            TimeEnd = new DateTime(2024, 12, 30, 19, 0, 0, 0, DateTimeKind.Unspecified),
+                            TimeStart = new DateTime(2024, 12, 30, 16, 0, 0, 0, DateTimeKind.Unspecified)
+                        });
+                });
+
             modelBuilder.Entity("MedicalServices.Models.Identity.Role", b =>
                 {
                     b.Property<int>("Id")
@@ -492,7 +1007,7 @@ namespace MedicalServices.Migrations
                         {
                             Id = 1,
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "a22134cc-f36c-486f-9e23-671b146e7efd",
+                            ConcurrencyStamp = "57404227-4292-488d-b0a8-e433cac83128",
                             Email = "john.smith@hospital.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
@@ -507,7 +1022,7 @@ namespace MedicalServices.Migrations
                         {
                             Id = 2,
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "3e0d93a9-0374-4edc-a006-8febeb1cab18",
+                            ConcurrencyStamp = "eac856fc-c065-4aa3-a647-0f5b1f7fc823",
                             Email = "sarah.johnson@hospital.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
@@ -522,7 +1037,7 @@ namespace MedicalServices.Migrations
                         {
                             Id = 3,
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "48f38141-c917-43b6-90b6-80e95e17729e",
+                            ConcurrencyStamp = "8d11fe0b-55cb-497f-a420-798f8fd53f13",
                             Email = "ahmed.ali@hospital.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
@@ -537,7 +1052,7 @@ namespace MedicalServices.Migrations
                         {
                             Id = 4,
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "02aca8ad-6847-47b5-8d8e-2faa5e61b8fe",
+                            ConcurrencyStamp = "84e86610-6c4d-497d-a40d-aea9836cac93",
                             Email = "emily.brown@hospital.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
@@ -552,7 +1067,7 @@ namespace MedicalServices.Migrations
                         {
                             Id = 5,
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "69a3f8db-89c4-42f3-83f4-ca2d68ecd760",
+                            ConcurrencyStamp = "757718cb-ea54-4702-a5d3-b2dd1188758b",
                             Email = "william.davis@hospital.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
@@ -567,7 +1082,7 @@ namespace MedicalServices.Migrations
                         {
                             Id = 6,
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "14677a51-97a3-4fcb-90f5-6d095199ac70",
+                            ConcurrencyStamp = "99565fb8-9680-4af3-9fe7-fd741f6bf318",
                             Email = "fatima.hassan@hospital.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
@@ -582,7 +1097,7 @@ namespace MedicalServices.Migrations
                         {
                             Id = 7,
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "487ccf26-fdfa-4bb5-827e-5be1dee9d680",
+                            ConcurrencyStamp = "a9e708be-ad9e-43de-9cf0-db727ebf0338",
                             Email = "jacob.wilson@hospital.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
@@ -597,7 +1112,7 @@ namespace MedicalServices.Migrations
                         {
                             Id = 8,
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "c48f06e9-c540-42e0-b8fc-f7c3248aade8",
+                            ConcurrencyStamp = "4df76f37-f433-4d98-b43c-7c744950f29c",
                             Email = "sophia.martinez@hospital.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
@@ -612,7 +1127,7 @@ namespace MedicalServices.Migrations
                         {
                             Id = 9,
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "d5396e55-5151-497d-9d33-53539154a766",
+                            ConcurrencyStamp = "79b8598c-0c78-4997-9753-c41b81817382",
                             Email = "ethan.thompson@hospital.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
@@ -627,7 +1142,7 @@ namespace MedicalServices.Migrations
                         {
                             Id = 10,
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "8989ca6f-fc1c-4100-b46f-6b52b20c6050",
+                            ConcurrencyStamp = "c84ef8ba-5c1d-470e-a3b1-a5790714218f",
                             Email = "ava.garcia@hospital.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
@@ -642,7 +1157,7 @@ namespace MedicalServices.Migrations
                         {
                             Id = 11,
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "8fae64f7-1f81-4f90-831b-12bd1103ecb2",
+                            ConcurrencyStamp = "6c7e132f-afcd-481b-9d98-28a5fb4282db",
                             Email = "michael.lee@hospital.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
@@ -657,7 +1172,7 @@ namespace MedicalServices.Migrations
                         {
                             Id = 12,
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "14d6e854-bc1c-4f22-981e-98eb5626a422",
+                            ConcurrencyStamp = "d44377fd-a6a9-485d-b5f5-be24530555c9",
                             Email = "olivia.rodriguez@hospital.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
@@ -672,7 +1187,7 @@ namespace MedicalServices.Migrations
                         {
                             Id = 13,
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "8eb5565c-65bc-4b68-b83b-c433d965637a",
+                            ConcurrencyStamp = "324cb1dd-195c-4d2c-86b9-01703f557d3b",
                             Email = "benjamin.white@hospital.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
@@ -687,7 +1202,7 @@ namespace MedicalServices.Migrations
                         {
                             Id = 14,
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "f75d88b7-094c-4bd7-9549-4cf906dfdffb",
+                            ConcurrencyStamp = "72e29415-1f83-4ac1-aa95-85a1c811dd18",
                             Email = "isabella.hall@hospital.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
@@ -702,7 +1217,7 @@ namespace MedicalServices.Migrations
                         {
                             Id = 15,
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "0406d8ba-992d-45f5-a3d6-17d12b5456e9",
+                            ConcurrencyStamp = "e39669de-68a8-4bdd-8729-b6ce16cd8367",
                             Email = "daniel.young@hospital.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
@@ -717,7 +1232,7 @@ namespace MedicalServices.Migrations
                         {
                             Id = 16,
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "6e53e057-6ff5-408d-b0d9-574af057f465",
+                            ConcurrencyStamp = "9a445f2a-01aa-477b-aafc-be45fa2a8595",
                             Email = "mia.king@hospital.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
@@ -732,7 +1247,7 @@ namespace MedicalServices.Migrations
                         {
                             Id = 17,
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "e0fe5dc0-923c-4f34-bac4-a0fc74b08a1d",
+                            ConcurrencyStamp = "6aac856c-6521-4df9-89a9-2b307aee258c",
                             Email = "james.wright@hospital.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
@@ -747,7 +1262,7 @@ namespace MedicalServices.Migrations
                         {
                             Id = 18,
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "719f794a-9d4f-4c58-88e7-2caf378ea7a9",
+                            ConcurrencyStamp = "c804fea3-3e78-4672-8c2b-bf90b8fd4d6f",
                             Email = "amelia.scott@hospital.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
@@ -762,7 +1277,7 @@ namespace MedicalServices.Migrations
                         {
                             Id = 19,
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "e0ee4eb4-08f2-46b0-a02f-c75fe5ef2c51",
+                            ConcurrencyStamp = "8cca63ca-d8ec-48ce-8eaa-f487bd2ad0a1",
                             Email = "lucas.green@hospital.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
@@ -777,7 +1292,7 @@ namespace MedicalServices.Migrations
                         {
                             Id = 20,
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "142eb2ca-804c-4716-9ae4-8b61cf606c9b",
+                            ConcurrencyStamp = "9f2a5a70-2ab9-4197-86c5-015901d9b779",
                             Email = "charlotte.adams@hospital.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
@@ -792,7 +1307,7 @@ namespace MedicalServices.Migrations
                         {
                             Id = 21,
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "b36e0b12-f3b8-4814-88ce-d28c76efb1e0",
+                            ConcurrencyStamp = "293edda8-a477-413e-abea-3e06a80d0782",
                             Email = "henry.baker@hospital.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
@@ -807,7 +1322,7 @@ namespace MedicalServices.Migrations
                         {
                             Id = 22,
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "acbac847-c97f-4c30-87bf-614fff8a3d0f",
+                            ConcurrencyStamp = "fd09459c-a86f-44d4-b2c2-69fb69fbb71e",
                             Email = "grace.nelson@hospital.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
@@ -822,7 +1337,7 @@ namespace MedicalServices.Migrations
                         {
                             Id = 23,
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "e32a4a7a-c244-4557-80c9-e36844f3b5fa",
+                            ConcurrencyStamp = "0f554a70-b174-40ed-9beb-d7c71903cf30",
                             Email = "elijah.carter@hospital.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
@@ -837,7 +1352,7 @@ namespace MedicalServices.Migrations
                         {
                             Id = 24,
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "15970238-c98c-4fb7-8a76-876111aed72f",
+                            ConcurrencyStamp = "0b27ffde-08e0-4d94-9741-8da5a6637fa0",
                             Email = "lily.mitchell@hospital.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
@@ -1263,6 +1778,15 @@ namespace MedicalServices.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("MedicalServices.Models.DoctorSchedule", b =>
+                {
+                    b.HasOne("MedicalServices.Models.Doctor", null)
+                        .WithMany("Schedules")
+                        .HasForeignKey("DoctorId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("MedicalServices.Models.MedicalRecord", b =>
                 {
                     b.HasOne("MedicalServices.Models.Booking", "Booking")
@@ -1410,6 +1934,8 @@ namespace MedicalServices.Migrations
                     b.Navigation("PatientFavoriteDoctors");
 
                     b.Navigation("Reviews");
+
+                    b.Navigation("Schedules");
                 });
 
             modelBuilder.Entity("MedicalServices.Models.Identity.User", b =>

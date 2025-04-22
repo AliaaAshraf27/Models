@@ -33,7 +33,7 @@ namespace MedicalServices.ServicesImplementation
         public async Task<List<DrDTO>> GetDoctorsBySpecializationIDAsync(int specializationId)
         {
             var doctors = await _dbContext.Doctors.Where(d => d.Specialization.Id == specializationId)
-                .Include(s => s.Schedules)
+                .Include(s => s.AvailableAppointments)
                  .Select(d => new DrDTO
                  {
                      Id = d.Id,
@@ -41,7 +41,7 @@ namespace MedicalServices.ServicesImplementation
                      Address = d.Address,
                      Photo = d.User.Photo != null ?  $"data:image/png;base64,{Convert.ToBase64String(d.User.Photo)} ": null ,
                      Rating = d.Reviews.Any() ? (int)Math.Round(d.Reviews.Average(r => r.Rating)) : 0,
-                     Price = d.Schedules.Min(p => (float?)p.Price) ?? 0
+                     Price = d.AvailableAppointments.Min(p => (float?)p.Price) ?? 0
                  }).ToListAsync();
             return doctors;
 

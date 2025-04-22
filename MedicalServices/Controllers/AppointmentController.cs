@@ -24,7 +24,7 @@ namespace MedicalServices.Controllers
 
             return Ok(result);
         }
-        [HttpDelete(Router.AppointmentRouting.AddAppointment)]
+        [HttpDelete(Router.AppointmentRouting.RemoveAppointment)]
         public async Task<IActionResult> RemoveAppointment(int appointmentId)
         {
             var result = await _appointmentService.RemoveAppointmentAsync(appointmentId);

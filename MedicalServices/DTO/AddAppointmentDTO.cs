@@ -3,8 +3,10 @@
     public class AddAppointmentDTO
     {
         public int DoctorId { get; set; }
+        public string Name { get; set; }
         public DateOnly Day { get; set; }
-        public TimeOnly Time { get; set; }
+        public TimeOnly TimeStart { get; set; }
+        public TimeOnly TimeEnd { get; set; }
     }
 
 }

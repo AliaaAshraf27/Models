@@ -57,7 +57,7 @@ namespace MedicalServices.ServicesImplementation
             user.Name = updatedProfile.Name != null? updatedProfile.Name : user.Name;
             user.Email = updatedProfile.Email != null ? updatedProfile.Email : user.Email;
             user.PhoneNumber = updatedProfile.Phone != null ? updatedProfile.Phone : user.PhoneNumber;
-            user.Patient.Age = user.Patient.Age = updatedProfile.Age ?? user.Patient.Age;
+            //user.Patient.Age = user.Patient.Age = updatedProfile.Age ?? user.Patient.Age;
             await _dbContext.SaveChangesAsync();
             return true;
 
@@ -69,20 +69,21 @@ namespace MedicalServices.ServicesImplementation
                   .Include(d => d.Specialization)
                   .FirstOrDefaultAsync(d => d.Id == drId);
             if (doctor == null) return false;
-            await UpdateProfileAsync(updatedProfile, drId);
-            var dto = new UpdateDrProfileDTO
+            if (updatedProfile.Photo != null)
             {
-                Address = updatedProfile.Address ?? doctor.Address,
-                Specialization = updatedProfile.Specialization ?? doctor.Specialization.Name,
-                Schedule = doctor.Schedules != null? doctor.Schedules.Select(s => new ScheduleDTO
-                {
-                    Date = s.Date,
-                    TimeStart = s.TimeStart,
-                    TimeEnd = s.TimeEnd,
-                    Price = s.Price 
-                }).ToList() : new List<ScheduleDTO>()
-            };
-            if (dto == null) return false;
+                using var dataStream = new MemoryStream();
+                await updatedProfile.Photo.CopyToAsync(dataStream);
+                doctor.User.Photo = dataStream.ToArray();
+            }
+            if(updatedProfile != null)
+            {
+                doctor.User.Name = updatedProfile.Name != null ? updatedProfile.Name : doctor.User.Name;
+                doctor.User.Email = updatedProfile.Email != null ? updatedProfile.Email : doctor.User.Email;
+                doctor.User.PhoneNumber = updatedProfile.Phone != null ? updatedProfile.Phone : doctor.User.PhoneNumber;
+                doctor.Address = updatedProfile.Address ?? doctor.Address;
+                doctor.Specialization.Name = updatedProfile.Specialization ?? doctor.Specialization.Name;
+            }
+            await _dbContext.SaveChangesAsync();
             return true;
         }
 

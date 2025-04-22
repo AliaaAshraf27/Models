@@ -41,7 +41,7 @@ namespace MedicalServices.Controllers
             if (bookingExist == null)
                 return NotFound("This Booking is not found");
 
-            var doctorPrice = await _context.DoctorSchedules
+            var doctorPrice = await _context.AvailableAppointments
                 .Where(d => d.DoctorId == doctorId)
                 .Select(p => p.Price)
                 .FirstOrDefaultAsync();
@@ -90,7 +90,7 @@ namespace MedicalServices.Controllers
             if (booking == null)
                 return NotFound(new { error = "Booking not found" });
 
-            var doctorSchedule = await _context.DoctorSchedules
+            var doctorSchedule = await _context.AvailableAppointments
                 .Where(s => s.DoctorId == booking.DoctorId)
                 .FirstOrDefaultAsync();
 

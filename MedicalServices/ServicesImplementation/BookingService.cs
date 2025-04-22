@@ -28,8 +28,10 @@ namespace MedicalServices.ServicesImplementation
                 .Select(a => new AvailableSlotDTO
                 {
                     Day = a.Day,
-                    Time = a.Time,
-                    AppointmentId = a.Id
+                    TimeStart = a.TimeStart,
+                    TimeEnd = a.TimeEnd,
+                    AppointmentId = a.Id,
+
                 })
                 .ToListAsync();
 
@@ -39,7 +41,7 @@ namespace MedicalServices.ServicesImplementation
         {
             var appointment = await _dbContext.AvailableAppointments
                  .AsNoTracking()
-                .FirstOrDefaultAsync(a => a.Day == bookingDto.day && a.Time == bookingDto.time && a.IsAvailable);
+                .FirstOrDefaultAsync(a => a.Day == bookingDto.day && a.TimeStart == bookingDto.time && a.IsAvailable);
 
             if (appointment == null)
                 return null;
@@ -51,7 +53,7 @@ namespace MedicalServices.ServicesImplementation
                 AppointmentId = appointment.Id,
                 Status = BookingStatus.New,
                 Day = appointment.Day,
-                Time = appointment.Time,
+                Time = appointment.TimeStart,
                 PatientId = bookingDto.PatientId,
                 DoctorId = appointment.DoctorId,
                 ProblemDescription = bookingDto.ProblemDescription,

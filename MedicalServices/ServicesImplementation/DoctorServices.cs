@@ -59,7 +59,7 @@ namespace MedicalServices.ServicesImplementation
                 Experience = d.Experience,
                 Phone = d.User.PhoneNumber,
                 Rating = d.Reviews.Any() ? (int)Math.Round(d.Reviews.Average(r => r.Rating)) : 0,
-                Prices = d.Schedules.Select(s => new DoctorPricesDto
+                Prices = d.AvailableAppointments.Select(s => new DoctorPricesDto
                 {
                     Name = s.Name,
                     Price = s.Price
@@ -75,7 +75,7 @@ namespace MedicalServices.ServicesImplementation
                        .Include(d => d.AvailableAppointments)
                        .Include(d => d.Specialization)
                        .Include(d => d.User)
-                       .Include(d => d.Schedules)
+                       .Include(d => d.AvailableAppointments)
                        .FirstOrDefaultAsync(d => d.Id == doctorId);
 
             if (doctor == null)

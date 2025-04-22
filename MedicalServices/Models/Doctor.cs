@@ -17,7 +17,6 @@ namespace MedicalServices.Models
 
         public virtual Specialization Specialization { get; set; }
         public virtual User User { get; set; }
-        public List<DoctorSchedule> Schedules { get; set; }
         public List<Review> Reviews { get; set; }
         public List<Booking> Bookings { get; set; }
         public ICollection<PatientFavoriteDoctors> PatientFavoriteDoctors { get; set; }

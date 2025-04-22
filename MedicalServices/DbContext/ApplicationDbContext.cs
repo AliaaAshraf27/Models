@@ -18,7 +18,6 @@ namespace MedicalServices.DbContext
         public DbSet<User> Users { get; set; }
         public DbSet<Doctor> Doctors { get; set; }
         public DbSet<Booking> Bookings { get; set; }
-        public DbSet<DoctorSchedule> DoctorSchedules { get; set; }
         public DbSet<MedicalRecord> MedicalRecords { get; set; }
         public DbSet<Notification> Notifications { get; set; }
         public DbSet<Patient> Patients { get; set; }
@@ -376,107 +375,6 @@ namespace MedicalServices.DbContext
                  new Doctor { Id = 23, Address = "654 MRI Blvd", Gender = Gender.Female, Experience = "12 years", SpecializationId = 8 },
                  new Doctor { Id = 24, Address = "987 CT Scan Rd", Gender = Gender.Male, Experience = "14 years", SpecializationId = 8 }
             );
-
-
-            //seed DoctorScheedule
-            modelBuilder.Entity<DoctorSchedule>().HasData(
-                // Schedules for Doctor 1
-                new DoctorSchedule { Id = 1, Name = "Morning Shift", Date = new DateOnly(2024, 12, 16), TimeStart = new DateTime(2024, 12, 16, 9, 0, 0), TimeEnd = new DateTime(2024, 12, 16, 12, 0, 0), Price = 100, DoctorId = 1 },
-                new DoctorSchedule { Id = 2, Name = "Evening Shift", Date = new DateOnly(2024, 12, 16), TimeStart = new DateTime(2024, 12, 16, 16, 0, 0), TimeEnd = new DateTime(2024, 12, 16, 19, 0, 0), Price = 120, DoctorId = 1 },
-
-                // Schedules for Doctor 2
-                new DoctorSchedule { Id = 3, Name = "Morning Shift", Date = new DateOnly(2024, 12, 17), TimeStart = new DateTime(2024, 12, 17, 8, 0, 0), TimeEnd = new DateTime(2024, 12, 17, 11, 0, 0), Price = 110, DoctorId = 2 },
-                new DoctorSchedule { Id = 4, Name = "Evening Shift", Date = new DateOnly(2024, 12, 17), TimeStart = new DateTime(2024, 12, 17, 15, 0, 0), TimeEnd = new DateTime(2024, 12, 17, 18, 0, 0), Price = 130, DoctorId = 2 },
-
-                // Schedules for Doctor 3
-                new DoctorSchedule { Id = 5, Name = "Morning Shift", Date = new DateOnly(2024, 12, 18), TimeStart = new DateTime(2024, 12, 18, 10, 0, 0), TimeEnd = new DateTime(2024, 12, 18, 13, 0, 0), Price = 90, DoctorId = 3 },
-                new DoctorSchedule { Id = 6, Name = "Evening Shift", Date = new DateOnly(2024, 12, 18), TimeStart = new DateTime(2024, 12, 18, 17, 0, 0), TimeEnd = new DateTime(2024, 12, 18, 20, 0, 0), Price = 150, DoctorId = 3 },
-
-                // Schedules for Doctor 4
-                new DoctorSchedule { Id = 7, Name = "Morning Shift", Date = new DateOnly(2024, 12, 19), TimeStart = new DateTime(2024, 12, 19, 8, 30, 0), TimeEnd = new DateTime(2024, 12, 19, 11, 30, 0), Price = 95, DoctorId = 4 },
-                new DoctorSchedule { Id = 8, Name = "Evening Shift", Date = new DateOnly(2024, 12, 19), TimeStart = new DateTime(2024, 12, 19, 14, 30, 0), TimeEnd = new DateTime(2024, 12, 19, 17, 30, 0), Price = 125, DoctorId = 4 },
-
-                // Schedules for Doctor 5
-                new DoctorSchedule { Id = 9, Name = "Morning Shift", Date = new DateOnly(2024, 12, 20), TimeStart = new DateTime(2024, 12, 20, 9, 0, 0), TimeEnd = new DateTime(2024, 12, 20, 12, 0, 0), Price = 110, DoctorId = 5 },
-                new DoctorSchedule { Id = 10, Name = "Evening Shift", Date = new DateOnly(2024, 12, 20), TimeStart = new DateTime(2024, 12, 20, 16, 0, 0), TimeEnd = new DateTime(2024, 12, 20, 19, 0, 0), Price = 140, DoctorId = 5 },
-
-                // Schedules for Doctor 6
-                new DoctorSchedule { Id = 11, Name = "Morning Shift", Date = new DateOnly(2024, 12, 21), TimeStart = new DateTime(2024, 12, 21, 8, 0, 0), TimeEnd = new DateTime(2024, 12, 21, 11, 0, 0), Price = 115, DoctorId = 6 },
-                new DoctorSchedule { Id = 12, Name = "Evening Shift", Date = new DateOnly(2024, 12, 21), TimeStart = new DateTime(2024, 12, 21, 14, 0, 0), TimeEnd = new DateTime(2024, 12, 21, 17, 0, 0), Price = 125, DoctorId = 6 },
-
-                // Schedules for Doctor 7
-                new DoctorSchedule { Id = 13, Name = "Morning Shift", Date = new DateOnly(2024, 12, 22), TimeStart = new DateTime(2024, 12, 22, 9, 0, 0), TimeEnd = new DateTime(2024, 12, 22, 12, 0, 0), Price = 105, DoctorId = 7 },
-                new DoctorSchedule { Id = 14, Name = "Evening Shift", Date = new DateOnly(2024, 12, 22), TimeStart = new DateTime(2024, 12, 22, 16, 0, 0), TimeEnd = new DateTime(2024, 12, 22, 19, 0, 0), Price = 135, DoctorId = 7 },
-
-                // Schedules for Doctor 8
-                new DoctorSchedule { Id = 15, Name = "Morning Shift", Date = new DateOnly(2024, 12, 23), TimeStart = new DateTime(2024, 12, 23, 9, 30, 0), TimeEnd = new DateTime(2024, 12, 23, 12, 30, 0), Price = 100, DoctorId = 8 },
-                new DoctorSchedule { Id = 16, Name = "Evening Shift", Date = new DateOnly(2024, 12, 23), TimeStart = new DateTime(2024, 12, 23, 15, 30, 0), TimeEnd = new DateTime(2024, 12, 23, 18, 30, 0), Price = 120, DoctorId = 8 },
-
-                // Schedules for Doctor 9
-                new DoctorSchedule { Id = 17, Name = "Morning Shift", Date = new DateOnly(2024, 12, 24), TimeStart = new DateTime(2024, 12, 24, 8, 0, 0), TimeEnd = new DateTime(2024, 12, 24, 11, 0, 0), Price = 125, DoctorId = 9 },
-                new DoctorSchedule { Id = 18, Name = "Evening Shift", Date = new DateOnly(2024, 12, 24), TimeStart = new DateTime(2024, 12, 24, 14, 30, 0), TimeEnd = new DateTime(2024, 12, 24, 17, 30, 0), Price = 135, DoctorId = 9 },
-
-                // Schedules for Doctor 10
-                new DoctorSchedule { Id = 19, Name = "Morning Shift", Date = new DateOnly(2024, 12, 25), TimeStart = new DateTime(2024, 12, 25, 9, 0, 0), TimeEnd = new DateTime(2024, 12, 25, 12, 0, 0), Price = 110, DoctorId = 10 },
-                new DoctorSchedule { Id = 20, Name = "Evening Shift", Date = new DateOnly(2024, 12, 25), TimeStart = new DateTime(2024, 12, 25, 16, 0, 0), TimeEnd = new DateTime(2024, 12, 25, 19, 0, 0), Price = 130, DoctorId = 10 },
-
-                // Schedules for Doctor 11
-                new DoctorSchedule { Id = 21, Name = "Morning Shift", Date = new DateOnly(2024, 12, 26), TimeStart = new DateTime(2024, 12, 26, 8, 30, 0), TimeEnd = new DateTime(2024, 12, 26, 11, 30, 0), Price = 115, DoctorId = 11 },
-                new DoctorSchedule { Id = 22, Name = "Evening Shift", Date = new DateOnly(2024, 12, 26), TimeStart = new DateTime(2024, 12, 26, 14, 30, 0), TimeEnd = new DateTime(2024, 12, 26, 17, 30, 0), Price = 125, DoctorId = 11 },
-
-                // Schedules for Doctor 12
-                new DoctorSchedule { Id = 23, Name = "Morning Shift", Date = new DateOnly(2024, 12, 27), TimeStart = new DateTime(2024, 12, 27, 9, 0, 0), TimeEnd = new DateTime(2024, 12, 27, 12, 0, 0), Price = 120, DoctorId = 12 },
-                new DoctorSchedule { Id = 24, Name = "Evening Shift", Date = new DateOnly(2024, 12, 27), TimeStart = new DateTime(2024, 12, 27, 16, 0, 0), TimeEnd = new DateTime(2024, 12, 27, 19, 0, 0), Price = 140, DoctorId = 12 },
-
-                // Repeat the same pattern for Doctors 13–24
-                new DoctorSchedule { Id = 25, Name = "Morning Shift", Date = new DateOnly(2024, 12, 28), TimeStart = new DateTime(2024, 12, 28, 9, 0, 0), TimeEnd = new DateTime(2024, 12, 28, 12, 0, 0), Price = 110, DoctorId = 13 },
-                new DoctorSchedule { Id = 26, Name = "Evening Shift", Date = new DateOnly(2024, 12, 28), TimeStart = new DateTime(2024, 12, 28, 16, 0, 0), TimeEnd = new DateTime(2024, 12, 28, 19, 0, 0), Price = 130, DoctorId = 13 },
-
-                new DoctorSchedule { Id = 27, Name = "Morning Shift", Date = new DateOnly(2024, 12, 28), TimeStart = new DateTime(2024, 12, 28, 9, 0, 0), TimeEnd = new DateTime(2024, 12, 28, 12, 0, 0), Price = 110, DoctorId = 14 },
-                new DoctorSchedule { Id = 28, Name = "Evening Shift", Date = new DateOnly(2024, 12, 28), TimeStart = new DateTime(2024, 12, 28, 16, 0, 0), TimeEnd = new DateTime(2024, 12, 28, 19, 0, 0), Price = 130, DoctorId = 14 },
-
-                // Schedules for Doctor 15
-                new DoctorSchedule { Id = 29, Name = "Morning Shift", Date = new DateOnly(2024, 12, 29), TimeStart = new DateTime(2024, 12, 29, 8, 30, 0), TimeEnd = new DateTime(2024, 12, 29, 11, 30, 0), Price = 115, DoctorId = 15 },
-                new DoctorSchedule { Id = 30, Name = "Evening Shift", Date = new DateOnly(2024, 12, 29), TimeStart = new DateTime(2024, 12, 29, 14, 30, 0), TimeEnd = new DateTime(2024, 12, 29, 17, 30, 0), Price = 135, DoctorId = 15 },
-
-                // Schedules for Doctor 16
-                new DoctorSchedule { Id = 31, Name = "Morning Shift", Date = new DateOnly(2024, 12, 30), TimeStart = new DateTime(2024, 12, 30, 9, 0, 0), TimeEnd = new DateTime(2024, 12, 30, 12, 0, 0), Price = 120, DoctorId = 16 },
-                new DoctorSchedule { Id = 32, Name = "Evening Shift", Date = new DateOnly(2024, 12, 30), TimeStart = new DateTime(2024, 12, 30, 16, 0, 0), TimeEnd = new DateTime(2024, 12, 30, 19, 0, 0), Price = 140, DoctorId = 16 },
-
-                // Schedules for Doctor 17
-                new DoctorSchedule { Id = 33, Name = "Morning Shift", Date = new DateOnly(2024, 12, 31), TimeStart = new DateTime(2024, 12, 31, 8, 0, 0), TimeEnd = new DateTime(2024, 12, 31, 11, 0, 0), Price = 110, DoctorId = 17 },
-                new DoctorSchedule { Id = 34, Name = "Evening Shift", Date = new DateOnly(2024, 12, 31), TimeStart = new DateTime(2024, 12, 31, 14, 30, 0), TimeEnd = new DateTime(2024, 12, 31, 17, 30, 0), Price = 130, DoctorId = 17 },
-
-                // Schedules for Doctor 18
-                new DoctorSchedule { Id = 35, Name = "Morning Shift", Date = new DateOnly(2025, 01, 01), TimeStart = new DateTime(2025, 01, 01, 9, 0, 0), TimeEnd = new DateTime(2025, 01, 01, 12, 0, 0), Price = 125, DoctorId = 18 },
-                new DoctorSchedule { Id = 36, Name = "Evening Shift", Date = new DateOnly(2025, 01, 01), TimeStart = new DateTime(2025, 01, 01, 16, 0, 0), TimeEnd = new DateTime(2025, 01, 01, 19, 0, 0), Price = 145, DoctorId = 18 },
-
-                // Schedules for Doctor 19
-                new DoctorSchedule { Id = 37, Name = "Morning Shift", Date = new DateOnly(2025, 01, 02), TimeStart = new DateTime(2025, 01, 02, 9, 30, 0), TimeEnd = new DateTime(2025, 01, 02, 12, 30, 0), Price = 115, DoctorId = 19 },
-                new DoctorSchedule { Id = 38, Name = "Evening Shift", Date = new DateOnly(2025, 01, 02), TimeStart = new DateTime(2025, 01, 02, 16, 30, 0), TimeEnd = new DateTime(2025, 01, 02, 19, 30, 0), Price = 135, DoctorId = 19 },
-
-                // Schedules for Doctor 20
-                new DoctorSchedule { Id = 39, Name = "Morning Shift", Date = new DateOnly(2025, 01, 03), TimeStart = new DateTime(2025, 01, 03, 8, 0, 0), TimeEnd = new DateTime(2025, 01, 03, 11, 0, 0), Price = 120, DoctorId = 20 },
-                new DoctorSchedule { Id = 40, Name = "Evening Shift", Date = new DateOnly(2025, 01, 03), TimeStart = new DateTime(2025, 01, 03, 14, 0, 0), TimeEnd = new DateTime(2025, 01, 03, 17, 0, 0), Price = 140, DoctorId = 20 },
-
-                // Schedules for Doctor 21
-                new DoctorSchedule { Id = 41, Name = "Morning Shift", Date = new DateOnly(2025, 01, 04), TimeStart = new DateTime(2025, 01, 04, 9, 0, 0), TimeEnd = new DateTime(2025, 01, 04, 12, 0, 0), Price = 125, DoctorId = 21 },
-                new DoctorSchedule { Id = 42, Name = "Evening Shift", Date = new DateOnly(2025, 01, 04), TimeStart = new DateTime(2025, 01, 04, 16, 0, 0), TimeEnd = new DateTime(2025, 01, 04, 19, 0, 0), Price = 145, DoctorId = 21 },
-
-                // Schedules for Doctor 22
-                new DoctorSchedule { Id = 43, Name = "Morning Shift", Date = new DateOnly(2025, 01, 05), TimeStart = new DateTime(2025, 01, 05, 8, 30, 0), TimeEnd = new DateTime(2025, 01, 05, 11, 30, 0), Price = 110, DoctorId = 22 },
-                new DoctorSchedule { Id = 44, Name = "Evening Shift", Date = new DateOnly(2025, 01, 05), TimeStart = new DateTime(2025, 01, 05, 14, 30, 0), TimeEnd = new DateTime(2025, 01, 05, 17, 30, 0), Price = 130, DoctorId = 22 },
-
-                // Schedules for Doctor 23
-                new DoctorSchedule { Id = 45, Name = "Morning Shift", Date = new DateOnly(2025, 01, 06), TimeStart = new DateTime(2025, 01, 06, 9, 0, 0), TimeEnd = new DateTime(2025, 01, 06, 12, 0, 0), Price = 115, DoctorId = 23 },
-                new DoctorSchedule { Id = 46, Name = "Evening Shift", Date = new DateOnly(2025, 01, 06), TimeStart = new DateTime(2025, 01, 06, 16, 0, 0), TimeEnd = new DateTime(2025, 01, 06, 19, 0, 0), Price = 135, DoctorId = 23 },
-
-                new DoctorSchedule { Id = 47, Name = "Morning Shift", Date = new DateOnly(2024, 12, 30), TimeStart = new DateTime(2024, 12, 30, 9, 0, 0), TimeEnd = new DateTime(2024, 12, 30, 12, 0, 0), Price = 120, DoctorId = 24 },
-                new DoctorSchedule { Id = 48, Name = "Evening Shift", Date = new DateOnly(2024, 12, 30), TimeStart = new DateTime(2024, 12, 30, 16, 0, 0), TimeEnd = new DateTime(2024, 12, 30, 19, 0, 0), Price = 140, DoctorId = 24 }
-            );
-
-
-
         }
     }
 }

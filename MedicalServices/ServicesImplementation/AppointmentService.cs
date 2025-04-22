@@ -24,7 +24,7 @@ namespace MedicalServices.ServicesImplementation
 
             // Check if the same appointment already exists  
             var exists = await _dbContext.AvailableAppointments
-                .AnyAsync(a => a.DoctorId == dto.DoctorId && a.Day == dto.Day && a.Time == dto.Time);
+                .AnyAsync(a => a.DoctorId == dto.DoctorId && a.Day == dto.Day && a.TimeStart == dto.TimeStart && a.TimeEnd == dto.TimeEnd);
 
             if (exists)
                 return "This appointment already exists.";
@@ -34,7 +34,9 @@ namespace MedicalServices.ServicesImplementation
             {
                 DoctorId = dto.DoctorId,
                 Day = dto.Day,
-                Time = dto.Time,
+                TimeStart = dto.TimeStart,
+                TimeEnd = dto.TimeEnd,
+                Name = dto.Name,
                 IsAvailable = true
             };
 
