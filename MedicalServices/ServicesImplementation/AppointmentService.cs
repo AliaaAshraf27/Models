@@ -37,7 +37,8 @@ namespace MedicalServices.ServicesImplementation
                 TimeStart = dto.TimeStart,
                 TimeEnd = dto.TimeEnd,
                 Name = dto.Name,
-                IsAvailable = true
+                IsAvailable = true,
+                Price = dto.Price
             };
 
             _dbContext.AvailableAppointments.Add(appointment);

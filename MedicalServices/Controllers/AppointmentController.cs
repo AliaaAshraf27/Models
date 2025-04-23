@@ -5,11 +5,11 @@ using MedicalServices.AppMetaData;
 
 namespace MedicalServices.Controllers
 {
-    public class AppointmentController : ControllerBase // Inherit from ControllerBase for API controllers  
+    public class AppointmentController : ControllerBase   
     {
-        private readonly IAppointmentService _appointmentService; // Declare the dependency  
+        private readonly IAppointmentService _appointmentService;  
 
-        public AppointmentController(IAppointmentService appointmentService) // Inject the dependency via constructor  
+        public AppointmentController(IAppointmentService appointmentService) 
         {
             _appointmentService = appointmentService;
         }

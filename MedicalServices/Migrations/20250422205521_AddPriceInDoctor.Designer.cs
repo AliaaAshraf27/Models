@@ -4,6 +4,7 @@ using MedicalServices.DbContext;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace MedicalServices.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250422205521_AddPriceInDoctor")]
+    partial class AddPriceInDoctor
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -171,6 +174,9 @@ namespace MedicalServices.Migrations
                     b.Property<int>("Gender")
                         .HasColumnType("int");
 
+                    b.Property<float>("Price")
+                        .HasColumnType("real");
+
                     b.Property<int>("SpecializationId")
                         .HasColumnType("int");
 
@@ -187,6 +193,7 @@ namespace MedicalServices.Migrations
                             Address = "123 Heart St",
                             Experience = "10 years",
                             Gender = 0,
+                            Price = 0f,
                             SpecializationId = 1
                         },
                         new
@@ -195,6 +202,7 @@ namespace MedicalServices.Migrations
                             Address = "456 Pulse Ave",
                             Experience = "8 years",
                             Gender = 1,
+                            Price = 0f,
                             SpecializationId = 1
                         },
                         new
@@ -203,6 +211,7 @@ namespace MedicalServices.Migrations
                             Address = "789 Artery Blvd",
                             Experience = "12 years",
                             Gender = 0,
+                            Price = 0f,
                             SpecializationId = 1
                         },
                         new
@@ -211,6 +220,7 @@ namespace MedicalServices.Migrations
                             Address = "321 Skin Lane",
                             Experience = "7 years",
                             Gender = 1,
+                            Price = 0f,
                             SpecializationId = 2
                         },
                         new
@@ -219,6 +229,7 @@ namespace MedicalServices.Migrations
                             Address = "654 Acne Dr",
                             Experience = "6 years",
                             Gender = 0,
+                            Price = 0f,
                             SpecializationId = 2
                         },
                         new
@@ -227,6 +238,7 @@ namespace MedicalServices.Migrations
                             Address = "987 Derma Ct",
                             Experience = "9 years",
                             Gender = 1,
+                            Price = 0f,
                             SpecializationId = 2
                         },
                         new
@@ -235,6 +247,7 @@ namespace MedicalServices.Migrations
                             Address = "123 Brain Ave",
                             Experience = "15 years",
                             Gender = 0,
+                            Price = 0f,
                             SpecializationId = 3
                         },
                         new
@@ -243,6 +256,7 @@ namespace MedicalServices.Migrations
                             Address = "456 Neuron Blvd",
                             Experience = "11 years",
                             Gender = 1,
+                            Price = 0f,
                             SpecializationId = 3
                         },
                         new
@@ -251,6 +265,7 @@ namespace MedicalServices.Migrations
                             Address = "789 Spine Dr",
                             Experience = "13 years",
                             Gender = 0,
+                            Price = 0f,
                             SpecializationId = 3
                         },
                         new
@@ -259,6 +274,7 @@ namespace MedicalServices.Migrations
                             Address = "321 Bone St",
                             Experience = "14 years",
                             Gender = 0,
+                            Price = 0f,
                             SpecializationId = 4
                         },
                         new
@@ -267,6 +283,7 @@ namespace MedicalServices.Migrations
                             Address = "654 Joint Ave",
                             Experience = "8 years",
                             Gender = 1,
+                            Price = 0f,
                             SpecializationId = 4
                         },
                         new
@@ -275,6 +292,7 @@ namespace MedicalServices.Migrations
                             Address = "987 Fracture Rd",
                             Experience = "10 years",
                             Gender = 0,
+                            Price = 0f,
                             SpecializationId = 4
                         },
                         new
@@ -283,6 +301,7 @@ namespace MedicalServices.Migrations
                             Address = "123 Kids Ln",
                             Experience = "5 years",
                             Gender = 1,
+                            Price = 0f,
                             SpecializationId = 5
                         },
                         new
@@ -291,6 +310,7 @@ namespace MedicalServices.Migrations
                             Address = "456 Baby Blvd",
                             Experience = "6 years",
                             Gender = 0,
+                            Price = 0f,
                             SpecializationId = 5
                         },
                         new
@@ -299,6 +319,7 @@ namespace MedicalServices.Migrations
                             Address = "789 Child Ct",
                             Experience = "8 years",
                             Gender = 1,
+                            Price = 0f,
                             SpecializationId = 5
                         },
                         new
@@ -307,6 +328,7 @@ namespace MedicalServices.Migrations
                             Address = "321 Cancer St",
                             Experience = "12 years",
                             Gender = 0,
+                            Price = 0f,
                             SpecializationId = 6
                         },
                         new
@@ -315,6 +337,7 @@ namespace MedicalServices.Migrations
                             Address = "654 Tumor Blvd",
                             Experience = "10 years",
                             Gender = 1,
+                            Price = 0f,
                             SpecializationId = 6
                         },
                         new
@@ -323,6 +346,7 @@ namespace MedicalServices.Migrations
                             Address = "987 Chemo Rd",
                             Experience = "11 years",
                             Gender = 0,
+                            Price = 0f,
                             SpecializationId = 6
                         },
                         new
@@ -331,6 +355,7 @@ namespace MedicalServices.Migrations
                             Address = "123 Mind St",
                             Experience = "9 years",
                             Gender = 1,
+                            Price = 0f,
                             SpecializationId = 7
                         },
                         new
@@ -339,6 +364,7 @@ namespace MedicalServices.Migrations
                             Address = "456 Emotion Ave",
                             Experience = "8 years",
                             Gender = 0,
+                            Price = 0f,
                             SpecializationId = 7
                         },
                         new
@@ -347,6 +373,7 @@ namespace MedicalServices.Migrations
                             Address = "789 Therapy Ct",
                             Experience = "7 years",
                             Gender = 1,
+                            Price = 0f,
                             SpecializationId = 7
                         },
                         new
@@ -355,6 +382,7 @@ namespace MedicalServices.Migrations
                             Address = "321 Xray Ln",
                             Experience = "13 years",
                             Gender = 0,
+                            Price = 0f,
                             SpecializationId = 8
                         },
                         new
@@ -363,6 +391,7 @@ namespace MedicalServices.Migrations
                             Address = "654 MRI Blvd",
                             Experience = "12 years",
                             Gender = 1,
+                            Price = 0f,
                             SpecializationId = 8
                         },
                         new
@@ -371,6 +400,7 @@ namespace MedicalServices.Migrations
                             Address = "987 CT Scan Rd",
                             Experience = "14 years",
                             Gender = 0,
+                            Price = 0f,
                             SpecializationId = 8
                         });
                 });
@@ -492,7 +522,7 @@ namespace MedicalServices.Migrations
                         {
                             Id = 1,
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "bd9c1da9-3179-4174-a755-78c754924224",
+                            ConcurrencyStamp = "92fee894-f6b2-4053-a6ec-9bb90320fa93",
                             Email = "john.smith@hospital.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
@@ -507,7 +537,7 @@ namespace MedicalServices.Migrations
                         {
                             Id = 2,
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "d06c438d-fd7a-41cb-b309-4775af3348b5",
+                            ConcurrencyStamp = "fc26e8b4-bdc0-4728-818b-70e9aed1959f",
                             Email = "sarah.johnson@hospital.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
@@ -522,7 +552,7 @@ namespace MedicalServices.Migrations
                         {
                             Id = 3,
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "245183af-6359-4b9f-8fc3-af37f22681a6",
+                            ConcurrencyStamp = "a2840403-506e-4d3d-9aa5-d59f8ee3a74f",
                             Email = "ahmed.ali@hospital.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
@@ -537,7 +567,7 @@ namespace MedicalServices.Migrations
                         {
                             Id = 4,
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "0c835380-8763-43c9-b498-9bf474a1457e",
+                            ConcurrencyStamp = "25cb7e46-393b-4da7-ae01-971cf2726cfb",
                             Email = "emily.brown@hospital.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
@@ -552,7 +582,7 @@ namespace MedicalServices.Migrations
                         {
                             Id = 5,
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "28f6f05b-bc6f-4457-b226-ab03a9535528",
+                            ConcurrencyStamp = "ca762fc0-7582-4d19-8dc9-79284ebae053",
                             Email = "william.davis@hospital.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
@@ -567,7 +597,7 @@ namespace MedicalServices.Migrations
                         {
                             Id = 6,
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "72dfe83c-b6ba-443a-8612-7cbfa45c8217",
+                            ConcurrencyStamp = "cdb0455b-4954-4827-8c84-1213e9381139",
                             Email = "fatima.hassan@hospital.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
@@ -582,7 +612,7 @@ namespace MedicalServices.Migrations
                         {
                             Id = 7,
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "9f478bd4-152c-4997-89cf-5004f27d3246",
+                            ConcurrencyStamp = "d27ed3e2-2cfa-4f83-b9b4-2a94900116a2",
                             Email = "jacob.wilson@hospital.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
@@ -597,7 +627,7 @@ namespace MedicalServices.Migrations
                         {
                             Id = 8,
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "78b25546-e71c-4c50-bf5e-edea41c50f1a",
+                            ConcurrencyStamp = "80dcb8dd-0a01-4aff-925a-6ab7d5a2ef08",
                             Email = "sophia.martinez@hospital.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
@@ -612,7 +642,7 @@ namespace MedicalServices.Migrations
                         {
                             Id = 9,
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "3209ff94-13fe-401b-a302-85e6d5570eb4",
+                            ConcurrencyStamp = "29191425-3bf8-4376-a877-9ba97ea709a4",
                             Email = "ethan.thompson@hospital.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
@@ -627,7 +657,7 @@ namespace MedicalServices.Migrations
                         {
                             Id = 10,
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "16c00ac2-2f1e-4307-9127-79174e8af49d",
+                            ConcurrencyStamp = "f880f955-89c7-4d99-800d-29982bc1dfb1",
                             Email = "ava.garcia@hospital.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
@@ -642,7 +672,7 @@ namespace MedicalServices.Migrations
                         {
                             Id = 11,
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "4d4a9795-4b31-44c9-95f8-6ef16ed7c811",
+                            ConcurrencyStamp = "68d05a2c-3f3b-41f1-95fe-6d14b7cc24b6",
                             Email = "michael.lee@hospital.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
@@ -657,7 +687,7 @@ namespace MedicalServices.Migrations
                         {
                             Id = 12,
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "b06befbc-e532-4f9a-926d-8e745face953",
+                            ConcurrencyStamp = "5e6a6ce8-923c-450d-b154-0bd2db16f594",
                             Email = "olivia.rodriguez@hospital.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
@@ -672,7 +702,7 @@ namespace MedicalServices.Migrations
                         {
                             Id = 13,
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "8dd813f6-6403-4981-aab9-5508491187ac",
+                            ConcurrencyStamp = "71917ae3-a521-4252-b2d5-ee70f01a8a0e",
                             Email = "benjamin.white@hospital.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
@@ -687,7 +717,7 @@ namespace MedicalServices.Migrations
                         {
                             Id = 14,
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "73b6be06-1b42-4184-9d94-5134e1762daf",
+                            ConcurrencyStamp = "36576187-2a83-4e65-9c7b-00ea25448829",
                             Email = "isabella.hall@hospital.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
@@ -702,7 +732,7 @@ namespace MedicalServices.Migrations
                         {
                             Id = 15,
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "f8743af2-4361-442d-931c-f859823c34b7",
+                            ConcurrencyStamp = "57a37d84-b797-4ac9-ad40-b88bfac9c00c",
                             Email = "daniel.young@hospital.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
@@ -717,7 +747,7 @@ namespace MedicalServices.Migrations
                         {
                             Id = 16,
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "3fa26f7a-7460-4406-a17f-bb8c2b59146c",
+                            ConcurrencyStamp = "73b47259-c113-483f-9add-8ff4bb434c48",
                             Email = "mia.king@hospital.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
@@ -732,7 +762,7 @@ namespace MedicalServices.Migrations
                         {
                             Id = 17,
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "06c2e3f1-8784-4ef9-a01d-fae47cab35a4",
+                            ConcurrencyStamp = "a0caba47-e4a2-48aa-a865-e4e871190671",
                             Email = "james.wright@hospital.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
@@ -747,7 +777,7 @@ namespace MedicalServices.Migrations
                         {
                             Id = 18,
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "f671dcbb-01ff-4407-8c21-c17142952dbd",
+                            ConcurrencyStamp = "dab283a5-8228-4ffd-9a66-5e512a1bfb60",
                             Email = "amelia.scott@hospital.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
@@ -762,7 +792,7 @@ namespace MedicalServices.Migrations
                         {
                             Id = 19,
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "400cb7f1-c752-49a2-9b8f-fde12aef3696",
+                            ConcurrencyStamp = "c9e1dc3f-78df-483a-9966-5543c8682361",
                             Email = "lucas.green@hospital.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
@@ -777,7 +807,7 @@ namespace MedicalServices.Migrations
                         {
                             Id = 20,
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "d46d5abb-3de3-4870-9ffa-5aa9c2d5caf8",
+                            ConcurrencyStamp = "a6c65caf-7a24-4a16-a613-adb03e8e3dad",
                             Email = "charlotte.adams@hospital.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
@@ -792,7 +822,7 @@ namespace MedicalServices.Migrations
                         {
                             Id = 21,
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "f33ade7d-c54f-4736-9ae0-66007f4ffdf2",
+                            ConcurrencyStamp = "d673c948-7551-4b6b-b835-f23a16599a10",
                             Email = "henry.baker@hospital.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
@@ -807,7 +837,7 @@ namespace MedicalServices.Migrations
                         {
                             Id = 22,
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "e70dfbe3-d5a0-49ba-a343-750d964daed9",
+                            ConcurrencyStamp = "6cb53156-4551-412b-a5f1-8c5398b13ab4",
                             Email = "grace.nelson@hospital.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
@@ -822,7 +852,7 @@ namespace MedicalServices.Migrations
                         {
                             Id = 23,
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "022b4607-d4b2-4f9e-9044-7d80efb9d835",
+                            ConcurrencyStamp = "cec0d785-5bce-4afd-810e-2de3758eeaef",
                             Email = "elijah.carter@hospital.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
@@ -837,7 +867,7 @@ namespace MedicalServices.Migrations
                         {
                             Id = 24,
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "80069b3e-5e78-42bd-b0ea-a223bb714f4f",
+                            ConcurrencyStamp = "963c26a8-5f45-470c-bcfd-db0344ded5c2",
                             Email = "lily.mitchell@hospital.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
