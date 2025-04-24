@@ -13,11 +13,13 @@ namespace MedicalServices.ServicesImplementation
     {
         private readonly ApplicationDbContext _dbContext;
         private readonly UserManager<User> _userManager;
+        private readonly RoleManager<Role> _roleManager;
         private readonly IMapper _mapper;
-        public DoctorServices(ApplicationDbContext dbContext, IMapper mapper)
+        public DoctorServices(ApplicationDbContext dbContext, RoleManager<Role> roleManager, IMapper mapper)
         {
             _dbContext = dbContext;
             _mapper = mapper;
+            _roleManager = roleManager;
         }
 
         public async Task<List<DoctorDTO>> GetAllDoctorsAsync(Filter filter)
@@ -123,6 +125,8 @@ namespace MedicalServices.ServicesImplementation
         public async Task<string> CreateDoctorAsync(CreateDoctoDTO doctorDTO)
         {
             var defaultPassword = "1234";
+            var doctorRole = await _roleManager.FindByNameAsync("Doctor");
+
             var specialization = await _dbContext.Specializations.FirstOrDefaultAsync(s => s.Name == doctorDTO.SpecializationName);
             if (specialization == null)
                 return "this specialization not found";
@@ -130,9 +134,10 @@ namespace MedicalServices.ServicesImplementation
             {
                 Email = doctorDTO.Email,
                 Name = doctorDTO.DoctorName,
-                RoleId = 2,
+                RoleId = doctorRole.Id,
                 Password = defaultPassword
             };
+
             if (doctorDTO.Image != null)
             {
                 using var dataStream = new MemoryStream();
@@ -159,7 +164,7 @@ namespace MedicalServices.ServicesImplementation
             var userRole = new IdentityUserRole<int>
             {
                 UserId = user.Id,
-                RoleId = 2
+                RoleId = doctorRole.Id
             };
             _dbContext.UserRoles.Add(userRole);
             await _dbContext.SaveChangesAsync();
