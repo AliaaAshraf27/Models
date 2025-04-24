@@ -11,15 +11,16 @@
         public string Focus { get; set; }
         public string Address { get; set; }
         public int Rating { get; set; }
-        public List<DoctorPricesDto> Prices { get; set; }
-        public IEnumerable<AvailableAppointmentDto> AvailableAppointments { get; set; }
+        public List<AvailableSlotDTO> AvailableSlots { get; set; }
+        //public List<DoctorPricesDto> Prices { get; set; }
+        //  public IEnumerable<AvailableAppointmentDto> AvailableAppointments { get; set; }
     }
 
-    public class DoctorPricesDto
-    {
-        public string Name { get; set; }
-        public float Price { get; set; }
-    }
+    //public class DoctorPricesDto
+    //{
+    //    public string Name { get; set; }
+    //    public float Price { get; set; }
+    //}
     public class AvailableAppointmentDto
     {
         public int AppointmentId { get; set; }

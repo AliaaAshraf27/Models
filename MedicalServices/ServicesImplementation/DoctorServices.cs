@@ -59,11 +59,21 @@ namespace MedicalServices.ServicesImplementation
                 Experience = d.Experience,
                 Phone = d.User.PhoneNumber,
                 Rating = d.Reviews.Any() ? (int)Math.Round(d.Reviews.Average(r => r.Rating)) : 0,
-                Prices = d.AvailableAppointments.Select(s => new DoctorPricesDto
+                AvailableSlots = d.AvailableAppointments.Select(a => new AvailableSlotDTO
                 {
-                    Name = s.Name,
-                    Price = s.Price
-                }).ToList()
+                    Day = a.Day,
+                    TimeStart = a.TimeStart,
+                    Name = a.Name,
+                    TimeEnd = a.TimeEnd,
+                    AppointmentId = a.Id,
+                    Price = a.Price
+
+                }).ToList(),
+                //Prices = d.AvailableAppointments.Select(s => new DoctorPricesDto
+                //{
+                //    Name = s.Name,
+                //    Price = s.Price
+                //}).ToList()
             }).ToListAsync();
 
             return doctorDTO;
@@ -72,7 +82,7 @@ namespace MedicalServices.ServicesImplementation
         public async Task<DoctorDetailsDto> GetDoctorDetailsAsync(int doctorId)
         {
             var doctor = await _dbContext.Doctors
-                       .Include(d => d.AvailableAppointments)
+                       //.Include(d => d.AvailableAppointments)
                        .Include(d => d.Specialization)
                        .Include(d => d.User)
                        .Include(d => d.AvailableAppointments)
