@@ -46,7 +46,9 @@ namespace MedicalServices.ServicesImplementation
         }
         public async Task<bool> UpdateProfileAsync(UpdateUserProfileDTO updatedProfile, int id)
         {
-            var user = await _dbContext.Users.FindAsync(id);
+            var user = await _dbContext.Users.Include(u => u.Patient)
+                  .Include(u => u.Doctor)
+                  .FirstOrDefaultAsync(u => u.Id == id); 
             if (user == null) return false;
             if (updatedProfile.Photo != null)
             {
@@ -57,7 +59,7 @@ namespace MedicalServices.ServicesImplementation
             user.Name = updatedProfile.Name != null? updatedProfile.Name : user.Name;
             user.Email = updatedProfile.Email != null ? updatedProfile.Email : user.Email;
             user.PhoneNumber = updatedProfile.Phone != null ? updatedProfile.Phone : user.PhoneNumber;
-            user.Patient.Age = user.Patient.Age = updatedProfile.Age ?? user.Patient.Age;
+            user.Patient.Age = updatedProfile.Age ?? user.Patient.Age;
             await _dbContext.SaveChangesAsync();
             return true;
 
