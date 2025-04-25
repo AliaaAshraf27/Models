@@ -241,16 +241,16 @@ namespace MedicalServices.ServicesImplementation
                 .ThenInclude(p => p.User)
                 .ToListAsync();
             if (bookings == null) return [];
-
             return bookings.Select(b => new CanceledBookingDto
             {
-                DoctorName = b.Doctor.User.Name,
-                DoctorImage = b.Doctor.User.Photo != null
-                    ? $"data:image/png;base64,{Convert.ToBase64String(b.Doctor.User.Photo)}"
-                    : null,
-                SpecializationName = b.Doctor.Specialization.Name,
+                DoctorName = b.Doctor?.User?.Name,
+                DoctorImage = b.Doctor?.User?.Photo != null
+        ? $"data:image/png;base64,{Convert.ToBase64String(b.Doctor.User.Photo)}"
+        : null,
+                SpecializationName = b.Doctor?.Specialization?.Name,
                 BookingDate = b.Day
             }).ToList();
+
         }
     }
 }
