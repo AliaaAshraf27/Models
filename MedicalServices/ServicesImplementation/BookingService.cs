@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
 using NHibernate.Engine;
+using Stripe;
 
 namespace MedicalServices.ServicesImplementation
 {
@@ -29,9 +30,10 @@ namespace MedicalServices.ServicesImplementation
                 {
                     Day = a.Day,
                     TimeStart = a.TimeStart,
+                    Name = a.Name,
                     TimeEnd = a.TimeEnd,
                     AppointmentId = a.Id,
-
+                    Price = a.Price
                 })
                 .ToListAsync();
 

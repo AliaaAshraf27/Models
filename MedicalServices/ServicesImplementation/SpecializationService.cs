@@ -41,7 +41,7 @@ namespace MedicalServices.ServicesImplementation
                      Address = d.Address,
                      Photo = d.User.Photo != null ?  $"data:image/png;base64,{Convert.ToBase64String(d.User.Photo)} ": null ,
                      Rating = d.Reviews.Any() ? (int)Math.Round(d.Reviews.Average(r => r.Rating)) : 0,
-                     Price = d.AvailableAppointments.Min(p => (float?)p.Price) ?? 0
+                     //Price = d.AvailableAppointments.Min(p => (float?)p.Price) ?? 0
                  }).ToListAsync();
             return doctors;
 

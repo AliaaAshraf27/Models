@@ -11,7 +11,9 @@
         public string Email { get; set; }
         public string Phone { get; set; }
         public int Rating { get; set; }
-        public List<DoctorPricesDto> Prices { get; set; }
+        public List<AvailableSlotDTO> AvailableSlots { get; set; }
+      //  public List<DoctorPricesDto> Prices { get; set; }
+
 
     }
 
@@ -29,6 +31,6 @@
         public string? Photo { get; set; }
         public string Address { get; set; }
         public int? Rating { get; set; }
-        public float Price { get; set; }
+       // public float Price { get; set; }
     }
 }

@@ -13,11 +13,13 @@ namespace MedicalServices.ServicesImplementation
     {
         private readonly ApplicationDbContext _dbContext;
         private readonly UserManager<User> _userManager;
+        private readonly RoleManager<Role> _roleManager;
         private readonly IMapper _mapper;
-        public DoctorServices(ApplicationDbContext dbContext, IMapper mapper)
+        public DoctorServices(ApplicationDbContext dbContext, RoleManager<Role> roleManager, IMapper mapper)
         {
             _dbContext = dbContext;
             _mapper = mapper;
+            _roleManager = roleManager;
         }
 
         public async Task<List<DoctorDTO>> GetAllDoctorsAsync(Filter filter)
@@ -59,11 +61,21 @@ namespace MedicalServices.ServicesImplementation
                 Experience = d.Experience,
                 Phone = d.User.PhoneNumber,
                 Rating = d.Reviews.Any() ? (int)Math.Round(d.Reviews.Average(r => r.Rating)) : 0,
-                Prices = d.AvailableAppointments.Select(s => new DoctorPricesDto
+                AvailableSlots = d.AvailableAppointments.Select(a => new AvailableSlotDTO
                 {
-                    Name = s.Name,
-                    Price = s.Price
-                }).ToList()
+                    Day = a.Day,
+                    TimeStart = a.TimeStart,
+                    Name = a.Name,
+                    TimeEnd = a.TimeEnd,
+                    AppointmentId = a.Id,
+                    Price = a.Price
+
+                }).ToList(),
+                //Prices = d.AvailableAppointments.Select(s => new DoctorPricesDto
+                //{
+                //    Name = s.Name,
+                //    Price = s.Price
+                //}).ToList()
             }).ToListAsync();
 
             return doctorDTO;
@@ -72,7 +84,7 @@ namespace MedicalServices.ServicesImplementation
         public async Task<DoctorDetailsDto> GetDoctorDetailsAsync(int doctorId)
         {
             var doctor = await _dbContext.Doctors
-                       .Include(d => d.AvailableAppointments)
+                       //.Include(d => d.AvailableAppointments)
                        .Include(d => d.Specialization)
                        .Include(d => d.User)
                        .Include(d => d.AvailableAppointments)
@@ -113,6 +125,8 @@ namespace MedicalServices.ServicesImplementation
         public async Task<string> CreateDoctorAsync(CreateDoctoDTO doctorDTO)
         {
             var defaultPassword = "1234";
+            var doctorRole = await _roleManager.FindByNameAsync("Doctor");
+
             var specialization = await _dbContext.Specializations.FirstOrDefaultAsync(s => s.Name == doctorDTO.SpecializationName);
             if (specialization == null)
                 return "this specialization not found";
@@ -120,9 +134,10 @@ namespace MedicalServices.ServicesImplementation
             {
                 Email = doctorDTO.Email,
                 Name = doctorDTO.DoctorName,
-                RoleId = 2,
+                RoleId = doctorRole.Id,
                 Password = defaultPassword
             };
+
             if (doctorDTO.Image != null)
             {
                 using var dataStream = new MemoryStream();
@@ -149,7 +164,7 @@ namespace MedicalServices.ServicesImplementation
             var userRole = new IdentityUserRole<int>
             {
                 UserId = user.Id,
-                RoleId = 2
+                RoleId = doctorRole.Id
             };
             _dbContext.UserRoles.Add(userRole);
             await _dbContext.SaveChangesAsync();

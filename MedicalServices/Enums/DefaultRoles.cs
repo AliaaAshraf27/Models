@@ -3,6 +3,7 @@
     public enum DefaultRoles
     {
         Admin,
-        User
+        Doctor,
+        Patient
     }
 }
