@@ -64,31 +64,31 @@ namespace MedicalServices.ServicesImplementation
             return true;
 
         }
-        //public async Task<bool> UpdateDrProfileAsync(UpdateDrProfileDTO updatedProfile, int drId)
-        //{
-        //    var doctor = await _dbContext.Doctors
-        //          .Include(d => d.User)
-        //          .Include(d => d.Specialization)
-        //          .FirstOrDefaultAsync(d => d.Id == drId);
-        //    if (doctor == null) return false;
-        //    if (updatedProfile.Photo != null)
-        //    {
-        //        using var dataStream = new MemoryStream();
-        //        await updatedProfile.Photo.CopyToAsync(dataStream);
-        //        doctor.User.Photo = dataStream.ToArray();
-        //    }
-        //    if (updatedProfile != null)
-        //    {
-        //        doctor.User.Name = updatedProfile.Name != null ? updatedProfile.Name : doctor.User.Name;
-        //        doctor.User.Email = updatedProfile.Email != null ? updatedProfile.Email : doctor.User.Email;
-        //        doctor.User.PhoneNumber = updatedProfile.Phone != null ? updatedProfile.Phone : doctor.User.PhoneNumber;
-        //        doctor.Address = updatedProfile.Address ?? doctor.Address;
-        //        doctor.Specialization.Name = updatedProfile.Specialization ?? doctor.Specialization.Name;
-        //        doctor.Price = updatedProfile.Price != null ? updatedProfile.Price : doctor.Price;
-        //    }
-        //    await _dbContext.SaveChangesAsync();
-        //    return true;
-        //}
+        public async Task<bool> UpdateDrProfileAsync(UpdateDrProfileDTO updatedProfile, int drId)
+        {
+            var doctor = await _dbContext.Doctors
+                  .Include(d => d.User)
+                  .Include(d => d.Specialization)
+                  .FirstOrDefaultAsync(d => d.Id == drId);
+            if (doctor == null) return false;
+            if (updatedProfile.Photo != null)
+            {
+                using var dataStream = new MemoryStream();
+                await updatedProfile.Photo.CopyToAsync(dataStream);
+                doctor.User.Photo = dataStream.ToArray();
+            }
+            if (updatedProfile != null)
+            {
+                doctor.User.Name = updatedProfile.Name != null ? updatedProfile.Name : doctor.User.Name;
+                doctor.User.Email = updatedProfile.Email != null ? updatedProfile.Email : doctor.User.Email;
+                doctor.User.PhoneNumber = updatedProfile.Phone != null ? updatedProfile.Phone : doctor.User.PhoneNumber;
+                doctor.Address = updatedProfile.Address ?? doctor.Address;
+                doctor.Experience = updatedProfile.Experience ?? doctor.Experience;
+                doctor.Focus = updatedProfile.Focus ?? doctor.Experience;
+            }
+            await _dbContext.SaveChangesAsync();
+            return true;
+        }
 
         public async Task<bool> UpdateAdminProfileAsync(UpdateAdminProfileDTO updatedProfile, int id)
         {

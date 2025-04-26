@@ -17,6 +17,17 @@ namespace MedicalServices.DTO
         public string? Address { get; set; }
         public int? Age { get; set; }
     }
+    public class UpdateDrProfileDTO
+    {
+        public string? Name { get; set; }
+        public string? Email { get; set; }
+        public IFormFile? Photo { get; set; }
+        public string? Phone { get; set; }
+        public string? Address { get; set; }
+        public string? Experience { get; set; }
+        public string? Focus { get; set; }
+        
+    }
     public class ChangePasswordDTO
     {
         public string CurrentPassword { get; set; }
