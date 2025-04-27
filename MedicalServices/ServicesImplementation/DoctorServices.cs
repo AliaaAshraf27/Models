@@ -60,7 +60,7 @@ namespace MedicalServices.ServicesImplementation
                 Address = d.Address,
                 Experience = d.Experience,
                 Phone = d.User.PhoneNumber,
-                Rating = d.Reviews.Any() ? (int)Math.Round(d.Reviews.Average(r => r.Rating)) : 0,
+                Rating = d.Reviews.Any() ? d.Reviews.Sum(r => r.Rating) / d.Reviews.Count() :0,
                 AvailableSlots = d.AvailableAppointments.Select(a => new AvailableSlotDTO
                 {
                     Day = a.Day,
@@ -71,11 +71,6 @@ namespace MedicalServices.ServicesImplementation
                     Price = a.Price
 
                 }).ToList(),
-                //Prices = d.AvailableAppointments.Select(s => new DoctorPricesDto
-                //{
-                //    Name = s.Name,
-                //    Price = s.Price
-                //}).ToList()
             }).ToListAsync();
 
             return doctorDTO;
