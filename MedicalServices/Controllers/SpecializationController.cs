@@ -1,4 +1,5 @@
 ﻿using MedicalServices.AppMetaData;
+using MedicalServices.DTO;
 using MedicalServices.Models;
 using MedicalServices.Services;
 using MedicalServices.ServicesImplementation;
@@ -18,10 +19,11 @@ namespace MedicalServices.Controllers
         }
         #endregion
         #region End point
+        
         [HttpPost(Router.SpecializationRouting.AddSpecialization)]
-        public async Task<IActionResult> AddSpecialization([FromQuery] string name)
+        public async Task<IActionResult> AddSpecialization([FromForm] string? name, IFormFile? image)
         {
-            var result = await _service.AddSpecializationAsync(name);
+            var result = await _service.AddSpecializationAsync(name , image);
             if (result)
                 return Ok("Specialization added successfully.");
             return BadRequest("Failed to add specialization.");

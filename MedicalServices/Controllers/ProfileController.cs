@@ -58,14 +58,6 @@ namespace MedicalServices.Controllers
         {
             var doctor = await _profileService.UpdateDrProfileAsync(updatedProfile, id);
             if (doctor == false) return NotFound();
-            //if (updatedProfile.Photo != null)
-            //{
-            //    if (!_allowedExtenstions.Contains(Path.GetExtension(updatedProfile.Photo.FileName).ToLower()))
-            //        return BadRequest("Only .png and .jpg images are allowed!");
-
-            //    if (updatedProfile.Photo.Length > _maxAllowedPosterSize)
-            //        return BadRequest("Max allowed size for poster is 1MB!");
-            //}
             return Ok(doctor);
         }
         [HttpPut(Router.ProfileRouting.UpdateAdmin)]

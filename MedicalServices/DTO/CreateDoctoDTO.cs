@@ -1,4 +1,6 @@
-﻿namespace MedicalServices.DTO
+﻿using MedicalServices.Enums;
+
+namespace MedicalServices.DTO
 {
     public class CreateDoctoDTO
     {
@@ -9,5 +11,6 @@
         public IFormFile? Image { get; set; }
         public string Address { get; set; }
         public string Phone { get; set; }
+        public Gender Gender { get; set; }
     }
 }

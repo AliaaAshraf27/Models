@@ -15,11 +15,12 @@ namespace MedicalServices.ServicesImplementation
         private readonly UserManager<User> _userManager;
         private readonly RoleManager<Role> _roleManager;
         private readonly IMapper _mapper;
-        public DoctorServices(ApplicationDbContext dbContext, RoleManager<Role> roleManager, IMapper mapper)
+        public DoctorServices(ApplicationDbContext dbContext, RoleManager<Role> roleManager, IMapper mapper , UserManager<User> userManager)
         {
             _dbContext = dbContext;
             _mapper = mapper;
             _roleManager = roleManager;
+            _userManager = userManager;
         }
 
         public async Task<List<DoctorDTO>> GetAllDoctorsAsync(Filter filter)
@@ -75,14 +76,13 @@ namespace MedicalServices.ServicesImplementation
 
             return doctorDTO;
         }
-
         public async Task<DoctorDetailsDto> GetDoctorDetailsAsync(int doctorId)
         {
             var doctor = await _dbContext.Doctors
-                       //.Include(d => d.AvailableAppointments)
                        .Include(d => d.Specialization)
                        .Include(d => d.User)
                        .Include(d => d.AvailableAppointments)
+                       .Include(d => d.Reviews)
                        .FirstOrDefaultAsync(d => d.Id == doctorId);
 
             if (doctor == null)
@@ -90,7 +90,6 @@ namespace MedicalServices.ServicesImplementation
             var doctorMapping = _mapper.Map<DoctorDetailsDto>(doctor);
             return doctorMapping;
         }
-
         public async Task<bool> AddToFavoriteAsync(FavoriteDrDTO dto)
         {
             var exist = await _dbContext.PatientFavoriteDoctors
@@ -116,10 +115,9 @@ namespace MedicalServices.ServicesImplementation
             await _dbContext.SaveChangesAsync();
             return true;
         }
-
         public async Task<string> CreateDoctorAsync(CreateDoctoDTO doctorDTO)
         {
-            var defaultPassword = "1234";
+            var defaultPassword = "Doctor#1234";
             var doctorRole = await _roleManager.FindByNameAsync("Doctor");
 
             var specialization = await _dbContext.Specializations.FirstOrDefaultAsync(s => s.Name == doctorDTO.SpecializationName);
@@ -128,9 +126,11 @@ namespace MedicalServices.ServicesImplementation
             var user = new User
             {
                 Email = doctorDTO.Email,
-                Name = doctorDTO.DoctorName,
+                UserName = "Dr_" + doctorDTO.DoctorName.Replace(" ", ""),
+                Name = "Dr_" + doctorDTO.DoctorName,
                 RoleId = doctorRole.Id,
-                Password = defaultPassword
+                Password = defaultPassword,
+                PhoneNumber = doctorDTO.Phone
             };
 
             if (doctorDTO.Image != null)
@@ -142,8 +142,9 @@ namespace MedicalServices.ServicesImplementation
 
             if (user == null)
                 return "Failed to create doctor";
-            _dbContext.Users.Add(user);
-            await _dbContext.SaveChangesAsync();
+            var result = await _userManager.CreateAsync(user, defaultPassword);
+            if (!result.Succeeded)
+                return "Failed to create user: " + string.Join(", ", result.Errors.Select(e => e.Description));
 
             var doctor = new Doctor
             {
@@ -151,9 +152,9 @@ namespace MedicalServices.ServicesImplementation
                 User = user,
                 Address = doctorDTO.Address,
                 Experience = doctorDTO.Experience,
-                Specialization = specialization
+                Specialization = specialization,
+                Gender = doctorDTO.Gender
             };
-
             _dbContext.Doctors.Add(doctor);
             await _dbContext.SaveChangesAsync();
             var userRole = new IdentityUserRole<int>

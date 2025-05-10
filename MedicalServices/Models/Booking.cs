@@ -22,7 +22,7 @@ namespace MedicalServices.Models
         public virtual Patient Patient { get; set; }
         public virtual AvailableAppointments Appointment { get; set; }
         public virtual Payment Payment { get; set; }
-        public virtual MedicalRecord MedicalRecord { get; set; }
+       
 
     }
 }

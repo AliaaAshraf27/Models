@@ -1,4 +1,4 @@
-using MedicalServices;
+﻿using MedicalServices;
 using MedicalServices.DbContext;
 using MedicalServices.Helper;
 using MedicalServices.Hubs;
@@ -74,11 +74,11 @@ builder.Services.AddCors(options =>
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
+//if (app.Environment.IsDevelopment())
+//{
     app.UseSwagger();
     app.UseSwaggerUI();
-}
+//}
 #region Seeder
 using (var scope = app.Services.CreateScope())
 {
@@ -86,6 +86,9 @@ using (var scope = app.Services.CreateScope())
     var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<Role>>();
     await RoleSeeder.SeedAsync(roleManager);
     await UserSeeder.SeedAsync(userManager);
+        var db = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+        db.Database.Migrate(); // ← الأفضل في أغلب الحالات
+
 }
 #endregion
 

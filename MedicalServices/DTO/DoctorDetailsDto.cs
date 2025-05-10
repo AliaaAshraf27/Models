@@ -7,7 +7,7 @@
         public string Email { get; set; }
         public string Specialization { get; set; }
         public string Experience { get; set; }
-        public string ProfileImage { get; set; }
+        public byte[]? ProfileImage { get; set; }
         public string Focus { get; set; }
         public string Address { get; set; }
         public int Rating { get; set; }

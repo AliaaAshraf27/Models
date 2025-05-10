@@ -15,9 +15,11 @@ namespace MedicalServices.ServicesImplementation
     public class ProfileService : IProfileService
     {
         private readonly ApplicationDbContext _dbContext;
-        public ProfileService(ApplicationDbContext dbContext)
+        private readonly UserManager<User> _userManager;
+        public ProfileService(ApplicationDbContext dbContext , UserManager<User> userManager)
         {
             _dbContext = dbContext;
+            _userManager = userManager;
         }
         public async Task<UserProfileDTO> GetProfileAsync(int id)
         {
@@ -84,7 +86,7 @@ namespace MedicalServices.ServicesImplementation
                 doctor.User.PhoneNumber = updatedProfile.Phone != null ? updatedProfile.Phone : doctor.User.PhoneNumber;
                 doctor.Address = updatedProfile.Address ?? doctor.Address;
                 doctor.Experience = updatedProfile.Experience ?? doctor.Experience;
-                doctor.Focus = updatedProfile.Focus ?? doctor.Experience;
+                doctor.Focus = updatedProfile.Focus ?? doctor.Focus;
             }
             await _dbContext.SaveChangesAsync();
             return true;
@@ -113,8 +115,8 @@ namespace MedicalServices.ServicesImplementation
             var user = await _dbContext.Users.FindAsync(id);
             if (user == null) return false;
             if (user.Password != passDTO.CurrentPassword || user.Password == passDTO.NewPassword || passDTO.NewPassword != passDTO.ConfirmNewPassword)
-                return false;   
-            user.Password = passDTO.NewPassword;
+                return false;
+            var result = await _userManager.ChangePasswordAsync(user, passDTO.CurrentPassword, passDTO.NewPassword);
             _dbContext.SaveChanges();
             return true;
 

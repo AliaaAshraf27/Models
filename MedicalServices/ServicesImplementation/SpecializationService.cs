@@ -2,6 +2,7 @@
 using MedicalServices.DbContext;
 using MedicalServices.DTO;
 using MedicalServices.Models;
+using MedicalServices.Models.Identity;
 using MedicalServices.Services;
 using Microsoft.EntityFrameworkCore;
 using Stripe;
@@ -15,15 +16,15 @@ namespace MedicalServices.ServicesImplementation
         {
             _dbContext = dbContext;
         }
-
-      public async Task<List<GetAllSpecializaion>> GetAllSpecializationsAsync()
+       
+        public async Task<List<GetAllSpecializaion>> GetAllSpecializationsAsync()
         {
             var specializations = await _dbContext.Specializations
                 .Select(s => new GetAllSpecializaion
                 {
                     Id = s.Id,
                     Name = s.Name,
-                    Image = s.Image.ToString() 
+                    Image = s.Image
                 }).ToListAsync();
             if (specializations == null) return [];
             return specializations;
@@ -46,10 +47,15 @@ namespace MedicalServices.ServicesImplementation
             return doctors;
 
         }
-        public async Task<bool> AddSpecializationAsync(string name)
+        public async Task<bool> AddSpecializationAsync(string name ,IFormFile? image)
         {
-            var specialization = new Specialization{ Name = name };
-
+            var specialization = new Specialization{ Name = name};
+            if (image != null)
+            {
+                using var dataStream = new MemoryStream();
+                await image.CopyToAsync(dataStream);
+                specialization.Image = dataStream.ToArray();
+            }
             _dbContext.Specializations.Add(specialization);
             return await _dbContext.SaveChangesAsync() > 0;
         }
