@@ -54,24 +54,28 @@ namespace MedicalServices.Controllers
             {
                 PaymentMethodTypes = new List<string> { "card" },
                 LineItems = new List<SessionLineItemOptions>
+        {
+            new SessionLineItemOptions
+            {
+                PriceData = new SessionLineItemPriceDataOptions
                 {
-                    new SessionLineItemOptions
+                    Currency = "usd",
+                    UnitAmountDecimal = (decimal)price,
+                    ProductData = new SessionLineItemPriceDataProductDataOptions
                     {
-                        PriceData = new SessionLineItemPriceDataOptions
-                        {
-                            Currency = "usd",
-                            UnitAmountDecimal = (decimal)price,
-                            ProductData = new SessionLineItemPriceDataProductDataOptions
-                            {
-                                Name = "Consultation",
-                            }
-                        },
-                        Quantity = 1,
-                    },
+                        Name = "Consultation",
+                    }
                 },
+                Quantity = 1,
+            },
+        },
                 Mode = "payment",
-                SuccessUrl = $"http://localhost:5282/success?bookingId={bookingId}",
-                CancelUrl = "http://localhost:5282/cancel",
+                SuccessUrl = $"http://medicalservicesproject.runasp.net/success?bookingId={bookingId}",
+                CancelUrl = "http://medicalservicesproject.runasp.net/cancel",
+                Metadata = new Dictionary<string, string>
+        {
+            { "bookingId", bookingId.ToString() }
+        }
             };
 
             var service = new SessionService();
@@ -107,6 +111,72 @@ namespace MedicalServices.Controllers
             await _context.SaveChangesAsync();
 
             return Ok(new { message = "Payment confirmed and booking completed." });
+        }
+        [HttpPost("stripe-webhook")]
+        public async Task<IActionResult> StripeWebhook()
+        {
+            var json = await new StreamReader(HttpContext.Request.Body).ReadToEndAsync();
+
+            try
+            {
+                var stripeEvent = EventUtility.ConstructEvent(
+                    json,
+                    Request.Headers["Stripe-Signature"],
+                    _stripeModel.WebhookSecret
+                );
+
+                var session = stripeEvent.Data.Object as Session;
+                if (session == null)
+                    return BadRequest();
+
+                var bookingId = int.Parse(session.Metadata["bookingId"]);
+
+                var booking = await _context.Bookings.FindAsync(bookingId);
+                if (booking == null)
+                    return NotFound();
+
+                switch (stripeEvent.Type)
+                {
+                    case "checkout.session.completed":
+                        var doctorPrice = await _context.AvailableAppointments
+                            .Where(a => a.DoctorId == booking.DoctorId)
+                            .Select(a => a.Price)
+                            .FirstOrDefaultAsync();
+
+                        booking.Status = BookingStatus.Completed;
+
+                        var payment = new Payment
+                        {
+                            BookingId = bookingId,
+                            Amount = doctorPrice,
+                            Status = PaymentStatus.Paid
+                        };
+
+                        _context.Payments.Add(payment);
+                        await _context.SaveChangesAsync();
+                        return Ok("Payment Status is paid");
+
+                        break;
+
+                    case "checkout.session.expired":
+                        booking.Status = BookingStatus.Cancel;
+                        await _context.SaveChangesAsync();
+                        return Problem("Payment Status is expired");
+                        break;
+
+                    case "payment_intent.payment_failed":
+                        booking.Status = BookingStatus.Failed;
+                        await _context.SaveChangesAsync();
+                        return Problem("Payment Status is Failed");
+                        break;
+                    default:
+                        return BadRequest("Failed to pay");
+                }
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { error = $"Webhook Error: {ex.Message}" });
+            }
         }
 
     }

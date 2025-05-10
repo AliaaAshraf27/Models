@@ -4,6 +4,7 @@
     {
         New = 1,
         Completed,
-        Cancel
+        Cancel,
+        Failed
     }
 }
