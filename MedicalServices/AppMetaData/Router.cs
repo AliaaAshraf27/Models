@@ -86,6 +86,7 @@
             public const string GetDoctorsBySpecializationID = Prefix + "GetDoctorsBySpecializationID";
             public const string AddSpecialization = Prefix + "AddSpecialization";
             public const string RemoveSpecialization = Prefix + "RemoveSpecialization";
+            public const string UpdateSpecializationImage = Prefix + "UpdateSpecializationImage";
         }
         public static class LocationRouting
         {

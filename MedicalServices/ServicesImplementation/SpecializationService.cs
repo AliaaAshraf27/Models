@@ -76,6 +76,21 @@ namespace MedicalServices.ServicesImplementation
             return await _dbContext.SaveChangesAsync() > 0;
         }
 
+        public async Task<bool> UpdateSpecializationImageAsync(int specializationId, IFormFile image)
+        {
+            var specialization = await _dbContext.Specializations.FindAsync(specializationId);
+            if (specialization == null || image == null)
+                return false;
+
+            using var dataStream = new MemoryStream();
+            await image.CopyToAsync(dataStream);
+            specialization.Image = dataStream.ToArray();
+
+            _dbContext.Specializations.Update(specialization);
+            await _dbContext.SaveChangesAsync();
+            return true;
+        }
+
 
     }
 }

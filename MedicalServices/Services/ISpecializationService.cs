@@ -9,6 +9,8 @@ namespace MedicalServices.Services
         Task<List<DrDTO>> GetDoctorsBySpecializationIDAsync(int specializationId);
         Task<bool> AddSpecializationAsync(string name , IFormFile? image);
         Task<bool> RemoveSpecializationAsync(int specializationId);
-      
+        Task<bool> UpdateSpecializationImageAsync(int specializationId, IFormFile image);
+
+
     }
 }

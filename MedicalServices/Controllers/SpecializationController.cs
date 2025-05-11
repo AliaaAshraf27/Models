@@ -76,6 +76,15 @@ namespace MedicalServices.Controllers
             }
         }
 
+        [HttpPut(Router.SpecializationRouting.UpdateSpecializationImage)]
+        public async Task<IActionResult> UpdateSpecializationImage(int specializationId, IFormFile image)
+        {
+            var result = await _service.UpdateSpecializationImageAsync(specializationId, image);
+            if (!result)
+                return NotFound("Specialization not found or image missing.");
+
+            return Ok("Specialization image updated successfully.");
+        }
 
         #endregion
     }
